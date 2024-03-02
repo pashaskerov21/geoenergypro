@@ -71,45 +71,45 @@ const getMetaParams = async (activeLocale: LocaleType): Promise<{
   return metaParams;
 }
 
-// export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
-//   try {
-//     const dictionary = await getTranslate(lang);
-//     const metaParams = await getMetaParams(lang);
-//     if (metaParams) {
-//       return {
-//         metadataBase: new URL(`${baseURL}`),
-//         title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
-//         description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
-//         keywords: metaParams.keywords === '' ? dictionary['site_name'] : metaParams.keywords,
-//         authors: {
-//           name: metaParams.author_name,
-//           url: metaParams.author_url,
-//         },
-//         icons: {
-//           icon: metaParams.favicon || '/logo/favicon.png',
-//         },
-//         openGraph: {
-//           type: "website",
-//           title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
-//           description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
-//           siteName: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
-//           locale: lang === 'en' ? 'en_GB' : 'ru_RU',
-//           alternateLocale: lang === 'en' ? 'ru_RU' : 'en_GB',
-//           images: [metaParams.logo || '/logo/logo.png', metaParams.favicon || '/logo/favicon.png']
-//         }
-//       };
-//     } else {
-//       return {
-//         title: dictionary['site_name']
-//       };
-//     }
-//   } catch (error) {
-//     console.log(error)
-//   }
-//   return {
-//     title: 'Geo Energy Pro'
-//   };
-// }
+export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
+  try {
+    const dictionary = await getTranslate(lang);
+    const metaParams = await getMetaParams(lang);
+    if (metaParams) {
+      return {
+        metadataBase: new URL(`${baseURL}`),
+        title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
+        description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
+        keywords: metaParams.keywords === '' ? dictionary['site_name'] : metaParams.keywords,
+        authors: {
+          name: metaParams.author_name,
+          url: metaParams.author_url,
+        },
+        icons: {
+          icon: metaParams.favicon || '/logo/favicon.png',
+        },
+        openGraph: {
+          type: "website",
+          title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
+          description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
+          siteName: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
+          locale: lang === 'en' ? 'en_GB' : 'ru_RU',
+          alternateLocale: lang === 'en' ? 'ru_RU' : 'en_GB',
+          images: [metaParams.logo || '/logo/logo.png', metaParams.favicon || '/logo/favicon.png']
+        }
+      };
+    } else {
+      return {
+        title: dictionary['site_name']
+      };
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  return {
+    title: 'Geo Energy Pro'
+  };
+}
 
 export default async function Root({ children, params: { lang } }: { children: React.ReactNode; params: { lang: LocaleType }; }) {
   try {

@@ -30,7 +30,8 @@ class Settings {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                }
+                },
+                params: {next: {revalidate: 10}}
             });
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
