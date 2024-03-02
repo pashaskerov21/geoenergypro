@@ -118,8 +118,8 @@ class Settings {
                     translateData: response.translate,
                 }),
                 author_url: response.main.author_url ?? '',
-                favicon: response.main.favicon,
-                logo: response.main.logo,
+                favicon: response.main.favicon !== null ? this.baseURL + response.main.favicon : null,
+                logo: response.main.logo !== null ? this.baseURL + response.main.logo : null,
             }
         }
 
