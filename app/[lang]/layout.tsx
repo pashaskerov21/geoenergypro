@@ -12,8 +12,15 @@ export async function generateStaticParams() {
 const baseURL = process.env.BASE_URL;
 const setting = new Settings();
 
-const getMetaParams = async (activeLocale: LocaleType) => {
-
+const getMetaParams = async (activeLocale: LocaleType): Promise<{
+  title: string,
+  description: string,
+  keywords: string,
+  author_name: string,
+  author_url: string,
+  favicon: string | null,
+  logo: string | null,
+} | undefined> => {
   const response: {
     main: SiteSettingDataType,
     translate: SiteSettingTranslateDataType[]
