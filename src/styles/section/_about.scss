@@ -1,0 +1,143 @@
+.about_section {
+    background-color: $bg-color-2;
+    padding: 60px 0;
+
+    .about_wrapper {
+        width: 100%;
+        @include column-center;
+        gap: 40px;
+        position: relative;
+
+        @media (min-width: 992px) {
+            @include row-between;
+            align-items: stretch;
+            gap: 0;
+            z-index: 0;
+
+        }
+
+        .about_content {
+            width: 100%;
+            @include column-align-start;
+            gap: 30px;
+            background-color: #fff;
+            position: relative;
+
+            .content_inner {
+                width: 100%;
+                @include column-align-start;
+                gap: 30px;
+
+                @media (min-width: 992px) {
+                    width: 50%;
+
+                }
+            }
+
+            @media (min-width: 992px) {
+                justify-content: flex-start;
+                padding-bottom: 100px;
+                box-shadow: 0 0 10px $black-1;
+
+                background-image: var(--image);
+                background-position: center right;
+                background-repeat: no-repeat;
+                background-size: 50% auto;
+
+                .content_inner {
+                    padding: 60px 80px;
+                    margin-bottom: 50px;
+                }
+            }
+
+            .section_heading {
+                width: 100%;
+                max-width: 450px;
+                gap: 25px;
+                @include column-align-start;
+
+                .section_heading_uptext {
+                    width: 100%;
+                    max-width: 250px;
+                    font-weight: 600;
+                    font-size: 18px;
+                    font-family: $primary-font;
+                    line-height: 1.3em;
+                }
+
+                .design_line {
+                    width: 120px;
+                    height: 2px;
+                    background-color: $primary-color;
+                }
+            }
+
+            .about_text {
+                width: 100%;
+                max-width: 500px;
+                font-size: 18px;
+                font-family: $secondary-font;
+                line-height: 1.6em;
+                color: $text-color-2;
+            }
+        }
+
+        .about_image {
+            width: 100%;
+
+            img {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+        }
+    }
+
+    .about_report {
+        width: 100%;
+        max-width: 1000px;
+        @include column-center;
+        z-index: 20;
+        position: relative;
+
+        @media (min-width: 768px) {
+            @include row-between;
+            align-items: stretch;
+
+        }
+
+        .report_item {
+            @include column-center;
+            gap: 10px;
+            width: 100%;
+            padding: 20px;
+            background-color: $primary-color;
+            color: #fff;
+            font-family: $secondary-font;
+            text-align: center;
+
+            @media (min-width: 992px) {
+                padding: 40px 30px;
+            }
+
+            &:last-child {
+                background-color: $secondary-color;
+            }
+
+            .item_value {
+                font-size: 40px;
+                font-weight: 700;
+                @media (min-width: 768px){
+                    font-size: 30px;
+                }
+                @media (min-width: 992px){
+                    font-size: 40px;
+                }
+            }
+
+            .item_label {
+                font-size: 15px;
+            }
+        }
+    }
+}
