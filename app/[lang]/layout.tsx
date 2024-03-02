@@ -5,6 +5,7 @@ import { RootLayout } from "@/src/layout";
 import { SiteSettingDataType, SiteSettingTranslateDataType } from "@/src/types/data/type";
 import { LocaleType } from "@/src/types/general/type";
 import { Metadata } from "next";
+import { revalidatePath } from "next/cache";
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -114,8 +115,9 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 export default async function Root({ children, params: { lang } }: { children: React.ReactNode; params: { lang: LocaleType }; }) {
   try {
     const dictionary = await getTranslate(lang);
-    const metaParams = await getMetaParams(lang);
-    console.log(metaParams)
+    
+    revalidatePath(`/${lang}`, 'layout');
+
     return (
       <html lang={lang}>
         <head>
