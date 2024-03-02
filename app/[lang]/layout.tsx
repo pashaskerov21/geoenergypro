@@ -114,6 +114,8 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 export default async function Root({ children, params: { lang } }: { children: React.ReactNode; params: { lang: LocaleType }; }) {
   try {
     const dictionary = await getTranslate(lang);
+    const metaParams = await getMetaParams(lang);
+    console.log(metaParams)
     return (
       <html lang={lang}>
         <head>
