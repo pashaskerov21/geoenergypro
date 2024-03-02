@@ -9,10 +9,11 @@ import { Metadata } from "next";
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
+const baseURL = process.env.BASE_URL;
+const setting = new Settings();
 
 const getMetaParams = async (activeLocale: LocaleType) => {
-  const baseURL = process.env.BASE_URL;
-  const setting = new Settings();
+
   const response: {
     main: SiteSettingDataType,
     translate: SiteSettingTranslateDataType[]
@@ -54,7 +55,7 @@ const getMetaParams = async (activeLocale: LocaleType) => {
         key: "author",
         translateData: response.translate,
       }),
-      author_url: response.main.author_url ?? '',
+      author_url: response.main.author_url || '',
       favicon: response.main.favicon !== null ? baseURL + response.main.favicon : null,
       logo: response.main.logo !== null ? baseURL + response.main.logo : null,
     }
@@ -67,7 +68,6 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
   try {
     const dictionary = await getTranslate(lang);
     const metaParams = await getMetaParams(lang);
-    const baseURL = process.env.BASE_URL;
     if (metaParams) {
       return {
         metadataBase: new URL(`${baseURL}`),
@@ -79,7 +79,7 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
           url: metaParams.author_url,
         },
         icons: {
-          icon: metaParams.favicon ?? '/logo/favicon.png',
+          icon: metaParams.favicon || '/logo/favicon.png',
         },
         openGraph: {
           type: "website",
@@ -88,7 +88,7 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
           siteName: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
           locale: lang === 'en' ? 'en_GB' : 'ru_RU',
           alternateLocale: lang === 'en' ? 'ru_RU' : 'en_GB',
-          images: [metaParams.logo ?? '/logo/logo.png', metaParams.favicon ?? '/logo/favicon.png']
+          images: [metaParams.logo || '/logo/logo.png', metaParams.favicon || '/logo/favicon.png']
         }
       };
     } else {
