@@ -24,7 +24,7 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
     } | undefined = await setting.getMetaParams(lang);
     if (metaParams) {
       return {
-        metadataBase: new URL('https://sobsan-nextjs.vercel.app'),
+        metadataBase: new URL('https://geoprobackend.proton.az'),
         title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
         description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
         keywords: metaParams.keywords === '' ? dictionary['site_name'] : metaParams.keywords,
