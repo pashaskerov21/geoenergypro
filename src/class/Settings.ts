@@ -28,6 +28,7 @@ class Settings {
                 id: id,
             }, {
                 headers: {
+                    'Cache-Control': 'no-store',
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 }
