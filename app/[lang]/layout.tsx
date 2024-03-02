@@ -2,6 +2,7 @@ import { getTranslate } from "@/get-translate";
 import { i18n } from "@/i18n-config";
 import { Settings } from "@/src/class";
 import { RootLayout } from "@/src/layout";
+import { SiteSettingDataType, SiteSettingTranslateDataType } from "@/src/types/data/type";
 import { LocaleType } from "@/src/types/general/type";
 import { Metadata } from "next";
 
@@ -9,22 +10,67 @@ export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));
 }
 
+const getMetaParams = async (activeLocale: LocaleType) => {
+  const baseURL = process.env.BASE_URL;
+  const setting = new Settings();
+  const response: {
+    main: SiteSettingDataType,
+    translate: SiteSettingTranslateDataType[]
+  } = await setting.active(1);
+  let metaParams: {
+    title: string,
+    description: string,
+    keywords: string,
+    author_name: string,
+    author_url: string,
+    favicon: string | null,
+    logo: string | null,
+  } | undefined = undefined;
+
+
+  if (response.main && response.translate) {
+    metaParams = {
+      title: setting.getTranslate({
+        id: 1,
+        activeLocale,
+        key: "title",
+        translateData: response.translate,
+      }),
+      description: setting.getTranslate({
+        id: 1,
+        activeLocale,
+        key: "description",
+        translateData: response.translate,
+      }),
+      keywords: setting.getTranslate({
+        id: 1,
+        activeLocale,
+        key: "keywords",
+        translateData: response.translate,
+      }),
+      author_name: setting.getTranslate({
+        id: 1,
+        activeLocale,
+        key: "author",
+        translateData: response.translate,
+      }),
+      author_url: response.main.author_url ?? '',
+      favicon: response.main.favicon !== null ? baseURL + response.main.favicon : null,
+      logo: response.main.logo !== null ? baseURL + response.main.logo : null,
+    }
+  }
+
+  return metaParams;
+}
+
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
   try {
     const dictionary = await getTranslate(lang);
-    const setting = new Settings();
-    const metaParams: {
-      title: string,
-      description: string,
-      keywords: string,
-      author_name: string,
-      author_url: string,
-      favicon: string | null,
-      logo: string | null,
-    } | undefined = await setting.getMetaParams(lang);
+    const metaParams = await getMetaParams(lang);
+    const baseURL = process.env.BASE_URL;
     if (metaParams) {
       return {
-        metadataBase: new URL('https://geoprobackend.proton.az'),
+        metadataBase: new URL(`${baseURL}`),
         title: metaParams.title === '' ? dictionary['site_name'] : metaParams.title,
         description: metaParams.description === '' ? dictionary['site_name'] : metaParams.description,
         keywords: metaParams.keywords === '' ? dictionary['site_name'] : metaParams.keywords,
