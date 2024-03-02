@@ -12,6 +12,7 @@ import { LocaleType } from '../types/general/type';
 import { Fancybox } from '@fancyapps/ui';
 import { SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type';
 import { Settings } from '../class';
+import Head from 'next/head';
 
 
 
@@ -47,6 +48,16 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
             {
                 settingData && settingTranslateData && (
                     <div>
+                        <Head>
+                            <title>
+                                {setting.getTranslate({
+                                    id: 1,
+                                    activeLocale,
+                                    key: 'title',
+                                    translateData: settingTranslateData
+                                })}
+                            </title>
+                        </Head>
                         <div>
                             {setting.getTranslate({
                                 id: 1,
