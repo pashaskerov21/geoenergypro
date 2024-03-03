@@ -9,10 +9,7 @@ type BreadCrumbType = {
 }
 
 type ReduxRootStateType = {
-    localeState: {
-        admin: LocaleStateType[],
-        site: LocaleStateType[]
-    },
+    localeState: LocaleStateType[],
 }
 
 type LocaleStateType = {

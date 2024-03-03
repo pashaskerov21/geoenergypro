@@ -166,7 +166,11 @@ header {
             @include row-justify-start;
             align-self: stretch;
             align-items: stretch;
-            gap: 15px;
+            gap: 5px;
+
+            @media (min-width: 1400px) {
+                gap: 15px;
+            }
 
             .link_item {
                 position: relative;
@@ -181,6 +185,19 @@ header {
                         font-family: $secondary-font;
                         font-weight: 500;
                         color: $primary-color;
+                        display: inline;
+                        position: relative;
+                        background: linear-gradient(to right, $primary-color 0%, $primary-color 100%);
+                        background-size: 0 1px;
+                        background-position: 0 99%;
+                        padding: .1% 0;
+                        background-repeat: no-repeat;
+                        transition: all 0.3s;
+
+                        &:hover {
+                            background-size: 100% 1px;
+                        }
+
 
                         &:active {
                             color: $secondary-color;
@@ -235,12 +252,30 @@ header {
 
                             a {
                                 color: #fff;
+                                background: linear-gradient(to right, #fff 0%, #fff 100%);
+                                display: inline;
+                                position: relative;
+                                background-size: 0 1px;
+                                background-position: 0 99%;
+                                padding: .1% 0;
+                                background-repeat: no-repeat;
+                                transition: all 0.3s;
+
+                                &:hover {
+                                    background-size: 100% 1px;
+                                }
 
                                 &:active {
                                     color: $secondary-color;
                                 }
                             }
                         }
+                    }
+                }
+
+                &:hover {
+                    .link_menu {
+                        display: block;
                     }
                 }
             }
@@ -289,14 +324,13 @@ header {
 }
 
 .mobile_menu {
-    position: fixed;
+    position: absolute;
     width: 90%;
-    top: 0;
+    top: 105%;
     left: 50%;
     transform: translateX(-50%);
-    display: none;
     z-index: 9999;
-
+    animation: menuAnimation 0.5s ease forwards;
 
     @media (min-width: 1200px) {
         display: none !important;
@@ -361,7 +395,6 @@ header {
 
                 .link_menu {
                     width: 100%;
-                    display: none;
 
                     .link_menu_inner {
                         width: 100%;
@@ -432,5 +465,15 @@ header {
                 background-color: $secondary-color;
             }
         }
+    }
+}
+
+@keyframes menuAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }

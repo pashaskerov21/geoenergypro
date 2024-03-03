@@ -22,7 +22,7 @@ type StoreDataType = {
 type GetTranslateDataType = {
     id: number,
     activeLocale: LocaleType,
-    key: "title",
+    key: "title" | "slug",
     translateData: TranslateDataType[]
 }
 
@@ -90,6 +90,8 @@ class ProjectCategory {
             switch (params.key) {
                 case "title":
                     return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
+                case "slug":
+                    return translate = activeTranslateData.slug !== null ? activeTranslateData.slug : '';
                 default:
                     return translate = "";
             }
