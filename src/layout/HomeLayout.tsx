@@ -1,9 +1,9 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleType } from '../types/general/type'
-import { Banner, Settings } from '@/src/class';
-import { BannerDataType, BannerTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
-import { BannerSection } from '../sections';
+import { Banner, Service, Settings } from '@/src/class';
+import { BannerDataType, BannerTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
+import { BannerSection, ServiceSection } from '../sections';
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -16,21 +16,27 @@ const HomeLayout: React.FC<LayoutProps> = ({
 }) => {
     const setting = new Settings();
     const banner = new Banner();
+    const service = new Service();
+
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
         settingTranslate: SiteSettingTranslateDataType[],
         banner: BannerDataType[],
         bannerTranslate: BannerTranslateDataType[],
+        service: ServiceDataType[],
+        serviceTranslate: ServiceTranslateDataType[],
     }>({
         setting: {} as SiteSettingDataType,
         settingTranslate: [],
         banner: [],
         bannerTranslate: [],
+        service: [],
+        serviceTranslate: []
     });
 
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting, responseBanner]: [
+            const [responseSetting, responseBanner, responseService]: [
                 {
                     main: SiteSettingDataType,
                     translate: SiteSettingTranslateDataType[],
@@ -38,8 +44,12 @@ const HomeLayout: React.FC<LayoutProps> = ({
                 {
                     main: BannerDataType[],
                     translate: BannerTranslateDataType[],
+                },
+                {
+                    main: ServiceDataType[],
+                    translate: ServiceTranslateDataType[],
                 }
-            ] = await Promise.all([setting.active(1), banner.all()]);
+            ] = await Promise.all([setting.active(1), banner.all(), service.all()]);
             if (responseSetting.main && responseSetting.translate) {
                 setDataState(prev => ({
                     ...prev,
@@ -54,6 +64,13 @@ const HomeLayout: React.FC<LayoutProps> = ({
                     bannerTranslate: responseBanner.translate,
                 }))
             }
+            if (responseService.main && responseService.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    service: responseService.main,
+                    serviceTranslate: responseService.translate,
+                }))
+            }
         }
 
         fethcData();
@@ -61,6 +78,11 @@ const HomeLayout: React.FC<LayoutProps> = ({
     return (
         <Fragment>
             <BannerSection
+                activeLocale={activeLocale}
+                dataState={dataState}
+                dictionary={dictionary}
+            />
+            <ServiceSection
                 activeLocale={activeLocale}
                 dataState={dataState}
                 dictionary={dictionary}

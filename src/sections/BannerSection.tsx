@@ -38,38 +38,34 @@ const BannerSection: React.FC<SectionProps> = ({ activeLocale, dictionary, dataS
                 >
                     {
                         dataState.banner.map((data) => (
-                            <Fragment key={data.id}>
-                                {
-                                    data.image && (
-                                        <SwiperSlide>
-                                            <div className="banner_slider" style={{ backgroundImage: `url(${baseURL + data.image})` }}>
-                                                <div className="gradient_overlay"></div>
-                                                <div className="container">
-                                                    <div className="banner_slider_content">
-                                                        <div className="content_title">
-                                                            {banner.getTranslate(({
-                                                                id: data.id,
-                                                                activeLocale,
-                                                                key: "title",
-                                                                translateData: dataState.bannerTranslate,
-                                                            }))}
-                                                        </div>
-                                                        <div className="design_line"></div>
-                                                        <div className="content_text">
-                                                            {banner.getTranslate(({
-                                                                id: data.id,
-                                                                activeLocale,
-                                                                key: "text",
-                                                                translateData: dataState.bannerTranslate,
-                                                            }))}
-                                                        </div>
-                                                    </div>
+                            data.image && (
+                                <SwiperSlide key={data.id}>
+                                    <div className="banner_slider" style={{ backgroundImage: `url(${baseURL + data.image})` }}>
+                                        <div className="gradient_overlay"></div>
+                                        <div className="container">
+                                            <div className="banner_slider_content">
+                                                <div className="content_title">
+                                                    {banner.getTranslate(({
+                                                        id: data.id,
+                                                        activeLocale,
+                                                        key: "title",
+                                                        translateData: dataState.bannerTranslate,
+                                                    }))}
+                                                </div>
+                                                <div className="design_line"></div>
+                                                <div className="content_text">
+                                                    {banner.getTranslate(({
+                                                        id: data.id,
+                                                        activeLocale,
+                                                        key: "text",
+                                                        translateData: dataState.bannerTranslate,
+                                                    }))}
                                                 </div>
                                             </div>
-                                        </SwiperSlide>
-                                    )
-                                }
-                            </Fragment>
+                                        </div>
+                                    </div>
+                                </SwiperSlide>
+                            )
                         ))
                     }
                 </Swiper>
