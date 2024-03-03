@@ -42,7 +42,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
 
     const [activeLink, setActiveLink] = useState<number>(0);
     const changeActiveLink = useCallback((id: number) => {
-        setActiveLink(id);
+        setActiveLink(prev => prev === id ? 0 : id);
     }, [setActiveLink])
     return (
         <div className='mobile_menu'>

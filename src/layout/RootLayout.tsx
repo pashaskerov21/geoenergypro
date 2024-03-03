@@ -10,9 +10,11 @@ import store from '../redux/store';
 import { Provider } from 'react-redux';
 import { LocaleType } from '../types/general/type';
 import { Fancybox } from '@fancyapps/ui';
-import { MenuDataType, MenuTranslateDataType, ProjectCategoryDataType, ProjectCategoryTranslateDataType, ProjectDataType, ProjectTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type';
-import { Menu, Project, ProjectCategory, Service, Settings } from '../class';
+import { MenuDataType, MenuTranslateDataType, NewsDataType, NewsTranslateDataType, ProjectCategoryDataType, ProjectCategoryTranslateDataType, ProjectDataType, ProjectTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type';
+import { Menu, News, Project, ProjectCategory, Service, Settings } from '../class';
 import Header from '../partials/header/Header';
+import Footer from '../partials/footer/Footer';
+import { FaGear } from 'react-icons/fa6';
 
 
 
@@ -30,6 +32,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
     const service = new Service();
     const projectCategory = new ProjectCategory();
     const project = new Project();
+    const news = new News();
 
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
@@ -42,6 +45,8 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
         projectCategoryTranslate: ProjectCategoryTranslateDataType[],
         project: ProjectDataType[],
         projectTranslate: ProjectTranslateDataType[],
+        news: NewsDataType[],
+        newsTranslate: NewsTranslateDataType[],
     }>({
         setting: {} as SiteSettingDataType,
         settingTranslate: [],
@@ -53,11 +58,16 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
         projectCategoryTranslate: [],
         project: [],
         projectTranslate: [],
+        news: [],
+        newsTranslate: [],
     });
 
+    const [loading, setLoading] = useState<boolean>(true)
+
     useEffect(() => {
+        setLoading(false);
         const fetchData = async () => {
-            const [responseSetting, responseMenu, responseService, responseProjectCategory, responseProject]: [
+            const [responseSetting, responseMenu, responseService, responseProjectCategory, responseProject, responseNews]: [
                 {
                     main: SiteSettingDataType,
                     translate: SiteSettingTranslateDataType[]
@@ -78,7 +88,11 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
                     main: ProjectDataType[],
                     translate: ProjectTranslateDataType[],
                 },
-            ] = await Promise.all([setting.active(1), menu.all(), service.all(), projectCategory.all(), project.all()]);
+                {
+                    latest: NewsDataType[],
+                    translate: NewsTranslateDataType[],
+                },
+            ] = await Promise.all([setting.active(1), menu.all(), service.all(), projectCategory.all(), project.all(), news.all()]);
             if (responseSetting.main && responseSetting.translate) {
                 setDataState(prev => ({
                     ...prev,
@@ -114,6 +128,13 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
                     projectTranslate: responseProject.translate,
                 }))
             }
+            if (responseNews.latest && responseNews.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    news: responseNews.latest,
+                    newsTranslate: responseNews.translate,
+                }))
+            }
 
         }
         fetchData();
@@ -121,12 +142,28 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
 
     return (
         <Provider store={store}>
+            {
+                loading && <div className="preloader">
+                    <div className="preloader_icons">
+                        <FaGear className='icon' />
+                        <FaGear className='icon' />
+                        <FaGear className='icon' />
+                        <FaGear className='icon' />
+                    </div>
+                </div>
+            }
+
             <Header
                 activeLocale={activeLocale}
                 dataState={dataState}
                 dictionary={dictionary}
             />
             <main>{children}</main>
+            <Footer
+                activeLocale={activeLocale}
+                dataState={dataState}
+                dictionary={dictionary}
+            />
         </Provider>
     )
 }

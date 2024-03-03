@@ -1,5 +1,8 @@
 {
     "site_name": "Geo Energy Pro",
     "order_survey": "Order a Survey",
-    "let_talk_about_projects": "Let`s talk about projects."
+    "let_talk_about_projects": "Let`s talk about projects.",
+    "latest_news": "Latest news",
+    "services": "Services",
+    "projects": "Projects"
 }

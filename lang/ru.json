@@ -1,5 +1,8 @@
 {
     "site_name": "Гео Энергия Про",
     "order_survey": "Заказать опрос",
-    "let_talk_about_projects": "Давайте поговорим о проектах."
+    "let_talk_about_projects": "Давайте поговорим о проектах.",
+    "latest_news": "Последние новости",
+    "services": "Сервисы",
+    "projects": "Проекты"
 }
