@@ -46,7 +46,7 @@ const HomeLayout: React.FC<LayoutProps> = ({
                     translate: BannerTranslateDataType[],
                 },
                 {
-                    main: ServiceDataType[],
+                    home: ServiceDataType[],
                     translate: ServiceTranslateDataType[],
                 }
             ] = await Promise.all([setting.active(1), banner.all(), service.all()]);
@@ -64,10 +64,10 @@ const HomeLayout: React.FC<LayoutProps> = ({
                     bannerTranslate: responseBanner.translate,
                 }))
             }
-            if (responseService.main && responseService.translate) {
+            if (responseService.home && responseService.translate) {
                 setDataState(prev => ({
                     ...prev,
-                    service: responseService.main,
+                    service: responseService.home,
                     serviceTranslate: responseService.translate,
                 }))
             }
