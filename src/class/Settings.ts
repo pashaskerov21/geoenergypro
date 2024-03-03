@@ -31,7 +31,6 @@ class Settings {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                params: {next: {revalidate: 10}}
             });
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
@@ -76,7 +75,15 @@ class Settings {
         }
         return translate;
     }
-    public getMetaParams = async (activeLocale: LocaleType) => {
+    public getMetaParams = async (activeLocale: LocaleType): Promise<{
+        title: string,
+        description: string,
+        keywords: string,
+        author_name: string,
+        author_url: string,
+        favicon: string | null,
+        logo: string | null,
+    } | undefined> => {
         const response: {
             main: DataType,
             translate: TranslateDataType[]
