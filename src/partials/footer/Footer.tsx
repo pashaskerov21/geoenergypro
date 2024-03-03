@@ -48,7 +48,6 @@ const Footer: React.FC<FooterProps> = ({
     const service = new Service();
     const project = new Project();
     const news = new News();
-    console.log(dataState.news)
     return (
         <footer>
             <div className="footer_nav">

@@ -83,8 +83,14 @@ class News {
             switch (params.key) {
                 case "title":
                     return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
+                case "slug":
+                    return translate = activeTranslateData.slug !== null ? activeTranslateData.slug : '';
                 case "text":
                     return translate = activeTranslateData.text !== null ? activeTranslateData.text : '';
+                case "date":
+                    return translate = activeTranslateData.date !== null ? activeTranslateData.date : '';
+                case "author":
+                    return translate = activeTranslateData.author !== null ? activeTranslateData.author : '';
                 default:
                     return translate = "";
             }

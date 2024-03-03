@@ -44,7 +44,6 @@ const Header: React.FC<HeaderProps> = ({
     dictionary,
 }) => {
     const baseURL = process.env.BASE_URL;
-    const body = document.querySelector('body');
     const setting = new Settings();
     const menu = new Menu();
     const service = new Service();
