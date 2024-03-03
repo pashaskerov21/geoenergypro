@@ -1,9 +1,9 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleType } from '../types/general/type'
-import { Banner, Service, Settings } from '@/src/class';
-import { BannerDataType, BannerTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
-import { BannerSection, ServiceSection } from '../sections';
+import { About, Banner, Report, Service, Settings } from '@/src/class';
+import { AboutDataType, AboutTranslateDataType, BannerDataType, BannerTranslateDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
+import { AboutSection, BannerSection, ServiceSection } from '../sections';
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -17,6 +17,8 @@ const HomeLayout: React.FC<LayoutProps> = ({
     const setting = new Settings();
     const banner = new Banner();
     const service = new Service();
+    const about = new About();
+    const report = new Report();
 
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
@@ -25,18 +27,26 @@ const HomeLayout: React.FC<LayoutProps> = ({
         bannerTranslate: BannerTranslateDataType[],
         service: ServiceDataType[],
         serviceTranslate: ServiceTranslateDataType[],
+        about: AboutDataType,
+        aboutTranslate: AboutTranslateDataType[],
+        report: ReportDataType[],
+        reportTranslate: ReportTranslateDataType[],
     }>({
         setting: {} as SiteSettingDataType,
         settingTranslate: [],
         banner: [],
         bannerTranslate: [],
         service: [],
-        serviceTranslate: []
+        serviceTranslate: [],
+        about: {} as AboutDataType,
+        aboutTranslate: [],
+        report: [],
+        reportTranslate: [],
     });
 
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting, responseBanner, responseService]: [
+            const [responseSetting, responseBanner, responseService, responseAbout, responseReport]: [
                 {
                     main: SiteSettingDataType,
                     translate: SiteSettingTranslateDataType[],
@@ -48,8 +58,16 @@ const HomeLayout: React.FC<LayoutProps> = ({
                 {
                     home: ServiceDataType[],
                     translate: ServiceTranslateDataType[],
+                },
+                {
+                    main: AboutDataType,
+                    translate: AboutTranslateDataType[],
+                },
+                {
+                    main: ReportDataType[],
+                    translate: ReportTranslateDataType[],
                 }
-            ] = await Promise.all([setting.active(1), banner.all(), service.all()]);
+            ] = await Promise.all([setting.active(1), banner.all(), service.all(), about.active(1), report.all()]);
             if (responseSetting.main && responseSetting.translate) {
                 setDataState(prev => ({
                     ...prev,
@@ -71,6 +89,20 @@ const HomeLayout: React.FC<LayoutProps> = ({
                     serviceTranslate: responseService.translate,
                 }))
             }
+            if (responseAbout.main && responseAbout.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    about: responseAbout.main,
+                    aboutTranslate: responseAbout.translate,
+                }))
+            }
+            if (responseReport.main && responseReport.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    report: responseReport.main,
+                    reportTranslate: responseReport.translate,
+                }))
+            }
         }
 
         fethcData();
@@ -83,6 +115,11 @@ const HomeLayout: React.FC<LayoutProps> = ({
                 dictionary={dictionary}
             />
             <ServiceSection
+                activeLocale={activeLocale}
+                dataState={dataState}
+                dictionary={dictionary}
+            />
+            <AboutSection
                 activeLocale={activeLocale}
                 dataState={dataState}
                 dictionary={dictionary}
