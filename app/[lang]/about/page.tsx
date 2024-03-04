@@ -51,10 +51,13 @@ const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => 
     try {
         const dictionary = await getTranslate(lang);
         return (
-            <AboutLayout
-                activeLocale={lang}
-                dictionary={dictionary}
-            />
+            <>
+                about
+            </>
+            // <AboutLayout
+            //     activeLocale={lang}
+            //     dictionary={dictionary}
+            // />
         )
     } catch (error) {
         console.log(error);
