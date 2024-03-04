@@ -4,15 +4,17 @@ import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { ContactLayout } from '@/src/layout';
+import { revalidatePath } from 'next/cache';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
 const setting = new Settings();
+const pageSlug = '/contact';
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
     try {
         const dictionary = await getTranslate(lang);
-        const menuMetaParams = await menu.getMetaParams(lang, '/contact');
+        const menuMetaParams = await menu.getMetaParams(lang, pageSlug);
         const settingMetaParams = await setting.getMetaParams(lang);
 
         let meta_title = '';
@@ -50,6 +52,7 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 
 const Contact = async ({ params: { lang } }: { params: { lang: LocaleType } }) => {
     try {
+        revalidatePath(`/${lang + pageSlug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>
