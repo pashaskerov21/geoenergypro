@@ -4,7 +4,6 @@ import { Settings } from "@/src/class";
 import { RootLayout } from "@/src/layout";
 import { LocaleType } from "@/src/types/general/type";
 import { Metadata } from "next";
-import { revalidatePath } from "next/cache";
 
 export async function generateStaticParams() {
   return i18n.locales.map((locale) => ({ lang: locale }));

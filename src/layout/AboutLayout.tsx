@@ -15,7 +15,7 @@ type LayoutProps = {
 const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     const dispatch = useDispatch();
     const menu = new Menu();
-    const slug = '/about';
+    const slug = 'about';
     const [layoutParams, setLayoutParams] = useState<{
         pageTitleData: PageTitleDataType,
         localeSlugs: LocaleStateType[],

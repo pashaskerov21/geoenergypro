@@ -9,7 +9,7 @@ import { revalidatePath } from 'next/cache';
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
 const setting = new Settings();
-const pageSlug = '/about'
+const pageSlug = 'about'
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
     try {
@@ -52,7 +52,7 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 
 const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => {
     try {
-        revalidatePath(`/${lang + pageSlug}`, 'page');
+        revalidatePath(`/${lang}/${pageSlug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>

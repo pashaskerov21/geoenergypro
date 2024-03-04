@@ -15,7 +15,7 @@ type LayoutProps = {
 const NewsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     const dispatch = useDispatch();
     const menu = new Menu();
-    const slug = '/news';
+    const slug = 'news';
     const [layoutParams, setLayoutParams] = useState<{
         pageTitleData: PageTitleDataType,
         localeSlugs: LocaleStateType[],

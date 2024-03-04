@@ -53,7 +53,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                             dataState.menu.map((data) => (
                                 <div className={`link_item ${data.id === 3 || data.id === 4 ? 'has_child' : 'no_child'}`} key={data.id}>
                                     <div className="main_row">
-                                        <Link href={`/${activeLocale + data.slug}`}>
+                                        <Link href={`/${activeLocale}/${data.slug}`}>
                                             {menu.getTranslate({
                                                 id: data.id,
                                                 activeLocale,

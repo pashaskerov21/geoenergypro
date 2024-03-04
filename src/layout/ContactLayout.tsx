@@ -15,7 +15,7 @@ type LayoutProps = {
 const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     const dispatch = useDispatch();
     const menu = new Menu();
-    const slug = '/contact';
+    const slug = 'contact';
     const [layoutParams, setLayoutParams] = useState<{
         pageTitleData: PageTitleDataType,
         localeSlugs: LocaleStateType[],

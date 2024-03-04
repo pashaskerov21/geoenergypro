@@ -70,7 +70,7 @@ const ServiceSection: React.FC<SectionProps> = ({
                                         <Link href={`/${activeLocale}/${service.getTranslate({
                                             id: data.id,
                                             activeLocale,
-                                            key: "text",
+                                            key: "slug",
                                             translateData: dataState.serviceTranslate,
                                         })}`} className='arrow_btn'><FaArrowRight /></Link>
                                     </div>
