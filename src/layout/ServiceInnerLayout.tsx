@@ -53,9 +53,9 @@ const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
         getParams();
     }, []);
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
-    }, [dispatch]);
+    }, [dispatch, layoutParams.localeSlugs]);
     return (
         <>
             <PageHeading

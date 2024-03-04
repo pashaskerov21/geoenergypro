@@ -1,9 +1,12 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
-import { LocaleType } from '../types/general/type'
+import { LocaleStateType, LocaleType } from '../types/general/type'
 import { About, Banner, News, NewsCategory, Partner, Report, Service, Settings } from '@/src/class';
 import { AboutDataType, AboutTranslateDataType, BannerDataType, BannerTranslateDataType, NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsTranslateDataType, PartnerDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
 import { AboutSection, BannerSection, NewsSection, ServiceSection } from '../sections';
+import { i18n } from '@/i18n-config';
+import { useDispatch } from 'react-redux';
+import { updateLocaleSlug } from '../redux/actions/LocaleAction';
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -14,6 +17,7 @@ const HomeLayout: React.FC<LayoutProps> = ({
     activeLocale,
     dictionary,
 }) => {
+    const dispatch = useDispatch();
     const setting = new Settings();
     const banner = new Banner();
     const service = new Service();
@@ -22,6 +26,17 @@ const HomeLayout: React.FC<LayoutProps> = ({
     const news = new News();
     const newsCategory = new NewsCategory();
     const partner = new Partner();
+
+    const localeSlugs:LocaleStateType[] = i18n.locales.map((locale) => {
+        return {
+            locale: locale,
+            slug: ''
+        }
+    });
+
+    useEffect(() => {
+        dispatch(updateLocaleSlug(localeSlugs))
+    }, [dispatch]);
 
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
@@ -149,7 +164,7 @@ const HomeLayout: React.FC<LayoutProps> = ({
         }
 
         fethcData();
-    }, [])
+    }, []);
     return (
         <Fragment>
             {
