@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { getTranslate } from '@/get-translate';
 import { Menu, Service, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
@@ -56,17 +56,15 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
 
 const ServiceInner = async ({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }) => {
     try {
-        revalidatePath(`/${lang}/${parentSlug}/${slug}`, 'page');
+        // revalidatePath(`/${lang}/${parentSlug}/${slug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>
-                <Suspense>
-                    <ServiceInnerLayout
-                        activeLocale={lang}
-                        dictionary={dictionary}
-                        slug={slug}
-                    />
-                </Suspense>
+                <ServiceInnerLayout
+                    activeLocale={lang}
+                    dictionary={dictionary}
+                    slug={slug}
+                />
             </>
         )
     } catch (error) {

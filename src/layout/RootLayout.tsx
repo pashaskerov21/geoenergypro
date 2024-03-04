@@ -62,7 +62,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
         newsTranslate: [],
     });
 
-    const [loading, setLoading] = useState<boolean>(true)
+    // const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -138,14 +138,14 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
         }
         fetchData();
 
-        setTimeout(() => {
-            setLoading(false);
-        }, 1000);
+        // setTimeout(() => {
+        //     setLoading(false);
+        // }, 1000);
     }, [])
 
     return (
         <Provider store={store}>
-            {
+            {/* {
                 loading && <div className="preloader">
                     <div className="preloader_icons">
                         <FaGear className='icon' />
@@ -154,7 +154,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
                         <FaGear className='icon' />
                     </div>
                 </div>
-            }
+            } */}
 
             <Header
                 activeLocale={activeLocale}

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import { getTranslate } from '@/get-translate';
 import { Menu, ProjectCategory, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
@@ -56,17 +56,15 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
 
 const ProjectCategoryInner = async ({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }) => {
     try {
-        revalidatePath(`/${lang}/${parentSlug}/category/${slug}`, 'page');
+        // revalidatePath(`/${lang}/${parentSlug}/category/${slug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>
-                <Suspense fallback={<div>loading...</div>}>
-                    <ProjectCategoryInnerLayout
-                        activeLocale={lang}
-                        dictionary={dictionary}
-                        slug={slug}
-                    />
-                </Suspense>
+                <ProjectCategoryInnerLayout
+                    activeLocale={lang}
+                    dictionary={dictionary}
+                    slug={slug}
+                />
             </>
         )
     } catch (error) {
