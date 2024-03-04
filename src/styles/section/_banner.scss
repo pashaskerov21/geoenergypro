@@ -94,6 +94,7 @@
         @include column-center;
         @media (min-width: 992px){
             @include row-between;
+            align-items: stretch;
             max-width: 1100px;
             position: absolute;
             bottom: 0;

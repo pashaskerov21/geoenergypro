@@ -62,7 +62,7 @@ const Footer: React.FC<FooterProps> = ({
                             <div className="hover_line"></div>
                             {
                                 dataState.menu.map((data) => (
-                                    <Link key={data.id} href={`/${activeLocale}/${data.slug}`}>
+                                    <Link key={data.id} href={`/${activeLocale + data.slug}`}>
                                         {menu.getTranslate({
                                             id: data.id,
                                             activeLocale,

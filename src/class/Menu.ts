@@ -1,13 +1,13 @@
 import axios from "axios";
 import { LocaleType } from "@/src/types/general/type";
-import { MenuTranslateDataType } from "@/src/types/data/type";
+import { MenuDataType, MenuTranslateDataType } from "@/src/types/data/type";
 
-
+type DataType = MenuDataType
 type TranslateDataType = MenuTranslateDataType;
 type GetTranslateDataType = {
     id: number,
     activeLocale: LocaleType,
-    key: "title",
+    key: "title" | "meta_title" | "meta_description" | "meta_keywords",
     translateData: TranslateDataType[],
 }
 
@@ -67,19 +67,61 @@ class Menu {
             }
         }
     }
-
     public getTranslate(params: GetTranslateDataType) {
         const activeTranslateData: TranslateDataType | undefined = params.translateData.find((data) => data.menu_id === params.id && data.lang === params.activeLocale);
         let translate = "";
         if (activeTranslateData) {
             switch (params.key) {
                 case "title":
-                    return translate = activeTranslateData.title;
+                    return translate = activeTranslateData.title ?? '';
+                case "meta_title":
+                    return translate = activeTranslateData.meta_title ?? '';
+                case "meta_description":
+                    return translate = activeTranslateData.meta_description ?? '';
+                case "meta_keywords":
+                    return translate = activeTranslateData.meta_keywords ?? '';
                 default:
                     return translate = activeTranslateData.title;
             }
         }
         return translate;
+    }
+    public getMetaParams = async (activeLocale: LocaleType, slug: string) => {
+        const response: {
+            main: DataType[],
+            translate: TranslateDataType[]
+        } = await this.all();
+        let metaParams: {
+            title: string,
+            description: string,
+            keywords: string,
+        } | undefined = undefined;
+        if (response.main && response.translate) {
+            const activeData: MenuDataType | undefined = response.main.find((data) => data.slug === slug);
+            if (activeData) {
+                metaParams = {
+                    title: this.getTranslate({
+                        id: activeData.id,
+                        activeLocale,
+                        key: "meta_title",
+                        translateData: response.translate
+                    }),
+                    description: this.getTranslate({
+                        id: activeData.id,
+                        activeLocale,
+                        key: "meta_description",
+                        translateData: response.translate
+                    }),
+                    keywords: this.getTranslate({
+                        id: activeData.id,
+                        activeLocale,
+                        key: "meta_keywords",
+                        translateData: response.translate
+                    }),
+                }
+            }
+        }
+        return metaParams;
     }
 }
 
