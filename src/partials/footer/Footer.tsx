@@ -111,7 +111,7 @@ const Footer: React.FC<FooterProps> = ({
                                 <div className="col_links">
                                     {
                                         dataState.news.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/${news.getTranslate({
+                                            <Link key={data.id} href={`/${activeLocale}/news/${news.getTranslate({
                                                 id: data.id,
                                                 activeLocale,
                                                 key: "slug",
@@ -133,7 +133,7 @@ const Footer: React.FC<FooterProps> = ({
                                 <div className="col_links">
                                     {
                                         dataState.service.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/${service.getTranslate({
+                                            <Link key={data.id} href={`/${activeLocale}/services/${service.getTranslate({
                                                 id: data.id,
                                                 activeLocale,
                                                 key: "slug",
@@ -155,7 +155,7 @@ const Footer: React.FC<FooterProps> = ({
                                 <div className="col_links">
                                     {
                                         dataState.project.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/${project.getTranslate({
+                                            <Link key={data.id} href={`/${activeLocale}/projects/${project.getTranslate({
                                                 id: data.id,
                                                 activeLocale,
                                                 key: "slug",

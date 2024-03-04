@@ -71,7 +71,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                                                         dataState.service.map((s_data) => (
                                                             <div className="link_item no_child" key={s_data.id}>
                                                                 <div className="main_row">
-                                                                    <Link href={`/${activeLocale}/${service.getTranslate({
+                                                                    <Link href={`/${activeLocale}/services/${service.getTranslate({
                                                                         id: s_data.id,
                                                                         activeLocale,
                                                                         key: "slug",
@@ -100,7 +100,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                                                         dataState.projectCategory.map((pc_data) => (
                                                             <div className="link_item no_child" key={pc_data.id}>
                                                                 <div className="main_row">
-                                                                    <Link href={`/${activeLocale}/${projectCategory.getTranslate({
+                                                                    <Link href={`/${activeLocale}/projects/category/${projectCategory.getTranslate({
                                                                         id: pc_data.id,
                                                                         activeLocale,
                                                                         key: "slug",

@@ -111,7 +111,7 @@ class Menu {
         }
         return translate;
     }
-    public getMetaParams = async (activeLocale: LocaleType, slug: string,) => {
+    public getMetaParams = async (activeLocale: LocaleType, slug: string) => {
         const response: {
             main: DataType,
             translate: TranslateDataType[]

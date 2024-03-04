@@ -5,9 +5,9 @@ import { RootLayout } from "@/src/layout";
 import { LocaleType } from "@/src/types/general/type";
 import { Metadata } from "next";
 
-export async function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ lang: locale }));
-}
+// export async function generateStaticParams() {
+//   return i18n.locales.map((locale) => ({ lang: locale }));
+// }
 const baseURL = process.env.BASE_URL;
 const setting = new Settings();
 

@@ -67,7 +67,7 @@ const ServiceSection: React.FC<SectionProps> = ({
                                                 translateData: dataState.serviceTranslate,
                                             })
                                         }} />
-                                        <Link href={`/${activeLocale}/${service.getTranslate({
+                                        <Link href={`/${activeLocale}/services/${service.getTranslate({
                                             id: data.id,
                                             activeLocale,
                                             key: "slug",
