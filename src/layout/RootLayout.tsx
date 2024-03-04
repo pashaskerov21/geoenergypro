@@ -65,9 +65,6 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
     const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        },1000);
         const fetchData = async () => {
             const [responseSetting, responseMenu, responseService, responseProjectCategory, responseProject, responseNews]: [
                 {
@@ -140,6 +137,10 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
 
         }
         fetchData();
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
     }, [])
 
     return (
