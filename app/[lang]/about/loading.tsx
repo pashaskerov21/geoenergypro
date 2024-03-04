@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaGear } from 'react-icons/fa6'
 
-const RootLoading = () => {
+const Loading = () => {
     return (
         <div className="preloader">
             <div className="preloader_icons">
@@ -14,4 +14,4 @@ const RootLoading = () => {
     )
 }
 
-export default RootLoading
+export default Loading
