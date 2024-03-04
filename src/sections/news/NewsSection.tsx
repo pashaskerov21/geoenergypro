@@ -81,7 +81,7 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                                     }
                                     <div className="item_content">
                                         {activeNews.cat_id !== 0 && (
-                                            <Link href={`/${baseURL}/${news.getCategoryTranslate({
+                                            <Link href={`/${activeLocale}/news/category/${news.getCategoryTranslate({
                                                 id: activeNews.cat_id,
                                                 activeLocale,
                                                 key: "slug",
@@ -116,7 +116,7 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                                                 </div>
                                             </div>
                                             <h3 className="item_title">
-                                                <Link href={`/${activeLocale}/${news.getTranslate({
+                                                <Link href={`/${activeLocale}/news/${news.getTranslate({
                                                     id: activeNews.id,
                                                     activeLocale,
                                                     key: "slug",
@@ -143,7 +143,7 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                                 {dataState.news.map((data) => (
                                     <div className="list_item" key={data.id}>
                                         <div className="item_title">
-                                            <Link href={`/${activeLocale}/${news.getTranslate({
+                                            <Link href={`/${activeLocale}/news/${news.getTranslate({
                                                 id: data.id,
                                                 activeLocale,
                                                 key: "slug",
