@@ -8,11 +8,12 @@ import { AboutLayout } from '@/src/layout';
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
 const setting = new Settings();
+const pageSlug = '/about'
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
     try {
         const dictionary = await getTranslate(lang);
-        const menuMetaParams = await menu.getMetaParams(lang, '/about');
+        const menuMetaParams = await menu.getMetaParams(lang, pageSlug);
         const settingMetaParams = await setting.getMetaParams(lang);
 
         let meta_title = '';
