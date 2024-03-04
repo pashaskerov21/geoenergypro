@@ -1,6 +1,7 @@
 import axios from "axios";
-import { LocaleType } from "@/src/types/general/type";
+import { LocaleStateType, LocaleType, PageTitleDataType } from "@/src/types/general/type";
 import { MenuDataType, MenuTranslateDataType } from "@/src/types/data/type";
+import { i18n } from "@/i18n-config";
 
 type DataType = MenuDataType
 type TranslateDataType = MenuTranslateDataType;
@@ -122,6 +123,49 @@ class Menu {
             }
         }
         return metaParams;
+    }
+    public getPageTitleData = async (slug: string, activeLocale: LocaleType):Promise<PageTitleDataType> => {
+        let pageData: PageTitleDataType = {
+            title: "",
+            breadcrumbs: [
+                {
+                    id: 1,
+                    url: `/${activeLocale}`,
+                    title: '',
+                }
+            ]
+        }
+        const response: {
+            main: DataType[],
+            translate: TranslateDataType[]
+        } = await this.all();
+        if (response.main && response.translate) {
+            const activeData: MenuDataType | undefined = response.main.find((data) => data.slug === slug);
+            if (activeData) {
+                pageData = {
+                    title: this.getTranslate({
+                        id: activeData.id,
+                        activeLocale,
+                        key: "title",
+                        translateData: response.translate,
+                    }),
+                    breadcrumbs: [
+                        {
+                            id: 1,
+                            url: `/${activeLocale + activeData.slug}`,
+                            title: this.getTranslate({
+                                id: activeData.id,
+                                activeLocale,
+                                key: "title",
+                                translateData: response.translate,
+                            }),
+                        }
+                    ]
+                }
+            }
+        }
+
+        return pageData;
     }
 }
 

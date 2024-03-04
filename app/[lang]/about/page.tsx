@@ -3,6 +3,7 @@ import { getTranslate } from '@/get-translate';
 import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
+import { AboutLayout } from '@/src/layout';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
@@ -47,10 +48,16 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
     };
 }
 
-const About = ({ params: { lang } }: { params: { lang: LocaleType } }) => {
+const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => {
     try {
+        const dictionary = await getTranslate(lang);
         return (
-            <></>
+            <>
+                <AboutLayout
+                    activeLocale={lang}
+                    dictionary={dictionary}
+                />
+            </>
         )
     } catch (error) {
         console.log(error)

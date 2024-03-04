@@ -7,6 +7,10 @@ type BreadCrumbType = {
     title: string,
     url: string,
 }
+type PageTitleDataType = {
+    title: string,
+    breadcrumbs: BreadCrumbType[],
+};
 
 type ReduxRootStateType = {
     localeState: LocaleStateType[],
@@ -22,4 +26,5 @@ export type {
     BreadCrumbType,
     ReduxRootStateType,
     LocaleStateType,
+    PageTitleDataType,
 }
