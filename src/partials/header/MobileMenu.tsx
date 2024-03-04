@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import {
     MenuDataType,
     MenuTranslateDataType,
@@ -16,6 +16,7 @@ import { LocaleStateType, LocaleType } from '@/src/types/general/type';
 import Link from 'next/link';
 import { Menu, ProjectCategory, Service } from '@/src/class';
 import { FaCaretDown } from 'react-icons/fa6';
+import { usePathname } from 'next/navigation';
 
 type MobileMenuProps = {
     activeLocale: LocaleType,
@@ -39,11 +40,16 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
     const menu = new Menu();
     const service = new Service();
     const projectCategory = new ProjectCategory();
+    const pathName = usePathname();
 
     const [activeLink, setActiveLink] = useState<number>(0);
     const changeActiveLink = useCallback((id: number) => {
         setActiveLink(prev => prev === id ? 0 : id);
-    }, [setActiveLink])
+    }, [setActiveLink]);
+
+    useEffect(() => {
+        setActiveLink(0);
+    }, [pathName]);
     return (
         <div className='mobile_menu'>
             <div className="container">

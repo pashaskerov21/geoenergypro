@@ -1,5 +1,5 @@
 'use client'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Menu, ProjectCategory, Service, Settings } from '@/src/class';
 import {
     MenuDataType,
@@ -20,6 +20,7 @@ import Image from 'next/image';
 import { useSelector } from 'react-redux';
 import { FaCaretDown } from "react-icons/fa";
 import MobileMenu from './MobileMenu';
+import { usePathname } from 'next/navigation';
 
 type HeaderProps = {
     activeLocale: LocaleType,
@@ -43,6 +44,7 @@ const Header: React.FC<HeaderProps> = ({
     dataState,
     dictionary,
 }) => {
+    const pathName = usePathname();
     const baseURL = process.env.BASE_URL;
     const setting = new Settings();
     const menu = new Menu();
@@ -54,6 +56,10 @@ const Header: React.FC<HeaderProps> = ({
     const toggleMenu = useCallback(() => {
         setMenuShow(prev => !prev);
     }, [setMenuShow]);
+
+    useEffect(() => {
+        setMenuShow(false);
+    }, [pathName]);
     return (
         <header>
             <nav className='top_nav d-none d-xl-block'>
