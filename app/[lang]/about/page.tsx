@@ -4,7 +4,6 @@ import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { AboutLayout } from '@/src/layout';
-import { revalidatePath } from 'next/cache';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
@@ -13,9 +12,7 @@ const pageSlug = 'about'
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
     try {
-        const dictionary = await getTranslate(lang);
-        const menuMetaParams = await menu.getMetaParams(lang, pageSlug);
-        const settingMetaParams = await setting.getMetaParams(lang);
+        const [dictionary, menuMetaParams, settingMetaParams] = await Promise.all([getTranslate(lang), menu.getMetaParams(lang, pageSlug), setting.getMetaParams(lang)]);
 
         let meta_title = '';
         let meta_description = '';
@@ -44,29 +41,27 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
         };
     } catch (error) {
         console.log(error)
+        return {
+            title: 'Geo Energy Pro'
+        };
     }
-    return {
-        title: 'Geo Energy Pro'
-    };
 }
 
 const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => {
     try {
         const dictionary = await getTranslate(lang);
         return (
-            <>
-                <AboutLayout
-                    activeLocale={lang}
-                    dictionary={dictionary}
-                />
-            </>
+            <AboutLayout
+                activeLocale={lang}
+                dictionary={dictionary}
+            />
         )
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        return (
+            <></>
+        )
     }
-    return (
-        <></>
-    )
 }
 
 export default About
