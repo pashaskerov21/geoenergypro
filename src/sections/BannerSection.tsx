@@ -4,7 +4,7 @@ import { LocaleType } from '@/src/types/general/type'
 import { BannerDataType, BannerTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
 import { Banner, Settings } from '../class';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
+import { Autoplay } from 'swiper/modules';
 import { FaEnvelope, FaLocationDot, FaPhone } from 'react-icons/fa6';
 
 
@@ -34,7 +34,7 @@ const BannerSection: React.FC<SectionProps> = ({ activeLocale, dictionary, dataS
                         delay: 2500,
                         disableOnInteraction: false,
                     }}
-                    modules={[Pagination, Autoplay]}
+                    modules={[Autoplay]}
                 >
                     {
                         dataState.banner.map((data) => (

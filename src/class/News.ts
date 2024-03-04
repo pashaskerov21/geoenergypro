@@ -15,7 +15,7 @@ type GetTranslateDataType = {
 type GetCategoryTranslateDataType = {
     id: number,
     activeLocale: LocaleType,
-    key: "title",
+    key: "title" | "slug",
     translateData: CategoryTranslateDataType[],
 }
 
@@ -105,6 +105,8 @@ class News {
             switch (params.key) {
                 case "title":
                     return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
+                case "slug":
+                    return translate = activeTranslateData.slug !== null ? activeTranslateData.slug : '';
                 default:
                     return translate = "";
             }

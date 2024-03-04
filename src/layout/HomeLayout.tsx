@@ -1,9 +1,9 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleType } from '../types/general/type'
-import { About, Banner, Report, Service, Settings } from '@/src/class';
-import { AboutDataType, AboutTranslateDataType, BannerDataType, BannerTranslateDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
-import { AboutSection, BannerSection, ServiceSection } from '../sections';
+import { About, Banner, News, NewsCategory, Partner, Report, Service, Settings } from '@/src/class';
+import { AboutDataType, AboutTranslateDataType, BannerDataType, BannerTranslateDataType, NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsTranslateDataType, PartnerDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
+import { AboutSection, BannerSection, NewsSection, ServiceSection } from '../sections';
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -19,6 +19,9 @@ const HomeLayout: React.FC<LayoutProps> = ({
     const service = new Service();
     const about = new About();
     const report = new Report();
+    const news = new News();
+    const newsCategory = new NewsCategory();
+    const partner = new Partner();
 
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
@@ -31,6 +34,11 @@ const HomeLayout: React.FC<LayoutProps> = ({
         aboutTranslate: AboutTranslateDataType[],
         report: ReportDataType[],
         reportTranslate: ReportTranslateDataType[],
+        news: NewsDataType[],
+        newsTranslate: NewsTranslateDataType[],
+        newsCategory: NewsCategoryDataType[],
+        newsCategoryTranslate: NewsCategoryTranslateDataType[],
+        partner: PartnerDataType[],
     }>({
         setting: {} as SiteSettingDataType,
         settingTranslate: [],
@@ -42,11 +50,16 @@ const HomeLayout: React.FC<LayoutProps> = ({
         aboutTranslate: [],
         report: [],
         reportTranslate: [],
+        news: [],
+        newsTranslate: [],
+        newsCategory: [],
+        newsCategoryTranslate: [],
+        partner: [],
     });
 
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting, responseBanner, responseService, responseAbout, responseReport]: [
+            const [responseSetting, responseBanner, responseService, responseAbout, responseReport, responseNews, responseNewsCategory, responsePartner]: [
                 {
                     main: SiteSettingDataType,
                     translate: SiteSettingTranslateDataType[],
@@ -66,8 +79,17 @@ const HomeLayout: React.FC<LayoutProps> = ({
                 {
                     main: ReportDataType[],
                     translate: ReportTranslateDataType[],
-                }
-            ] = await Promise.all([setting.active(1), banner.all(), service.all(), about.active(1), report.all()]);
+                },
+                {
+                    latest: NewsDataType[],
+                    translate: NewsTranslateDataType[],
+                },
+                {
+                    main: NewsCategoryDataType[],
+                    translate: NewsCategoryTranslateDataType[],
+                },
+                PartnerDataType[]
+            ] = await Promise.all([setting.active(1), banner.all(), service.all(), about.active(1), report.all(), news.all(), newsCategory.all(), partner.all()]);
             if (responseSetting.main && responseSetting.translate) {
                 setDataState(prev => ({
                     ...prev,
@@ -103,27 +125,69 @@ const HomeLayout: React.FC<LayoutProps> = ({
                     reportTranslate: responseReport.translate,
                 }))
             }
+            if (responseNews.latest && responseNews.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    news: responseNews.latest,
+                    newsTranslate: responseNews.translate,
+                }))
+            }
+            if (responseNewsCategory.main && responseNewsCategory.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    newsCategory: responseNewsCategory.main,
+                    newsCategoryTranslate: responseNewsCategory.translate,
+                }))
+            }
+            if (responsePartner) {
+                setDataState(prev => ({
+                    ...prev,
+                    partner: responsePartner,
+                }))
+            }
+
         }
 
         fethcData();
     }, [])
     return (
         <Fragment>
-            <BannerSection
-                activeLocale={activeLocale}
-                dataState={dataState}
-                dictionary={dictionary}
-            />
-            <ServiceSection
-                activeLocale={activeLocale}
-                dataState={dataState}
-                dictionary={dictionary}
-            />
-            <AboutSection
-                activeLocale={activeLocale}
-                dataState={dataState}
-                dictionary={dictionary}
-            />
+            {
+                dataState.banner.length > 0 && (
+                    <BannerSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
+            {
+                dataState.service.length > 0 && (
+                    <ServiceSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
+            {
+                dataState.about && dataState.aboutTranslate.length > 0 && (
+                    <AboutSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
+            {
+                dataState.news.length > 0 && (
+                    <NewsSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
         </Fragment>
     )
 }

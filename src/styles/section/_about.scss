@@ -21,6 +21,7 @@
             @include column-align-start;
             gap: 30px;
             background-color: #fff;
+            background-size: 0;
             position: relative;
 
             .content_inner {
