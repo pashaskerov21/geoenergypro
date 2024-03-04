@@ -1,13 +1,11 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { Menu, News, Project, Service, Settings } from '@/src/class';
 import {
     MenuDataType,
     MenuTranslateDataType,
     NewsDataType,
     NewsTranslateDataType,
-    ProjectCategoryDataType,
-    ProjectCategoryTranslateDataType,
     ProjectDataType,
     ProjectTranslateDataType,
     ServiceDataType,

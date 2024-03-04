@@ -1,17 +1,17 @@
 import React, { Suspense } from 'react'
 import { getTranslate } from '@/get-translate';
-import { Menu, Service, Settings } from '@/src/class';
+import { Menu, News, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { revalidatePath } from 'next/cache';
 import { ServiceDataType, ServiceTranslateDataType } from '@/src/types/data/type';
-import { ServiceInnerLayout } from '@/src/layout';
+import { NewsInnerLayout } from '@/src/layout';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
-const service = new Service();
 const setting = new Settings();
-const parentSlug = 'services';
+const news = new News();
+const parentSlug = 'news';
 
 export async function generateMetadata({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }): Promise<Metadata> {
     try {
@@ -21,7 +21,7 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
         const response: {
             main: ServiceDataType,
             translate: ServiceTranslateDataType,
-        } = await service.activeSlug({
+        } = await news.activeSlug({
             lang: lang,
             slug: slug
         });
@@ -54,14 +54,14 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
     };
 }
 
-const ServiceInner = async ({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }) => {
+const NewsInner = async ({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }) => {
     try {
         revalidatePath(`/${lang}/${parentSlug}/${slug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>
-                <Suspense>
-                    <ServiceInnerLayout
+                <Suspense fallback={<div>loading...</div>}>
+                    <NewsInnerLayout
                         activeLocale={lang}
                         dictionary={dictionary}
                         slug={slug}
@@ -77,4 +77,4 @@ const ServiceInner = async ({ params: { lang, slug } }: { params: { lang: Locale
     )
 }
 
-export default ServiceInner
+export default NewsInner

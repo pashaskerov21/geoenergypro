@@ -1,7 +1,7 @@
 'use client'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Service } from '../class'
+import { News } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -13,10 +13,10 @@ type LayoutProps = {
     slug: string,
 }
 
-const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug }) => {
+const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug }) => {
     const dispatch = useDispatch();
-    const mainClass = new Service();
-    const parentSlug = 'services';
+    const mainClass = new News();
+    const parentSlug = 'news';
     const [layoutParams, setLayoutParams] = useState<{
         pageTitleData: PageTitleDataType,
         localeSlugs: LocaleStateType[],
@@ -67,4 +67,4 @@ const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
     )
 }
 
-export default React.memo(ServiceInnerLayout)
+export default React.memo(NewsInnerLayout)

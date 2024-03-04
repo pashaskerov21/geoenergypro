@@ -122,7 +122,7 @@ class Service {
             breadcrumbs: [
                 {
                     id: 1,
-                    url: `/${activeLocale}`,
+                    url: `/${activeLocale}/${parentSlug}`,
                     title: '',
                 }
             ]
@@ -154,7 +154,7 @@ class Service {
                     },
                     {
                         id: 2,
-                        url: `/${activeLocale}/${responseService.translate.slug}`,
+                        url: `/${activeLocale}/${responseMenu.main.slug}/${responseService.translate.slug}`,
                         title: responseService.translate.title ?? '',
                     },
                 ]
