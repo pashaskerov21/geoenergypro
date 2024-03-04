@@ -56,7 +56,6 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
 
 const ProjectCategoryInner = async ({ params: { lang, slug } }: { params: { lang: LocaleType, slug: string } }) => {
     try {
-        // revalidatePath(`/${lang}/${parentSlug}/category/${slug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>

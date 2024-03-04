@@ -52,7 +52,6 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
 
 const Gallery = async ({ params: { lang } }: { params: { lang: LocaleType } }) => {
     try {
-        // revalidatePath(`/${lang}/${pageSlug}`, 'page');
         const dictionary = await getTranslate(lang);
         return (
             <>
