@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu } from '../class'
+import { Menu, Service } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
+import { ServiceDataType, ServiceTranslateDataType } from '../types/data/type'
+import { ServiceSection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -53,13 +55,53 @@ const ServicesLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
     React.useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
+
+    const service = new Service();
+    const [dataState, setDataState] = useState<{
+        service: ServiceDataType[],
+        serviceTranslate: ServiceTranslateDataType[],
+    }>({
+        service: [],
+        serviceTranslate: [],
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const [responseService]: [
+                {
+                    main: ServiceDataType[],
+                    translate: ServiceTranslateDataType[],
+                },
+            ] = await Promise.all([service.all()]);
+
+            if (responseService.main && responseService.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    service: responseService.main,
+                    serviceTranslate: responseService.translate,
+                }))
+            }
+        }
+        fetchData();
+    }, []);
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                dataState.service.length > 0 && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <ServiceSection
+                            activeLocale={activeLocale}
+                            dataState={dataState}
+                            dictionary={dictionary}
+                        />
+                    </Fragment>
+                )
+            }
         </>
     )
 }
