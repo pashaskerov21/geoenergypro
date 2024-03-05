@@ -143,25 +143,21 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
 
     return (
         <Provider store={store}>
-            {loading && <Preloader/>}
+            {loading && <Preloader />}
             {
-                dataState.setting && dataState.menu && (
-                    <Header
-                        activeLocale={activeLocale}
-                        dataState={dataState}
-                        dictionary={dictionary}
-                    />
-                )
+                dataState.menu.length > 0 && <Header
+                    activeLocale={activeLocale}
+                    dataState={dataState}
+                    dictionary={dictionary}
+                />
             }
             <main>{children}</main>
             {
-                dataState.setting && dataState.menu && (
-                    <Footer
-                        activeLocale={activeLocale}
-                        dataState={dataState}
-                        dictionary={dictionary}
-                    />
-                )
+                dataState.menu.length > 0 && <Footer
+                    activeLocale={activeLocale}
+                    dataState={dataState}
+                    dictionary={dictionary}
+                />
             }
         </Provider>
     )
