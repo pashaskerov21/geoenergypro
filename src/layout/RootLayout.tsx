@@ -15,6 +15,7 @@ import { Menu, News, Project, ProjectCategory, Service, Settings } from '../clas
 import Header from '../partials/header/Header';
 import Footer from '../partials/footer/Footer';
 import { FaGear } from 'react-icons/fa6';
+import { Preloader } from '../components';
 
 
 
@@ -142,29 +143,26 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
 
     return (
         <Provider store={store}>
-            {/* {
-                loading && (
-                    <div className="preloader">
-                        <div className="preloader_icons">
-                            <FaGear className='icon' />
-                            <FaGear className='icon' />
-                            <FaGear className='icon' />
-                            <FaGear className='icon' />
-                        </div>
-                    </div>
+            {loading && <Preloader/>}
+            {
+                dataState.setting && dataState.menu && (
+                    <Header
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
                 )
-            } */}
-            <Header
-                activeLocale={activeLocale}
-                dataState={dataState}
-                dictionary={dictionary}
-            />
+            }
             <main>{children}</main>
-            <Footer
-                activeLocale={activeLocale}
-                dataState={dataState}
-                dictionary={dictionary}
-            />
+            {
+                dataState.setting && dataState.menu && (
+                    <Footer
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
         </Provider>
     )
 }

@@ -4,7 +4,6 @@ import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { AboutLayout } from '@/src/layout';
-import { Preloader } from '@/src/components';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
@@ -51,12 +50,10 @@ const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => 
     try {
         const dictionary = await getTranslate(lang);
         return (
-            <Suspense fallback={<Preloader />}>
-                <AboutLayout
-                    activeLocale={lang}
-                    dictionary={dictionary}
-                />
-            </Suspense>
+            <AboutLayout
+                activeLocale={lang}
+                dictionary={dictionary}
+            />
         )
     } catch (error) {
         console.log(error);
