@@ -177,7 +177,7 @@ const Header: React.FC<HeaderProps> = ({
                                                                 dataState.projectCategory.map((pc_data) => (
                                                                     <div className="link_item no_child" key={pc_data.id}>
                                                                         <div className="main_row">
-                                                                            <Link href={`/${activeLocale}/projects/category/${projectCategory.getTranslate({
+                                                                            <Link href={`/${activeLocale}/projects?category=${projectCategory.getTranslate({
                                                                                 id: pc_data.id,
                                                                                 activeLocale,
                                                                                 key: "slug",

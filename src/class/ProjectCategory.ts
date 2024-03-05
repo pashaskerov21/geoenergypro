@@ -66,9 +66,9 @@ class ProjectCategory {
     public activeSlug = async (data: { lang: LocaleType, slug: string }) => {
         try {
             const response = await axios.post(this.api.activeSlug, { data }, this.axiosConfig);
-            if (response.status !== 200) {
-                throw new Error(this.errors.active);
-            }
+            // if (response.status !== 200) {
+            //     throw new Error(this.errors.active);
+            // }
 
             return response.data;
         } catch (error: any) {
@@ -110,7 +110,7 @@ class ProjectCategory {
                         {
                             id: 2,
                             title: mainResponse.translate.title ?? '',
-                            url: `/${activeLocale}/${menuResponse.main.slug}/category/${mainResponse.translate.slug}`,
+                            url: `/${activeLocale}/${menuResponse.main.slug}?category=${mainResponse.translate.slug}`,
                         }
                     ]
                 }

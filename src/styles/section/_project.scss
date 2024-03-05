@@ -1,0 +1,18 @@
+.projects_section{
+    .categories_wrapper{
+        width: 100%;
+        @include row-justify-start;
+        gap: 15px;
+        .category_link{
+            padding: 6px 0;
+            border-bottom: 2px solid transparent;
+            color: #000;
+            font-size: 14px;
+            font-family: $secondary-color;
+            font-weight: 600;
+            &.active{
+                border-bottom-color: $primary-color;
+            }
+        }
+    }
+}
