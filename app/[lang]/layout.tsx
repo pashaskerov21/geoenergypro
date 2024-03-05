@@ -5,7 +5,6 @@ import { RootLayout } from "@/src/layout";
 import { LocaleType } from "@/src/types/general/type";
 import { Metadata } from "next";
 import { unstable_noStore } from "next/cache";
-import { Suspense } from "react";
 
 // export async function generateStaticParams() {
 //   return i18n.locales.map((locale) => ({ lang: locale }));
@@ -66,14 +65,12 @@ export default async function Root({ children, params: { lang } }: { children: R
           <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap" />
         </head>
         <body>
-          <Suspense fallback={<div>root loading...</div>}>
-            <RootLayout
-              activeLocale={lang}
-              dictionary={dictionary}
-            >
-              {children}
-            </RootLayout>
-          </Suspense>
+          <RootLayout
+            activeLocale={lang}
+            dictionary={dictionary}
+          >
+            {children}
+          </RootLayout>
         </body>
       </html>
     );

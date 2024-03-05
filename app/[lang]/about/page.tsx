@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { getTranslate } from '@/get-translate';
 import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { AboutLayout } from '@/src/layout';
+import Loading from './loading';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
@@ -50,10 +51,12 @@ const About = async ({ params: { lang } }: { params: { lang: LocaleType } }) => 
     try {
         const dictionary = await getTranslate(lang);
         return (
-            <AboutLayout
-                activeLocale={lang}
-                dictionary={dictionary}
-            />
+            <Suspense fallback={<Loading/>}>
+                <AboutLayout
+                    activeLocale={lang}
+                    dictionary={dictionary}
+                />
+            </Suspense>
         )
     } catch (error) {
         console.log(error);
