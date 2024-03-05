@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'swiper/css';
@@ -62,7 +62,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
         newsTranslate: [],
     });
 
-    // const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -134,28 +134,26 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
                     newsTranslate: responseNews.translate,
                 }))
             }
-
         }
         fetchData();
 
-        // setTimeout(() => {
-        //     setLoading(false);
-        // }, 1000);
+        setLoading(false);
     }, [])
 
     return (
         <Provider store={store}>
-            {/* {
-                loading && <div className="preloader">
-                    <div className="preloader_icons">
-                        <FaGear className='icon' />
-                        <FaGear className='icon' />
-                        <FaGear className='icon' />
-                        <FaGear className='icon' />
+            {
+                loading && (
+                    <div className="preloader">
+                        <div className="preloader_icons">
+                            <FaGear className='icon' />
+                            <FaGear className='icon' />
+                            <FaGear className='icon' />
+                            <FaGear className='icon' />
+                        </div>
                     </div>
-                </div>
-            } */}
-
+                )
+            }
             <Header
                 activeLocale={activeLocale}
                 dataState={dataState}

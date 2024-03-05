@@ -45,35 +45,10 @@ class Settings {
             }
         }
     }
-    public getTranslate(params: GetTranslateDataType) {
-        const activeTranslateData: SiteSettingTranslateDataType | undefined = params.translateData.find((data) => data.setting_id === params.id && data.lang === params.activeLocale);
-        let translate = "";
-
-        if (activeTranslateData) {
-            switch (params.key) {
-                case "title":
-                    return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
-                case "description":
-                    return translate = activeTranslateData.description !== null ? activeTranslateData.description : '';
-                case "author":
-                    return translate = activeTranslateData.author !== null ? activeTranslateData.author : '';
-                case "keywords":
-                    return translate = activeTranslateData.keywords !== null ? activeTranslateData.keywords : '';
-                case "copyright":
-                    return translate = activeTranslateData.copyright !== null ? activeTranslateData.copyright : '';
-                case "address_text":
-                    return translate = activeTranslateData.address_text !== null ? activeTranslateData.address_text : '';
-                case "mail_text":
-                    return translate = activeTranslateData.mail_text !== null ? activeTranslateData.mail_text : '';
-                case "phone_text":
-                    return translate = activeTranslateData.phone_text !== null ? activeTranslateData.phone_text : '';
-                case "footer_text":
-                    return translate = activeTranslateData.footer_text !== null ? activeTranslateData.footer_text : '';
-                default:
-                    return translate = "";
-            }
-        }
-        return translate;
+    public getTranslate(params: GetTranslateDataType): string {
+        const { id, key, activeLocale, translateData } = params;
+        const activeTranslateData: TranslateDataType | undefined = translateData.find((data) => data.setting_id === id && data.lang === activeLocale);
+        return activeTranslateData ? activeTranslateData[key] ?? '' : '';
     }
     public getMetaParams = async (activeLocale: LocaleType): Promise<{
         title: string,

@@ -15,8 +15,7 @@ const setting = new Settings();
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
   try {
-    const dictionary = await getTranslate(lang);
-    const metaParams = await setting.getMetaParams(lang);
+    const [dictionary, metaParams] = await Promise.all([getTranslate(lang), setting.getMetaParams(lang)])
     if (metaParams) {
       return {
         metadataBase: new URL(`${baseURL}`),

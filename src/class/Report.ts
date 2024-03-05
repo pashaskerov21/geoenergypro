@@ -67,19 +67,10 @@ class Report {
             }
         }
     }
-    public getTranslate(params: GetTranslateDataType) {
-        const activeTranslateData: ReportTranslateDataType | undefined = params.translateData.find((data) => data.report_id === params.id && data.lang === params.activeLocale);
-        let translate = "";
-
-        if (activeTranslateData) {
-            switch (params.key) {
-                case "title":
-                    return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
-                default:
-                    return translate = "";
-            }
-        }
-        return translate;
+    public getTranslate(params: GetTranslateDataType): string {
+        const { id, key, activeLocale, translateData } = params;
+        const activeTranslateData: TranslateDataType | undefined = translateData.find((data) => data.report_id === id && data.lang === activeLocale);
+        return activeTranslateData ? activeTranslateData[key] ?? '' : '';
     }
 }
 

@@ -13,10 +13,7 @@ const pageSlug = 'news';
 
 export async function generateMetadata({ params: { lang } }: { params: { lang: LocaleType } }): Promise<Metadata> {
     try {
-        const dictionary = await getTranslate(lang);
-        const menuMetaParams = await menu.getMetaParams(lang, pageSlug);
-        const settingMetaParams = await setting.getMetaParams(lang);
-
+        const [dictionary, menuMetaParams, settingMetaParams] = await Promise.all([getTranslate(lang), menu.getMetaParams(lang, pageSlug), setting.getMetaParams(lang)]);
         let meta_title = '';
         let meta_description = '';
         let meta_keywords = '';

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { LocaleStateType, LocaleType, PageTitleDataType } from "../types/general/type";
 import { MenuDataType, MenuTranslateDataType, NewsCategoryTranslateDataType, NewsDataType, NewsTranslateDataType, NewsTranslateKeyType } from "../types/data/type";
 import Menu from "./Menu";
@@ -34,189 +34,117 @@ class News {
         active: `${this.apiKey} active data fetch failed`,
         activeSlug: `${this.apiKey} active slug data fetch failed`,
     }
-
+    private axiosConfig: AxiosRequestConfig = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    }
+    private handleError(error: any, errorMessage: string) {
+        if (error.response) {
+            return error.response.data;
+        } else {
+            throw new Error(errorMessage);
+        }
+    }
     public all = async () => {
         try {
-            const response = await axios.get(this.api.all, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            })
+            const response = await axios.get(this.api.all, this.axiosConfig)
             if (response.status !== 200) {
                 throw new Error(this.errors.all);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.all);
-            }
+            return this.handleError(error, this.errors.all);
         }
     }
     public active = async (id: number) => {
         try {
-            const response = await axios.post(this.api.active, {
-                id: id,
-            }, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.post(this.api.active, { id }, this.axiosConfig);
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.active);
-            }
+            return this.handleError(error, this.errors.active);
         }
     }
-    public activeSlug = async (data: {
-        lang: LocaleType,
-        slug: string
-    }) => {
+    public activeSlug = async (data: { lang: LocaleType, slug: string }) => {
         try {
-            const response = await axios.post(this.api.activeSlug, {
-                data: data,
-            }, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.post(this.api.activeSlug, { data }, this.axiosConfig);
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.active);
-            }
+            return this.handleError(error, this.errors.activeSlug);
         }
     }
-    public getTranslate(params: GetTranslateDataType) {
-        const activeTranslateData: TranslateDataType | undefined = params.translateData.find((data) => data.news_id === params.id && data.lang === params.activeLocale);
-        let translate = "";
-
-        if (activeTranslateData) {
-            switch (params.key) {
-                case "title":
-                    return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
-                case "slug":
-                    return translate = activeTranslateData.slug !== null ? activeTranslateData.slug : '';
-                case "text":
-                    return translate = activeTranslateData.text !== null ? activeTranslateData.text : '';
-                case "date":
-                    return translate = activeTranslateData.date !== null ? activeTranslateData.date : '';
-                case "author":
-                    return translate = activeTranslateData.author !== null ? activeTranslateData.author : '';
-                default:
-                    return translate = "";
-            }
-        }
-        return translate;
+    public getTranslate(params: GetTranslateDataType): string {
+        const { id, key, activeLocale, translateData } = params;
+        const activeTranslateData: TranslateDataType | undefined = translateData.find((data) => data.news_id === id && data.lang === activeLocale);
+        return activeTranslateData ? activeTranslateData[key] ?? '' : '';
     }
-    public getCategoryTranslate(params: GetCategoryTranslateDataType) {
-        const activeTranslateData: CategoryTranslateDataType | undefined = params.translateData.find((data) => data.cat_id === params.id && data.lang === params.activeLocale);
-        let translate = "";
-
-        if (activeTranslateData) {
-            switch (params.key) {
-                case "title":
-                    return translate = activeTranslateData.title !== null ? activeTranslateData.title : '';
-                case "slug":
-                    return translate = activeTranslateData.slug !== null ? activeTranslateData.slug : '';
-                default:
-                    return translate = "";
-            }
-        }
-        return translate;
+    public getCategoryTranslate(params: GetCategoryTranslateDataType): string {
+        const { id, key, activeLocale, translateData } = params;
+        const activeTranslateData: CategoryTranslateDataType | undefined = translateData.find((data) => data.cat_id === id && data.lang === activeLocale);
+        return activeTranslateData ? activeTranslateData[key] ?? '' : '';
     }
     public getPageTitleData = async (parentSlug: string, slug: string, activeLocale: LocaleType): Promise<PageTitleDataType> => {
         const menu = new Menu();
-
-        let pageData: PageTitleDataType = {
-            title: "",
-            breadcrumbs: [
+        try {
+            const [mainResponse, menuResponse]: [
                 {
-                    id: 1,
-                    url: `/${activeLocale}/${parentSlug}`,
-                    title: '',
+                    main: DataType,
+                    translate: TranslateDataType
+                },
+                {
+                    main: MenuDataType,
+                    translate: MenuTranslateDataType,
+                },
+            ] = await Promise.all([menu.activeSlug(parentSlug), this.activeSlug({ lang: activeLocale, slug })]);
+            if (menuResponse.main && menuResponse.translate && mainResponse.main && mainResponse.translate) {
+                return {
+                    title: mainResponse.translate.title ?? '',
+                    breadcrumbs: [
+                        {
+                            id: 1,
+                            title: menuResponse.translate.title,
+                            url: `/${activeLocale}/${menuResponse.main.slug}`,
+                        },
+                        {
+                            id: 2,
+                            title: mainResponse.translate.title ?? '',
+                            url: `/${activeLocale}/${menuResponse.main.slug}/${mainResponse.translate.slug}`,
+                        }
+                    ]
                 }
-            ]
-        }
-        const responseMenu: {
-            main: MenuDataType,
-            translate: MenuTranslateDataType[],
-        } = await menu.activeSlug(parentSlug);
-        const responseService: {
-            main: DataType,
-            translate: TranslateDataType
-        } = await this.activeSlug({
-            lang: activeLocale,
-            slug: slug
-        });
-        if (responseMenu.main && responseMenu.translate && responseService.main && responseService.translate) {
-            pageData = {
-                title: responseService.translate.title ?? '',
-                breadcrumbs: [
-                    {
-                        id: 1,
-                        url: `/${activeLocale}/${responseMenu.main.slug}`,
-                        title: menu.getTranslate({
-                            id: responseMenu.main.id,
-                            activeLocale,
-                            key: "title",
-                            translateData: responseMenu.translate
-                        }),
-                    },
-                    {
-                        id: 2,
-                        url: `/${activeLocale}/${responseMenu.main.slug}/${responseService.translate.slug}`,
-                        title: responseService.translate.title ?? '',
-                    },
-                ]
             }
+        } catch (error) {
+            console.log(error);
         }
-
-        return pageData;
+        return { title: "", breadcrumbs: [{ id: 1, title: "", url: `/${activeLocale}/${parentSlug}` }] }
     }
     public getLocaleSlugs = async (parentSlug: string, slug: string, lang: LocaleType): Promise<LocaleStateType[]> => {
-        let localeSlugs: LocaleStateType[] = i18n.locales.map((locale) => {
-            return {
-                locale: locale,
-                slug: parentSlug,
-            }
-        });
-
-        const response: {
-            main: DataType,
-            translates: TranslateDataType[],
-        } = await this.activeSlug({
-            lang: lang,
-            slug: slug,
-        });
-        if (response.main && response.translates) {
-            localeSlugs = response.translates.map((data) => {
-                return {
+        try {
+            const response: { main: DataType, translates: TranslateDataType[] } = await this.activeSlug({ lang, slug });
+            const { main, translates } = response;
+            if (main && translates) {
+                return response.translates.map((data) => ({
                     locale: data.lang,
                     slug: `${parentSlug}/${data.slug}`,
-                }
-            })
+                }))
+            }
+        } catch (error) {
+            console.log(error);
         }
-
-        return localeSlugs;
+        return i18n.locales.map((locale) => ({
+            locale: locale,
+            slug: parentSlug,
+        }));
     }
 }
 

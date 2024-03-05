@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { LocaleType, PageTitleDataType } from "@/src/types/general/type";
 import { MenuDataType, MenuTranslateDataType } from "@/src/types/data/type";
 
@@ -24,166 +24,94 @@ class Menu {
         active: `${this.apiKey} active data fetch failed`,
         activeSlug: `${this.apiKey} active slug data fetch failed`,
     }
-
+    private axiosConfig: AxiosRequestConfig = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }
+    }
+    private handleError(error: any, errorMessage: string) {
+        if (error.response) {
+            return error.response.data;
+        } else {
+            throw new Error(errorMessage);
+        }
+    }
     public all = async () => {
         try {
-            const response = await axios.get(this.api.all, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            })
+            const response = await axios.get(this.api.all, this.axiosConfig)
             if (response.status !== 200) {
                 throw new Error(this.errors.all);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.all);
-            }
+            return this.handleError(error, this.errors.all);
         }
     }
     public active = async (id: number) => {
         try {
-            const response = await axios.post(this.api.active, {
-                id: id,
-            }, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.post(this.api.active, { id }, this.axiosConfig);
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.active);
-            }
+            return this.handleError(error, this.errors.active);
         }
     }
     public activeSlug = async (slug: string) => {
         try {
-            const response = await axios.post(this.api.activeSlug, {
-                slug: slug,
-            }, {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                }
-            });
+            const response = await axios.post(this.api.activeSlug, { slug }, this.axiosConfig);
             if (response.status !== 200) {
                 throw new Error(this.errors.active);
             }
 
             return response.data;
         } catch (error: any) {
-            if (error.response) {
-                return error.response.data;
-            } else {
-                throw new Error(this.errors.active);
-            }
+            return this.handleError(error, this.errors.activeSlug);
         }
     }
-    public getTranslate(params: GetTranslateDataType) {
-        const activeTranslateData: TranslateDataType | undefined = params.translateData.find((data) => data.menu_id === params.id && data.lang === params.activeLocale);
-        let translate = "";
-        if (activeTranslateData) {
-            switch (params.key) {
-                case "title":
-                    return translate = activeTranslateData.title ?? '';
-                case "meta_title":
-                    return translate = activeTranslateData.meta_title ?? '';
-                case "meta_description":
-                    return translate = activeTranslateData.meta_description ?? '';
-                case "meta_keywords":
-                    return translate = activeTranslateData.meta_keywords ?? '';
-                default:
-                    return translate = activeTranslateData.title;
-            }
-        }
-        return translate;
+    public getTranslate(params: GetTranslateDataType): string {
+        const { id, key, activeLocale, translateData } = params;
+        const activeTranslateData: TranslateDataType | undefined = translateData.find((data) => data.menu_id === id && data.lang === activeLocale);
+        return activeTranslateData ? activeTranslateData[key] ?? '' : '';
     }
-    public getMetaParams = async (activeLocale: LocaleType, slug: string) => {
-        const response: {
-            main: DataType,
-            translate: TranslateDataType[]
-        } = await this.activeSlug(slug);
-        let metaParams: {
-            title: string,
-            description: string,
-            keywords: string,
-        } | undefined = undefined;
-        if (response.main && response.translate) {
-            metaParams = {
-                title: this.getTranslate({
-                    id: response.main.id,
-                    activeLocale,
-                    key: "meta_title",
-                    translateData: response.translate
-                }),
-                description: this.getTranslate({
-                    id: response.main.id,
-                    activeLocale,
-                    key: "meta_description",
-                    translateData: response.translate
-                }),
-                keywords: this.getTranslate({
-                    id: response.main.id,
-                    activeLocale,
-                    key: "meta_keywords",
-                    translateData: response.translate
-                }),
+    public async getMetaParams(activeLocale: LocaleType, slug: string): Promise<{ title: string; description: string; keywords: string } | undefined> {
+        try {
+            const response = await this.activeSlug(slug);
+            const { main, translate } = response;
+            if (main && translate) {
+                return {
+                    title: this.getTranslate({ id: main.id, activeLocale, key: "meta_title", translateData: translate }),
+                    description: this.getTranslate({ id: main.id, activeLocale, key: "meta_description", translateData: translate }),
+                    keywords: this.getTranslate({ id: main.id, activeLocale, key: "meta_keywords", translateData: translate })
+                };
             }
-        }
-        return metaParams;
-    }
-    public getPageTitleData = async (slug: string, activeLocale: LocaleType): Promise<PageTitleDataType> => {
-        let pageData: PageTitleDataType = {
-            title: "",
-            breadcrumbs: [
-                {
-                    id: 1,
-                    url: `/${activeLocale}`,
-                    title: '',
-                }
-            ]
-        }
-        const response: {
-            main: DataType,
-            translate: TranslateDataType[]
-        } = await this.activeSlug(slug);
-        if (response.main && response.translate) {
-            pageData = {
-                title: this.getTranslate({
-                    id: response.main.id,
-                    activeLocale,
-                    key: "title",
-                    translateData: response.translate,
-                }),
-                breadcrumbs: [
-                    {
-                        id: 1,
-                        url: `/${activeLocale}/${response.main.slug}`,
-                        title: this.getTranslate({
-                            id: response.main.id,
-                            activeLocale,
-                            key: "title",
-                            translateData: response.translate,
-                        }),
-                    }
-                ]
-            }
+        } catch (error) {
+            console.log(error)
         }
 
-        return pageData;
+        return undefined
+    }
+    public async getPageTitleData(slug: string, activeLocale: LocaleType): Promise<PageTitleDataType> {
+        try {
+            const response = await this.activeSlug(slug);
+            const { main, translate } = response;
+            if (main && translate) {
+                return {
+                    title: this.getTranslate({ id: main.id, activeLocale, key: "title", translateData: translate }),
+                    breadcrumbs: [
+                        { id: 2, url: `/${activeLocale}/${main.slug}`, title: this.getTranslate({ id: main.id, activeLocale, key: "title", translateData: translate }) }
+                    ]
+                };
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+        return { title: "", breadcrumbs: [{ id: 1, url: `/${activeLocale}`, title: '' }] };
     }
 }
 
