@@ -142,7 +142,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
 
     return (
         <Provider store={store}>
-            {
+            {/* {
                 loading && (
                     <div className="preloader">
                         <div className="preloader_icons">
@@ -153,7 +153,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
                         </div>
                     </div>
                 )
-            }
+            } */}
             <Header
                 activeLocale={activeLocale}
                 dataState={dataState}
