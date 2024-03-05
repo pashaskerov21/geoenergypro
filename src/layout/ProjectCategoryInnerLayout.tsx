@@ -58,15 +58,11 @@ const ProjectCategoryInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dicti
     }, [dispatch, layoutParams.localeSlugs]);
     return (
         <>
-            {
-                layoutParams.pageTitleData.breadcrumbs.length > 1 && (
-                    <PageHeading
-                        activeLocale={activeLocale}
-                        dictionary={dictionary}
-                        pageTitleData={layoutParams.pageTitleData}
-                    />
-                )
-            }
+            <PageHeading
+                activeLocale={activeLocale}
+                dictionary={dictionary}
+                pageTitleData={layoutParams.pageTitleData}
+            />
         </>
     )
 }

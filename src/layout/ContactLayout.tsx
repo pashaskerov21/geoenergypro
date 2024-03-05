@@ -55,15 +55,11 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     }, [dispatch]);
     return (
         <>
-            {
-                layoutParams.pageTitleData.breadcrumbs.length > 1 && (
-                    <PageHeading
-                        activeLocale={activeLocale}
-                        dictionary={dictionary}
-                        pageTitleData={layoutParams.pageTitleData}
-                    />
-                )
-            }
+            <PageHeading
+                activeLocale={activeLocale}
+                dictionary={dictionary}
+                pageTitleData={layoutParams.pageTitleData}
+            />
         </>
     )
 }

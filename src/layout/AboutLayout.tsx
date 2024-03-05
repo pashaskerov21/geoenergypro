@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu } from '../class'
+import { About, Menu, Report, Service } from '../class'
 import { i18n } from '@/i18n-config'
-import { PageHeading, Preloader } from '../components'
+import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
+import { AboutDataType, AboutTranslateDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType } from '../types/data/type'
+import { AboutSection, ServiceSection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -54,21 +56,94 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const [loading, setLoading] = useState<boolean>(true);
+    const about = new About();
+    const report = new Report();
+    const service = new Service();
+    const [dataState, setDataState] = useState<{
+        about: AboutDataType,
+        aboutTranslate: AboutTranslateDataType[],
+        report: ReportDataType[],
+        reportTranslate: ReportTranslateDataType[],
+        service: ServiceDataType[],
+        serviceTranslate: ServiceTranslateDataType[],
+    }>({
+        about: {} as AboutDataType,
+        aboutTranslate: [],
+        report: [],
+        reportTranslate: [],
+        service: [],
+        serviceTranslate: [],
+    });
+
     useEffect(() => {
-        console.log(layoutParams.pageTitleData.breadcrumbs)
-        if (layoutParams.pageTitleData.breadcrumbs.length > 0) {
-            setLoading(false);
+        const fetchData = async () => {
+            const [responseAbout, responseReport, responseService]: [
+                {
+                    main: AboutDataType,
+                    translate: AboutTranslateDataType[],
+                },
+                {
+                    main: ReportDataType[],
+                    translate: ReportTranslateDataType[],
+                },
+                {
+                    home: ServiceDataType[],
+                    translate: ServiceTranslateDataType[],
+                },
+            ] = await Promise.all([about.active(1), report.all(), service.all()]);
+            if (responseAbout.main && responseAbout.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    about: responseAbout.main,
+                    aboutTranslate: responseAbout.translate,
+                }))
+            }
+            if (responseReport.main && responseReport.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    report: responseReport.main,
+                    reportTranslate: responseReport.translate,
+                }))
+            }
+            if (responseService.home && responseService.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    service: responseService.home,
+                    serviceTranslate: responseService.translate,
+                }))
+            }
         }
-    }, [layoutParams.pageTitleData.breadcrumbs])
+        fetchData();
+    }, []);
+
+
     return (
         <>
-            {loading && <Preloader />}
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                dataState.aboutTranslate.length > 0 && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <AboutSection
+                            activeLocale={activeLocale}
+                            dataState={dataState}
+                            dictionary={dictionary}
+                        />
+                    </Fragment>
+                )
+            }
+            {
+                dataState.service.length > 0 && (
+                    <ServiceSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                )
+            }
         </>
     )
 }
