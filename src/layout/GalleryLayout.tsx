@@ -55,11 +55,15 @@ const GalleryLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     }, [dispatch]);
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                layoutParams.pageTitleData.breadcrumbs.length > 1 && (
+                    <PageHeading
+                        activeLocale={activeLocale}
+                        dictionary={dictionary}
+                        pageTitleData={layoutParams.pageTitleData}
+                    />
+                )
+            }
         </>
     )
 }

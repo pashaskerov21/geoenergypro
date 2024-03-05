@@ -137,9 +137,13 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
             }
         }
         fetchData();
-
-        setLoading(false);
     }, [])
+
+    useEffect(() => {
+        if (dataState.menu.length > 0) {
+            setLoading(false);
+        }
+    }, [dataState.menu])
 
     return (
         <Provider store={store}>

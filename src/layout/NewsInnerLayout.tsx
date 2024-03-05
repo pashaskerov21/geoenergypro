@@ -58,11 +58,15 @@ const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug
     }, [dispatch, layoutParams.localeSlugs]);
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                layoutParams.pageTitleData.breadcrumbs.length > 1 && (
+                    <PageHeading
+                        activeLocale={activeLocale}
+                        dictionary={dictionary}
+                        pageTitleData={layoutParams.pageTitleData}
+                    />
+                )
+            }
         </>
     )
 }
