@@ -56,7 +56,8 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
 
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
-        if (layoutParams.pageTitleData.breadcrumbs.length > 1) {
+        console.log(layoutParams.pageTitleData.breadcrumbs)
+        if (layoutParams.pageTitleData.breadcrumbs.length > 0) {
             setLoading(false);
         }
     }, [layoutParams.pageTitleData.breadcrumbs])
