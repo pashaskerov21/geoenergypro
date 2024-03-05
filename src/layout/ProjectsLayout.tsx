@@ -17,9 +17,7 @@ type LayoutProps = {
 const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     const dispatch = useDispatch();
     const menu = new Menu();
-    const mainClass = new Project();
-    const categoryClass = new ProjectCategory();
-    const mainSlug = 'projects';
+    const slug = 'projects';
     const [layoutParams, setLayoutParams] = useState<{
         pageTitleData: PageTitleDataType,
         localeSlugs: LocaleStateType[],
@@ -37,42 +35,29 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
         localeSlugs: i18n.locales.map((locale) => {
             return {
                 locale: locale,
-                slug: mainSlug
+                slug: slug
             }
         }),
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const categorySlug = urlParams.get('category');
-
     useEffect(() => {
         const getParams = async () => {
-            if (categorySlug === null) {
-                const titleData = await menu.getPageTitleData(mainSlug, activeLocale);
-                setLayoutParams(prev => ({
-                    ...prev,
-                    pageTitleData: titleData,
-                }));
-            } else {
-                const pageTitleData: PageTitleDataType = await categoryClass.getPageTitleData(mainSlug, categorySlug, activeLocale);
-                const localeSlugs: LocaleStateType[] = await categoryClass.getLocaleSlugs(mainSlug, categorySlug, activeLocale);
-                setLayoutParams(prev => ({
-                    ...prev,
-                    pageTitleData: pageTitleData,
-                    localeSlugs: localeSlugs,
-                }))
-            }
-
+            const titleData = await menu.getPageTitleData(slug, activeLocale);
+            setLayoutParams(prev => ({
+                ...prev,
+                pageTitleData: titleData,
+            }))
         }
 
         getParams();
-    }, [categorySlug]);
+    }, []);
 
     React.useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-
+    const categoryClass = new ProjectCategory();
+    const mainClass = new Project();
 
     const [dataState, setDataState] = useState<{
         activeCategory: ProjectCategoryDataType,
@@ -93,11 +78,7 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseActiveCategory, responseCategory, responseProject]: [
-                {
-                    main: ProjectCategoryDataType,
-                    translate: ProjectCategoryTranslateDataType,
-                },
+            const [responseCategory, responseMain]: [
                 {
                     main: ProjectCategoryDataType[],
                     translate: ProjectCategoryTranslateDataType[],
@@ -106,14 +87,7 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
                     main: ProjectDataType[],
                     translate: ProjectTranslateDataType[],
                 },
-            ] = await Promise.all([categoryClass.activeSlug({ lang: activeLocale, slug: categorySlug ?? 'no_category' }), categoryClass.all(), mainClass.all()]);
-            if (responseActiveCategory.main && responseActiveCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    activeCategory: responseActiveCategory.main,
-                    activeCategoryTranslate: responseActiveCategory.translate,
-                }))
-            }
+            ] = await Promise.all([categoryClass.all(), mainClass.all()]);
             if (responseCategory.main && responseCategory.translate) {
                 setDataState(prev => ({
                     ...prev,
@@ -121,30 +95,16 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
                     categoryTranslate: responseCategory.translate,
                 }))
             }
-            if (responseProject.main && responseProject.translate) {
+            if (responseMain.main && responseMain.translate) {
                 setDataState(prev => ({
                     ...prev,
-                    project: responseProject.main,
-                    projectTranslate: responseProject.translate,
+                    project: responseMain.main,
+                    projectTranslate: responseMain.translate,
                 }))
             }
         }
         fetchData();
-    }, [categorySlug]);
-
-
-    useEffect(() => {
-        if (categorySlug !== null && dataState.activeCategory.id) {
-            setDataState(prev => ({
-                ...prev,
-                project: prev.project.filter((data) => data.cat_id === dataState.activeCategory.id),
-            }));
-        }
-    }, [categorySlug, dataState.activeCategory])
-
-    useEffect(() => {
-        console.log(dataState)
-    }, [dataState])
+    }, [])
 
     return (
         <>
@@ -155,7 +115,11 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
                         dictionary={dictionary}
                         pageTitleData={layoutParams.pageTitleData}
                     />
-                    <ProjectSection activeLocale={activeLocale} dataState={dataState} dictionary={dictionary} />
+                    <ProjectSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
                 </Fragment>
             )}
         </>

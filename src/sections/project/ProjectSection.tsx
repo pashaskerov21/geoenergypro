@@ -28,7 +28,7 @@ const ProjectSection: React.FC<SectionProps> = ({ activeLocale, dictionary, data
                         <div className="categories_wrapper">
                             <Link href={`/${activeLocale}/projects`} className={`category_link ${dataState.activeCategory.id === undefined ? 'active' : ''}`}>{dictionary['all']}</Link>
                             {dataState.category.map((data) => (
-                                <Link href={`/${activeLocale}/projects?category=${projectCategory.getTranslate({
+                                <Link href={`/${activeLocale}/projects/category/${projectCategory.getTranslate({
                                     id: data.id,
                                     activeLocale,
                                     key: "slug",
