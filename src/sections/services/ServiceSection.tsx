@@ -40,14 +40,19 @@ const ServiceSection: React.FC<SectionProps> = ({
                                         <div className="card_icon">
                                             {data.icon && <Image src={baseURL + data.icon} width={60} height={60} alt='' />}
                                         </div>
-                                        <div className="card_title">
+                                        <Link href={`/${activeLocale}/services/${service.getTranslate({
+                                            id: data.id,
+                                            activeLocale,
+                                            key: "slug",
+                                            translateData: dataState.serviceTranslate,
+                                        })}`} className="card_title">
                                             {service.getTranslate({
                                                 id: data.id,
                                                 activeLocale,
                                                 key: "title",
                                                 translateData: dataState.serviceTranslate,
                                             })}
-                                        </div>
+                                        </Link>
                                         <div className="design_line"></div>
                                         <div className="card_text" dangerouslySetInnerHTML={{
                                             __html: service.getTranslate({
