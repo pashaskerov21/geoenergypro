@@ -11,6 +11,7 @@ type SectionProps = {
 }
 
 const ServiceInnerSection: React.FC<SectionProps> = ({ dataState }) => {
+    const baseURL = process.env.BASE_URL;
     return (
         <section className="service_detail_section">
             <div className="container">
@@ -21,7 +22,7 @@ const ServiceInnerSection: React.FC<SectionProps> = ({ dataState }) => {
                     <div className="article_col">
                         <div className="article_image">
                             {dataState.activeService.image ?
-                                <Image src={dataState.activeService.image} width={1000} height={1000} alt="" /> :
+                                <Image src={baseURL + dataState.activeService.image} width={1000} height={1000} alt="" /> :
                                 <Image src='/bg/image-3.jpg' width={1000} height={1000} alt="" />
                             }
                         </div>

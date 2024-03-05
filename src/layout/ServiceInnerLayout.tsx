@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { Fragment, Suspense, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
 import { Service } from '../class'
 import { i18n } from '@/i18n-config'
@@ -70,6 +70,7 @@ const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
         activeService: {} as ServiceDataType,
         activeServiceTranslate: {} as ServiceTranslateDataType
     });
+    console.log(dataState.activeService.id)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -103,12 +104,18 @@ const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
 
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
-            <ServiceInnerSection dataState={dataState} />
+            {
+                dataState.activeService.id && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <ServiceInnerSection dataState={dataState} />
+                    </Fragment>
+                )
+            }
             {
                 dataState.service.length > 0 && (
                     <ServiceSection

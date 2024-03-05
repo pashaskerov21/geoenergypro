@@ -90,16 +90,21 @@ class NewsCategory {
                 },
                 {
                     main: MenuDataType,
-                    translate: MenuTranslateDataType,
+                    translate: MenuTranslateDataType[],
                 },
-            ] = await Promise.all([menu.activeSlug(parentSlug), this.activeSlug({ lang: activeLocale, slug })]);
+            ] = await Promise.all([this.activeSlug({ lang: activeLocale, slug }), menu.activeSlug(parentSlug)]);
             if (menuResponse.main && menuResponse.translate && mainResponse.main && mainResponse.translate) {
                 return {
                     title: mainResponse.translate.title ?? '',
                     breadcrumbs: [
                         {
                             id: 1,
-                            title: menuResponse.translate.title,
+                            title: menu.getTranslate({
+                                id: menuResponse.main.id,
+                                activeLocale,
+                                key: "title",
+                                translateData: menuResponse.translate
+                            }),
                             url: `/${activeLocale}/${menuResponse.main.slug}`,
                         },
                         {
