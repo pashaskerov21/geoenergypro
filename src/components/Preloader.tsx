@@ -1,7 +1,7 @@
 import React from 'react'
 import { FaGear } from 'react-icons/fa6'
 
-const Loading = () => {
+const Preloader:React.FC = () => {
     return (
         <div className="preloader">
             <div className="preloader_icons">
@@ -14,4 +14,4 @@ const Loading = () => {
     )
 }
 
-export default Loading
+export default React.memo(Preloader)
