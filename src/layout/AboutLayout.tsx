@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
 import { Menu } from '../class'
 import { i18n } from '@/i18n-config'
-import { PageHeading } from '../components'
+import { PageHeading, Preloader } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
 
@@ -53,17 +53,21 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     React.useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
+
+    const [loading, setLoading] = useState<boolean>(true);
+    useEffect(() => {
+        if (layoutParams.pageTitleData.breadcrumbs.length > 1) {
+            setLoading(false);
+        }
+    }, [layoutParams.pageTitleData.breadcrumbs])
     return (
         <>
-            {
-                layoutParams.pageTitleData.breadcrumbs.length > 1 && (
-                    <PageHeading
-                        activeLocale={activeLocale}
-                        dictionary={dictionary}
-                        pageTitleData={layoutParams.pageTitleData}
-                    />
-                )
-            }
+            {loading && <Preloader />}
+            <PageHeading
+                activeLocale={activeLocale}
+                dictionary={dictionary}
+                pageTitleData={layoutParams.pageTitleData}
+            />
         </>
     )
 }
