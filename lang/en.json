@@ -11,5 +11,10 @@
     "recent_news": "Recent News",
     "more_news": "More News",
     "home": "Home",
-    "all": "All"
+    "all": "All",
+    "client": "Client",
+    "delivery": "Delivery",
+    "project_type": "Project type",
+    "location": "Location",
+    "more_info": "More info"
 }
