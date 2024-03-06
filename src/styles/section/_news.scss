@@ -317,8 +317,8 @@
 
         .container_col {
             width: 100%;
-            @include column-center;
-            gap: 30px;
+            // @include column-center;
+            // gap: 30px;
         }
 
         @media (min-width: 992px) {
@@ -326,8 +326,8 @@
             align-items: stretch;
 
             .container_col {
-                align-items: stretch;
-                justify-content: start;
+                // align-items: stretch;
+                // justify-content: start;
 
                 &.col_1 {
                     width: 70%;

@@ -31,7 +31,7 @@ const NewsMainSection: React.FC<SectionProps> = ({ activeLocale, dataState, dict
             <div className="container">
                 <div className="main_container">
                     <div className="container_col col_1">
-                        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 768: 2 }}>
+                        <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 768: 2, }}>
                             <Masonry gutter='30px' columnsCount={2}>
                                 {
                                     dataState.news.map((data) => (
