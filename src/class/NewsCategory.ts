@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from "axios";
 import { LocaleStateType, LocaleType, PageTitleDataType } from "../types/general/type";
-import { MenuDataType, MenuTranslateDataType, NewsCategoryDataType, NewsCategoryTranslateDataType } from "../types/data/type";
+import { MenuDataType, MenuTranslateDataType, NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType } from "../types/data/type";
 import Menu from "./Menu";
 import { i18n } from "@/i18n-config";
 
@@ -9,7 +9,7 @@ type TranslateDataType = NewsCategoryTranslateDataType;
 type GetTranslateDataType = {
     id: number,
     activeLocale: LocaleType,
-    key: "title",
+    key: "title" | "slug",
     translateData: TranslateDataType[]
 }
 
@@ -137,6 +137,9 @@ class NewsCategory {
             locale: locale,
             slug: parentSlug,
         }));
+    }
+    public getNewsCount = (id: number, newsData: NewsDataType[]) => {
+        return newsData.filter((data) => data.cat_id === id).length;
     }
 }
 

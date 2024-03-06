@@ -308,7 +308,7 @@
     }
 }
 
-.all_news_section {
+.news_main_section {
     background-color: $bg-color-3;
 
     .main_container {
@@ -339,121 +339,113 @@
             }
         }
 
-        .news_grid {
+        .news_card {
             width: 100%;
 
-            .news_card {
+            .news_image {
                 width: 100%;
+                position: relative;
 
-                @media (min-width: 768px) {
-                    width: 48%;
-                }
-
-                .news_image {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
                     width: 100%;
-                    position: relative;
-
-                    &::after {
-                        content: '';
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 100%;
-                        height: 100%;
-                        background-color: $black-4;
-                        opacity: 0;
-                        transition: all 0.3s;
-                    }
-
-                    img {
-                        width: 100%;
-                        height: auto;
-                        object-fit: cover;
-                    }
-
-                    .news_badge {
-                        z-index: 10;
-                        position: absolute;
-                        bottom: 0;
-                        right: 0;
-                        background-color: #f7db60;
-                        color: #000;
-                        font-size: 12px;
-                        font-family: $secondary-font;
-                        text-transform: uppercase;
-                        letter-spacing: 1px;
-                        padding: 25px;
-                        @include row-center;
-                        text-align: center;
-                        font-weight: 600;
-                        opacity: 0;
-                        transform: rotateX(90deg);
-                        animation: bannerBadgeAnimation 1s ease forwards;
-                    }
+                    height: 100%;
+                    background-color: $black-4;
+                    opacity: 0;
+                    transition: all 0.3s;
                 }
 
-                .card_content {
-                    padding: 30px 0;
-                    @include column-align-start;
-                    gap: 20px;
+                img {
+                    width: 100%;
+                    height: auto;
+                    object-fit: cover;
+                }
 
-                    .news_title {
-                        a {
-                            color: $text-color-1;
-                            display: inline;
-                            position: relative;
-                            background: linear-gradient(to right, #000 0%, #000 100%);
-                            background-size: 0 2px;
-                            background-position: 0 99%;
-                            padding: .1% 0;
-                            background-repeat: no-repeat;
-                            transition: all 0.3s;
-                            font-family: $primary-font;
-                        }
+                .news_badge {
+                    z-index: 10;
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                    background-color: #f7db60;
+                    color: #000;
+                    font-size: 12px;
+                    font-family: $secondary-font;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                    padding: 25px;
+                    @include row-center;
+                    text-align: center;
+                    font-weight: 600;
+                    opacity: 0;
+                    transform: rotateX(90deg);
+                    animation: bannerBadgeAnimation 1s ease forwards;
+                }
+            }
 
-                        &:hover {
-                            a {
-                                background-size: 100% 2px;
-                            }
-                        }
-                    }
+            .card_content {
+                padding: 30px 0;
+                @include column-align-start;
+                gap: 20px;
 
-                    .news_date_author {
-                        font-size: 12px;
-                        font-family: $secondary-font;
+                .news_title {
+                    a {
                         color: $text-color-1;
+                        display: inline;
+                        position: relative;
+                        background: linear-gradient(to right, #000 0%, #000 100%);
+                        background-size: 0 2px;
+                        background-position: 0 99%;
+                        padding: .1% 0;
+                        background-repeat: no-repeat;
+                        transition: all 0.3s;
+                        font-family: $primary-font;
                     }
 
-                    .news_text {
-                        width: 100%;
-                        color: $text-color-2;
-                        font-size: 19px;
-                        opacity: 0.8;
-                    }
-
-                    .detail_button {
-                        padding: 20px;
-                        background-color: $primary-color;
-                        color: #fff;
-                        @include row-center;
-                        text-align: center;
-                        font-size: 12px;
-                        text-transform: uppercase;
-                        font-family: $secondary-font;
-                        gap: 10px;
-                        font-weight: 600;
-
-                        &:active {
-                            background-color: $secondary-color;
+                    &:hover {
+                        a {
+                            background-size: 100% 2px;
                         }
                     }
                 }
 
-                &:hover {
-                    .news_image {
-                        &::after {
-                            opacity: 1;
-                        }
+                .news_date_author {
+                    font-size: 12px;
+                    font-family: $secondary-font;
+                    color: $text-color-1;
+                }
+
+                .news_text {
+                    width: 100%;
+                    color: $text-color-2;
+                    font-size: 19px;
+                    opacity: 0.8;
+                }
+
+                .detail_button {
+                    padding: 20px;
+                    background-color: $primary-color;
+                    color: #fff;
+                    @include row-center;
+                    text-align: center;
+                    font-size: 12px;
+                    text-transform: uppercase;
+                    font-family: $secondary-font;
+                    gap: 10px;
+                    font-weight: 600;
+
+                    &:active {
+                        background-color: $secondary-color;
+                    }
+                }
+            }
+
+            &:hover {
+                .news_image {
+                    &::after {
+                        opacity: 1;
                     }
                 }
             }
@@ -508,6 +500,12 @@
                     font-weight: 500;
                     font-family: $secondary-font;
                 }
+                &.active{
+                    border-bottom-color: $primary-color;
+                    .item_title{
+                        color: $primary-color;
+                    }
+                }
             }
         }
         .popular_news_list{
@@ -544,7 +542,8 @@
                         @include column-align-start;
                         gap: 10px;
                         .content_title {
-                            span{
+                            line-height: 16px;
+                            a{
                                 font-size: 14px;
                                 color: $text-color-1;
                                 display: inline;
@@ -560,7 +559,7 @@
                             }
     
                             &:hover {
-                                span {
+                                a {
                                     background-size: 100% 2px;
                                 }
                             }
