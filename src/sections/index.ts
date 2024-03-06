@@ -4,6 +4,7 @@ import ServiceInnerSection from "./services/ServiceInnerSection";
 import AboutSection from "./AboutSection";
 import NewsSection from "./news/NewsSection";
 import ProjectSection from "./project/ProjectSection";
+import ProjectInnerSection from "./project/ProjectInnerSection";
 
 export {
     BannerSection,
@@ -11,5 +12,6 @@ export {
     ServiceInnerSection,
     AboutSection,
     NewsSection,
-    ProjectSection
+    ProjectSection,
+    ProjectInnerSection,
 }

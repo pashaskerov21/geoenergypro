@@ -16,5 +16,8 @@
     "delivery": "Delivery",
     "project_type": "Project type",
     "location": "Location",
-    "more_info": "More info"
+    "more_info": "More info",
+    "prev": "Previous",
+    "next": "Next",
+    "back": "Back"
 }

@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
 import { Project } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
+import { ProjectDataType, ProjectGalleryDataType, ProjectTranslateDataType } from '../types/data/type'
+import { ProjectInnerSection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -56,13 +58,110 @@ const ProjectInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
     useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch, layoutParams.localeSlugs]);
+
+
+    const [dataState, setDataState] = useState<{
+        activeProject: ProjectDataType,
+        activeProjectTranslate: ProjectTranslateDataType,
+        activeProjectGallery: ProjectGalleryDataType[],
+        project: ProjectDataType[],
+        projectTranslate: ProjectTranslateDataType[],
+    }>({
+        activeProject: {} as ProjectDataType,
+        activeProjectTranslate: {} as ProjectTranslateDataType,
+        activeProjectGallery: [],
+        project: [],
+        projectTranslate: [],
+    });
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const [responseActive, responseMain]: [
+                {
+                    main: ProjectDataType,
+                    translate: ProjectTranslateDataType,
+                    gallery: ProjectGalleryDataType[],
+                },
+                {
+                    main: ProjectDataType[],
+                    translate: ProjectTranslateDataType[],
+                },
+            ] = await Promise.all([mainClass.activeSlug({ lang: activeLocale, slug }), mainClass.all()]);
+            if (responseActive.main && responseMain.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    activeProject: responseActive.main,
+                    activeProjectTranslate: responseActive.translate,
+                    activeProjectGallery: responseActive.gallery,
+                }))
+            }
+            if (responseMain.main && responseMain.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    project: responseMain.main,
+                    projectTranslate: responseMain.translate,
+                }))
+            }
+        }
+        fetchData();
+    }, []);
+
+    const [navigationState, setNavigationState] = useState<{
+        index: number,
+        prevUrl: string | null,
+        nextUrl: string | null,
+        backUrl: string | null,
+    }>({
+        index: 0,
+        prevUrl: null,
+        nextUrl: null,
+        backUrl: `/${activeLocale}/projects`
+    });
+
+    useEffect(() => {
+        if (dataState.activeProject.id) {
+            let index = dataState.project.findIndex(item => item.id === dataState.activeProject.id);
+            let prevUrl = index === 0 ? null : `/${activeLocale}/projects/${mainClass.getTranslate({
+                id: dataState.project[index - 1].id,
+                activeLocale,
+                key: "slug",
+                translateData: dataState.projectTranslate,
+            })}`;
+            let nextUrl = index === (dataState.project.length - 1) ? null : `/${activeLocale}/projects/${mainClass.getTranslate({
+                id: dataState.project[index + 1].id,
+                activeLocale,
+                key: "slug",
+                translateData: dataState.projectTranslate,
+            })}`;
+            setNavigationState(prev => ({
+                ...prev,
+                index: index,
+                prevUrl: prevUrl,
+                nextUrl: nextUrl,
+            }));
+        }
+    }, [dataState.activeProject, dataState.project]);
+
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                dataState.project.length > 0 && dataState.activeProject.id && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <ProjectInnerSection
+                            activeLocale={activeLocale}
+                            dataState={dataState}
+                            dictionary={dictionary}
+                            navigationState={navigationState}
+                        />
+                    </Fragment>
+                )
+            }
         </>
     )
 }

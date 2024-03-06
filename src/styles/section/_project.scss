@@ -1,6 +1,7 @@
 .projects_section {
     background-color: $bg-color-3;
     padding-bottom: 50px;
+
     .categories_wrapper {
         width: 100%;
         @include row-justify-start;
@@ -53,16 +54,19 @@
                 right: 0;
             }
         }
-        .card_content{
+
+        .card_content {
             width: 100%;
             padding: 30px;
             background-color: #fff;
             @include column-align-start;
             gap: 25px;
-            @media (min-width: 768px){
+
+            @media (min-width: 768px) {
                 padding: 40px;
             }
-            .project_title{
+
+            .project_title {
                 a {
                     color: #000;
                     display: inline;
@@ -82,48 +86,58 @@
                     }
                 }
             }
-            .project_text{
+
+            .project_text {
                 color: $text-color-2;
                 font-family: $secondary-font;
                 font-size: 17px;
                 line-height: 2.2rem;
-                @media (min-width: 768px){
+
+                @media (min-width: 768px) {
                     font-size: 19px;
                 }
             }
-            .project_parameters{
+
+            .project_parameters {
                 width: 100%;
                 display: grid;
                 grid-template-columns: 1fr;
                 gap: 15px;
                 padding: 30px 0;
                 border-top: 1px solid $black-1;
-                @media (min-width: 576px){
+
+                @media (min-width: 576px) {
                     grid-template-columns: 1fr 1fr;
                 }
-                .param_col{
+
+                .param_col {
                     width: 100%;
                     @include row-start;
                     gap: 10px;
-                    .param_icon{
+
+                    .param_icon {
                         font-size: 22px;
                         color: #C9C9C9;
                     }
-                    .param_content{
+
+                    .param_content {
                         @include column-align-start;
                         // gap: 5px;
                         font-size: 14px;
-                        .param_title{
+
+                        .param_title {
                             font-weight: 500;
                             font-family: $primary-font;
                         }
-                        .param_value{
+
+                        .param_value {
                             font-family: $secondary-font;
                         }
                     }
                 }
             }
-            .detail_button{
+
+            .detail_button {
                 padding: 20px;
                 min-height: 55px;
                 background-color: $primary-color;
@@ -133,10 +147,104 @@
                 text-transform: uppercase;
                 font-weight: 600;
                 font-size: 12px;
-                &:active{
+
+                &:active {
                     background-color: $secondary-color;
                 }
             }
+        }
+    }
+}
+
+.project_inner_section {
+    background-color: $bg-color-3;
+    padding-bottom: 50px;
+
+    .project_row {
+        width: 100%;
+        @include column-center;
+        gap: 40px;
+
+        .project_col {
+            width: 100%;
+
+            &.left_col {
+                @media (min-width: 768px) {
+                    max-width: 360px;
+                }
+            }
+        }
+
+        @media (min-width: 768px) {
+            @include row-between;
+            align-items: stretch;
+        }
+    }
+
+    .project_parameters {
+        width: 100%;
+        @include column-align-start;
+
+        background-color: #fff;
+        box-shadow: 0 0 10px $black-1;
+
+        .param_col {
+            width: 100%;
+            @include row-start;
+            gap: 20px;
+            padding: 30px;
+            border-bottom: 1px solid $black-1;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .param_icon {
+                font-size: 26px;
+                color: #C9C9C9;
+            }
+
+            .param_content {
+                @include column-align-start;
+                font-size: 14px;
+
+                .param_title {
+                    font-weight: 600;
+                    font-family: $primary-font;
+                }
+
+                .param_value {
+                    font-family: $secondary-font;
+                }
+            }
+        }
+    }
+
+    .project_content {
+        width: 100%;
+        // @include column-align-start;
+        // gap: 30px;
+    }
+
+    .project_text {
+        width: 100%;
+        color: $text-color-2;
+        font-family: $secondary-font;
+        margin-bottom: 40px;
+
+        ul {
+            padding-left: 30px;
+        }
+    }
+
+    .gallery_image {
+        width: 100%;
+
+        img {
+            width: 100%;
+            height: auto;
+            max-width: 100%;
+            object-fit: contain;
         }
     }
 }
