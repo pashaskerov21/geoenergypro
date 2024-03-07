@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu } from '../class'
+import { Gallery, Menu } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
+import { GalleryDataType } from '../types/data/type'
+import { GallerySection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -53,13 +55,41 @@ const GalleryLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     React.useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
+
+    const mainClass = new Gallery();
+    const [dataState, setDataState] = useState<{
+        gallery: GalleryDataType[]
+    }>({
+        gallery: [],
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const [responseGallery]: [GalleryDataType[]] = await Promise.all([mainClass.all()]);
+            if (responseGallery) {
+                setDataState(prev => ({
+                    ...prev,
+                    gallery: responseGallery,
+                }))
+            }
+        };
+        fetchData();
+    }, [])
+
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                dataState.gallery.length > 0 && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <GallerySection dataState={dataState} />
+                    </Fragment>
+                )
+            }
         </>
     )
 }
