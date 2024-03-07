@@ -1,11 +1,11 @@
 'use client'
+import { PageNavigation } from '@/src/components'
 import { ProjectDataType, ProjectGalleryDataType, ProjectTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { FaThLarge } from 'react-icons/fa'
-import { FaAddressBook, FaArrowLeftLong, FaArrowRightLong, FaClock, FaFolderOpen, FaLocationDot } from 'react-icons/fa6'
+import { FaAddressBook, FaClock, FaFolderOpen, FaLocationDot } from 'react-icons/fa6'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 
 type SectionProps = {
@@ -102,17 +102,7 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                     </ResponsiveMasonry>
                                 )
                             }
-                            <div className="page_navigation_buttons">
-                                {
-                                    navigationState.prevUrl && <Link className='navigation_button prev' href={navigationState.prevUrl}><FaArrowLeftLong/> {dictionary['prev']}</Link>
-                                }
-                                {
-                                    navigationState.backUrl && <Link className='navigation_button back' href={navigationState.backUrl}><FaThLarge/> {dictionary['back']}</Link>
-                                }
-                                {
-                                    navigationState.nextUrl && <Link className='navigation_button next' href={navigationState.nextUrl}>{dictionary['next']} <FaArrowRightLong/></Link>
-                                }
-                            </div>
+                            <PageNavigation dictionary={dictionary} navigationState={navigationState} />
                         </div>
                     </div>
                 </div>

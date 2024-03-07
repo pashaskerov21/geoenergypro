@@ -133,6 +133,43 @@ const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug
         fetchData();
     }, []);
 
+
+    const [navigationState, setNavigationState] = useState<{
+        index: number,
+        prevUrl: string | null,
+        nextUrl: string | null,
+        backUrl: string | null,
+    }>({
+        index: 0,
+        prevUrl: null,
+        nextUrl: null,
+        backUrl: `/${activeLocale}/news`
+    });
+
+    useEffect(() => {
+        if (dataState.activeNews.id) {
+            let index = dataState.news.findIndex(item => item.id === dataState.activeNews.id);
+            let prevUrl = index === 0 ? null : `/${activeLocale}/news/${mainClass.getTranslate({
+                id: dataState.news[index - 1].id,
+                activeLocale,
+                key: "slug",
+                translateData: dataState.newsTranslate,
+            })}`;
+            let nextUrl = index === (dataState.news.length - 1) ? null : `/${activeLocale}/news/${mainClass.getTranslate({
+                id: dataState.news[index + 1].id,
+                activeLocale,
+                key: "slug",
+                translateData: dataState.newsTranslate,
+            })}`;
+            setNavigationState(prev => ({
+                ...prev,
+                index: index,
+                prevUrl: prevUrl,
+                nextUrl: nextUrl,
+            }));
+        }
+    }, [dataState.activeNews, dataState.news]);
+
     return (
         <>
             {
@@ -147,6 +184,7 @@ const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug
                             activeLocale={activeLocale}
                             dataState={dataState}
                             dictionary={dictionary}
+                            navigationState={navigationState}
                         />
                     </Fragment>
                 )

@@ -7,6 +7,7 @@ import Link from 'next/link'
 import React from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import NewsContainerRight from './NewsContainerRight'
+import { PageNavigation } from '@/src/components'
 
 type SectionProps = {
     activeLocale: LocaleType,
@@ -23,10 +24,16 @@ type SectionProps = {
         newsTranslate: NewsTranslateDataType[],
         latestNews: NewsDataType[],
         newsGallery: NewsGalleryDataType[],
+    },
+    navigationState: {
+        index: number,
+        prevUrl: string | null,
+        nextUrl: string | null,
+        backUrl: string | null,
     }
 }
 
-const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary }) => {
+const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary, navigationState }) => {
     const baseURL = process.env.BASE_URL;
     const news = new News();
     const newsCategory = new NewsCategory();
@@ -39,7 +46,7 @@ const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dic
                             <div className="news_params">
                                 {dataState.activeNewsTranslate.date} • by <b>{dataState.activeNewsTranslate.author}</b>
                             </div>
-                            <div className="news_text" dangerouslySetInnerHTML={{__html: dataState.activeNewsTranslate.text ?? ''}}></div>
+                            <div className="news_text" dangerouslySetInnerHTML={{ __html: dataState.activeNewsTranslate.text ?? '' }}></div>
                             {
                                 dataState.newsGallery.length > 0 && (
                                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 992: 2, }}>
@@ -57,6 +64,7 @@ const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dic
                                     </ResponsiveMasonry>
                                 )
                             }
+                            <PageNavigation dictionary={dictionary} navigationState={navigationState} />
                         </div>
                     </div>
                     <NewsContainerRight
