@@ -53,7 +53,7 @@ const Footer: React.FC<FooterProps> = ({
                     <div className="inner">
                         {dataState.setting.logo && dataState.setting.logo !== null && (
                             <Link href={`/${activeLocale}`} className='logo'>
-                                <Image src={baseURL + dataState.setting.logo} width={205} height={125} alt='' />
+                                <Image src={baseURL + dataState.setting.logo} width={205} height={125} alt='' priority={true} />
                             </Link>
                         )}
                         <div className="footer_nav_links">

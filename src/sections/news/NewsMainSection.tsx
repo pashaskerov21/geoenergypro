@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import NewsContainerRight from './NewsContainerRight'
 
 type SectionProps = {
     activeLocale: LocaleType,
@@ -39,7 +40,7 @@ const NewsMainSection: React.FC<SectionProps> = ({ activeLocale, dataState, dict
                                             {
                                                 data.image && (
                                                     <div className="news_image">
-                                                        <Image src={baseURL + data.image} width={1000} height={1000} alt='' />
+                                                        <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} />
                                                         {
                                                             data.cat_id !== 0 && (
                                                                 <Link className='news_badge' href={`/${activeLocale}/news/category/${newsCategory.getTranslate({
@@ -122,81 +123,11 @@ const NewsMainSection: React.FC<SectionProps> = ({ activeLocale, dataState, dict
                             </Masonry>
                         </ResponsiveMasonry>
                     </div>
-                    <div className="container_col col_2">
-                        <div className="news_categories">
-                            <div className="cat_heading">{dictionary['categories']}</div>
-                            <div className="cat_list">
-                                {dataState.category.map((data) => (
-                                    <div className={`list_item ${dataState.activeCategory.id === data.id ? 'active' : ''}`} key={data.id}>
-                                        <Link className='item_title' href={`/${activeLocale}/news/category/${newsCategory.getTranslate({
-                                            id: data.id,
-                                            activeLocale,
-                                            key: "slug",
-                                            translateData: dataState.categoryTranslate,
-                                        })}`}>
-                                            {newsCategory.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "title",
-                                                translateData: dataState.categoryTranslate
-                                            })}
-                                        </Link>
-                                        <div className="item_badge">{newsCategory.getNewsCount(data.id, dataState.allNews)}</div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="popular_news_list">
-                            <div className="list_heading">{dictionary['recent_news']}</div>
-                            <div className="news_list">
-                                {
-                                    dataState.latestNews.map((data) => (
-                                        <div className="list_item" key={data.id}>
-                                            <Link className="item_image" href={`/${activeLocale}/news/${news.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "slug",
-                                                translateData: dataState.newsTranslate
-                                            })}`}>
-                                                {data.image ?
-                                                    <Image src={baseURL + data.image} width={1000} height={1000} alt='' /> :
-                                                    <Image src='/bg/image-2.jpg' width={1000} height={1000} alt='' />}
-                                            </Link>
-                                            <div className="item_content">
-                                                <h4 className="content_title">
-                                                    <Link href={`/${activeLocale}/news/${news.getTranslate({
-                                                        id: data.id,
-                                                        activeLocale,
-                                                        key: "slug",
-                                                        translateData: dataState.newsTranslate
-                                                    })}`}>
-                                                        {
-                                                            news.getTranslate({
-                                                                id: data.id,
-                                                                activeLocale,
-                                                                key: "title",
-                                                                translateData: dataState.newsTranslate
-                                                            })
-                                                        }
-                                                    </Link>
-                                                </h4>
-                                                <div className="content_date">
-                                                    {
-                                                        news.getTranslate({
-                                                            id: data.id,
-                                                            activeLocale,
-                                                            key: "date",
-                                                            translateData: dataState.newsTranslate
-                                                        })
-                                                    }
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))
-                                }
-                            </div>
-                        </div>
-                    </div>
+                    <NewsContainerRight
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
                 </div>
             </div>
         </section>

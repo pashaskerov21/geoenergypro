@@ -1,0 +1,73 @@
+'use client'
+import { News, NewsCategory } from '@/src/class'
+import { NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsGalleryDataType, NewsTranslateDataType } from '@/src/types/data/type'
+import { LocaleType } from '@/src/types/general/type'
+import Image from 'next/image'
+import Link from 'next/link'
+import React from 'react'
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
+import NewsContainerRight from './NewsContainerRight'
+
+type SectionProps = {
+    activeLocale: LocaleType,
+    dictionary: { [key: string]: string },
+    dataState: {
+        category: NewsCategoryDataType[],
+        categoryTranslate: NewsCategoryTranslateDataType[],
+        activeCategory: NewsCategoryDataType,
+        activeCategoryTranslate: NewsCategoryTranslateDataType,
+        allNews: NewsDataType[],
+        activeNews: NewsDataType,
+        activeNewsTranslate: NewsTranslateDataType,
+        news: NewsDataType[],
+        newsTranslate: NewsTranslateDataType[],
+        latestNews: NewsDataType[],
+        newsGallery: NewsGalleryDataType[],
+    }
+}
+
+const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary }) => {
+    const baseURL = process.env.BASE_URL;
+    const news = new News();
+    const newsCategory = new NewsCategory();
+    return (
+        <section className="news_main_section">
+            <div className="container">
+                <div className="main_container">
+                    <div className="container_col col_1">
+                        <div className="news_inner_content">
+                            <div className="news_params">
+                                {dataState.activeNewsTranslate.date} • by <b>{dataState.activeNewsTranslate.author}</b>
+                            </div>
+                            <div className="news_text" dangerouslySetInnerHTML={{__html: dataState.activeNewsTranslate.text ?? ''}}></div>
+                            {
+                                dataState.newsGallery.length > 0 && (
+                                    <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 992: 2, }}>
+                                        <Masonry gutter='10px' columnsCount={2}>
+                                            {
+                                                dataState.newsGallery.map((data) => (
+                                                    data.image && (
+                                                        <Link key={data.id} href={baseURL + data.image} className="gallery_image" data-fancybox=''>
+                                                            <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} />
+                                                        </Link>
+                                                    )
+                                                ))
+                                            }
+                                        </Masonry>
+                                    </ResponsiveMasonry>
+                                )
+                            }
+                        </div>
+                    </div>
+                    <NewsContainerRight
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
+                </div>
+            </div>
+        </section>
+    )
+}
+
+export default React.memo(NewsInnerSection)

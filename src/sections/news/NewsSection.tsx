@@ -76,8 +76,8 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                             <div className="news_banners">
                                 <div className="banner_item">
                                     {activeNews.image ?
-                                        <Image className='news_image' src={baseURL + activeNews.image} width={1000} height={1050} alt='' /> :
-                                        <Image className='news_image' src='/bg/image-2.jpg' width={1000} height={1050} alt='' />
+                                        <Image className='news_image' src={baseURL + activeNews.image} width={1000} height={1000} alt='' priority={true} /> :
+                                        <Image className='news_image' src='/bg/image-2.jpg' width={1000} height={1000} alt='' priority={true} />
                                     }
                                     <div className="item_content">
                                         {activeNews.cat_id !== 0 && (

@@ -6,6 +6,7 @@ import NewsSection from "./news/NewsSection";
 import ProjectSection from "./project/ProjectSection";
 import ProjectInnerSection from "./project/ProjectInnerSection";
 import NewsMainSection from "./news/NewsMainSection";
+import NewsInnerSection from "./news/NewsInnerSection";
 
 export {
     BannerSection,
@@ -16,4 +17,5 @@ export {
     ProjectSection,
     ProjectInnerSection,
     NewsMainSection,
+    NewsInnerSection,
 }

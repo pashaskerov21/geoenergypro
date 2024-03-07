@@ -22,8 +22,8 @@ const ServiceInnerSection: React.FC<SectionProps> = ({ dataState }) => {
                     <div className="article_col">
                         <div className="article_image">
                             {dataState.activeService.image ?
-                                <Image src={baseURL + dataState.activeService.image} width={1000} height={1000} alt="" /> :
-                                <Image src='/bg/image-3.jpg' width={1000} height={1000} alt="" />
+                                <Image src={baseURL + dataState.activeService.image} width={1000} height={1000} alt="" priority={true} /> :
+                                <Image src='/bg/image-3.jpg' width={1000} height={1000} alt="" priority={true} />
                             }
                         </div>
                     </div>

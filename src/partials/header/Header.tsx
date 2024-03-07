@@ -120,7 +120,7 @@ const Header: React.FC<HeaderProps> = ({
                         <div className="inner_left">
                             {dataState.setting.logo && dataState.setting.logo !== null && (
                                 <Link href={`/${activeLocale}`} className='logo'>
-                                    <Image src={baseURL + dataState.setting.logo} width={205} height={125} alt='' />
+                                    <Image src={baseURL + dataState.setting.logo} width={205} height={125} alt='' priority={true} />
                                 </Link>
                             )}
                             <div className="nav_links">

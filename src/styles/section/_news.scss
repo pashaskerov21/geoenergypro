@@ -458,6 +458,7 @@
             padding: 30px;
             @include column-align-start;
             gap: 20px;
+            margin-bottom: 40px;
 
             .cat_heading {
                 font-size: 22px;
@@ -570,6 +571,32 @@
                             opacity: 0.8;
                         }
                     }
+                }
+            }
+        }
+
+        .news_inner_content{
+            width: 100%;
+            .news_params{
+                width: 100%;
+                margin-bottom: 30px;
+                color: $text-color-2;
+                font-family: $secondary-font;
+            }
+            .news_text{
+                width: 100%;
+                color: $text-color-2;
+                font-family: $secondary-font;
+                margin-bottom: 60px;
+            }
+            .gallery_image {
+                width: 100%;
+        
+                img {
+                    width: 100%;
+                    height: auto;
+                    max-width: 100%;
+                    object-fit: contain;
                 }
             }
         }

@@ -61,8 +61,8 @@ const ProjectSection: React.FC<SectionProps> = ({ activeLocale, dictionary, data
                                     <div className="project_image">
                                         {
                                             data.image ?
-                                                <Image src={baseURL + data.image} width={1000} height={1000} alt='' /> :
-                                                <Image src='/bg/image-2.jpg' width={1000} height={1000} alt='' />
+                                                <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} /> :
+                                                <Image src='/bg/image-2.jpg' width={1000} height={1000} alt='' priority={true} />
                                         }
                                         {
                                             data.cat_id !== 0 && (
