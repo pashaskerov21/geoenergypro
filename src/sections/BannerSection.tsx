@@ -1,5 +1,5 @@
+'use client'
 import React, { Fragment } from 'react'
-
 import { LocaleType } from '@/src/types/general/type'
 import { BannerDataType, BannerTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
 import { Banner, Settings } from '../class';

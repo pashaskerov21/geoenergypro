@@ -10,6 +10,7 @@ import NewsCategory from "./NewsCategory";
 import News from "./News";
 import Gallery from "./Gallery";
 import Partner from "./Partner";
+import Message from "./Message";
 
 export {
     Settings,
@@ -24,4 +25,5 @@ export {
     News,
     Gallery,
     Partner,
+    Message,
 }

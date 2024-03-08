@@ -188,6 +188,14 @@ type AboutTranslateKeyType = "title" | "sub_title" | "text";
 type ProjectTranslateKeyType = "title" | "slug" | "text" | "client" | "delivery_date" | "project_type" | "location";
 type NewsTranslateKeyType = "title" | "slug" | "text" | "date" | "author";
 
+type MessageDataType = {
+    fullname: string,
+    email: string,
+    phone: string,
+    subject: string,
+    message: string,
+}
+
 export type {
     SiteSettingDataType,
     SiteSettingTranslateDataType,
@@ -221,4 +229,6 @@ export type {
     AboutTranslateKeyType,
     ProjectTranslateKeyType,
     NewsTranslateKeyType,
+
+    MessageDataType,
 }

@@ -21,5 +21,16 @@
     "next": "",
     "back": "",
     "read_more": "",
-    "categories": ""
+    "categories": "",
+    "contact_up_title": "",
+    "contact_main_title": "",
+    "contact_text": "",
+    "fullname": "",
+    "email": "",
+    "phone": "",
+    "subject": "",
+    "message": "",
+    "send": "",
+    "congratulations": "",
+    "message_success": ""
 }

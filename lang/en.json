@@ -21,5 +21,16 @@
     "next": "Next",
     "back": "Back",
     "read_more": "Read more",
-    "categories": "Categories"
+    "categories": "Categories",
+    "contact_up_title": "If you have a project you would like to discuss",
+    "contact_main_title": "We'd love to hear from you.",
+    "contact_text": "Please feel free to contact us via phone, email, or this form! We respect your privacy and will never share this information with a third party. If you’d like a walk-in appointment, kindly call ahead to schedule. Thank you!",
+    "fullname": "Your Name, Surname",
+    "email": "Your email address",
+    "phone": "Phone number",
+    "subject": "Subject",
+    "message": "Your Message",
+    "send": "Send",
+    "congratulations": "Congratulations!",
+    "message_success": "Your message has been sent successfully"
 }

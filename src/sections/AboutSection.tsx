@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import { LocaleType } from '../types/general/type'
 import { AboutDataType, AboutTranslateDataType, ReportDataType, ReportTranslateDataType } from '../types/data/type'

@@ -1,11 +1,13 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu } from '../class'
+import { Menu, Settings } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
+import { SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
+import { ContactSection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -53,13 +55,53 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     React.useEffect(() => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
+
+    const setting = new Settings();
+    const [dataState, setDataState] = useState<{
+        setting: SiteSettingDataType,
+        settingTranslate: SiteSettingTranslateDataType[],
+    }>({
+        setting: {} as SiteSettingDataType,
+        settingTranslate: [],
+    });
+
+    useEffect(() => {
+        const fethcData = async () => {
+            const [responseSetting]: [
+                {
+                    main: SiteSettingDataType,
+                    translate: SiteSettingTranslateDataType[],
+                },
+            ] = await Promise.all([setting.active(1)]);
+            if (responseSetting.main && responseSetting.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    setting: responseSetting.main,
+                    settingTranslate: responseSetting.translate,
+                }));
+            }
+        }
+
+        fethcData();
+    }, []);
     return (
         <>
-            <PageHeading
-                activeLocale={activeLocale}
-                dictionary={dictionary}
-                pageTitleData={layoutParams.pageTitleData}
-            />
+            {
+                dataState.settingTranslate.length > 0 && (
+                    <Fragment>
+                        <PageHeading
+                            activeLocale={activeLocale}
+                            dictionary={dictionary}
+                            pageTitleData={layoutParams.pageTitleData}
+                        />
+                        <ContactSection
+                            activeLocale={activeLocale}
+                            dataState={dataState}
+                            dictionary={dictionary}
+                        />
+                    </Fragment>
+                )
+            }
         </>
     )
 }
