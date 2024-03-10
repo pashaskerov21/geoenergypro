@@ -17,6 +17,7 @@ import { LocaleType } from '@/src/types/general/type';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaMagnifyingGlass, FaXTwitter, FaYoutube } from 'react-icons/fa6';
+import { SearchForm } from '@/src/components';
 
 type FooterProps = {
     activeLocale: LocaleType,
@@ -96,12 +97,7 @@ const Footer: React.FC<FooterProps> = ({
                                     })}
                                 </div>
                             </div>
-                            <form action="#" className="search_form">
-                                <input type="text" placeholder="Search..." />
-                                <button type="submit">
-                                    <FaMagnifyingGlass />
-                                </button>
-                            </form>
+                            <SearchForm activeLocale={activeLocale} dictionary={dictionary} />
                         </div>
                         <div className="inner_right">
                             <div className="footer_center_col">
@@ -191,11 +187,11 @@ const Footer: React.FC<FooterProps> = ({
                         </div>
                         <div className="inner_right">
                             <div className="social_media">
-                                {dataState.setting.facebook && <Link target='_blank' href={dataState.setting.facebook}><FaFacebookF/></Link>}
-                                {dataState.setting.linkedin && <Link target='_blank' href={dataState.setting.linkedin}><FaLinkedinIn/></Link>}
-                                {dataState.setting.instagram && <Link target='_blank' href={dataState.setting.instagram}><FaInstagram/></Link>}
-                                {dataState.setting.twitter && <Link target='_blank' href={dataState.setting.twitter}><FaXTwitter/></Link>}
-                                {dataState.setting.youtube && <Link target='_blank' href={dataState.setting.youtube}><FaYoutube/></Link>}
+                                {dataState.setting.facebook && <Link target='_blank' href={dataState.setting.facebook}><FaFacebookF /></Link>}
+                                {dataState.setting.linkedin && <Link target='_blank' href={dataState.setting.linkedin}><FaLinkedinIn /></Link>}
+                                {dataState.setting.instagram && <Link target='_blank' href={dataState.setting.instagram}><FaInstagram /></Link>}
+                                {dataState.setting.twitter && <Link target='_blank' href={dataState.setting.twitter}><FaXTwitter /></Link>}
+                                {dataState.setting.youtube && <Link target='_blank' href={dataState.setting.youtube}><FaYoutube /></Link>}
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,7 @@ import NewsMainSection from "./news/NewsMainSection";
 import NewsInnerSection from "./news/NewsInnerSection";
 import GallerySection from "./GallerySection";
 import ContactSection from "./ContactSection";
+import Page404Section from "./Page404Section";
 
 export {
     BannerSection,
@@ -22,4 +23,5 @@ export {
     NewsInnerSection,
     GallerySection,
     ContactSection,
+    Page404Section,
 }

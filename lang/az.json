@@ -32,5 +32,9 @@
     "message": "",
     "send": "",
     "congratulations": "",
-    "message_success": ""
+    "message_success": "",
+    "search": "",
+    "page_not_found": "",
+    "page_not_found_text_1": "",
+    "page_not_found_text_2": ""
 }

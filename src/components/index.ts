@@ -3,6 +3,7 @@ import PageHeading from "./PageHeading";
 import Preloader from "./Preloader";
 import PageNavigation from "./PageNavigation";
 import ContactForm from "./ContactForm";
+import SearchForm from "./SearchForm";
 
 export {
     Counter,
@@ -10,4 +11,5 @@ export {
     Preloader,
     PageNavigation,
     ContactForm,
+    SearchForm,
 }

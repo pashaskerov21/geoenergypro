@@ -1,13 +1,13 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, Settings } from '../class'
+import { Menu, Service, Settings } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
 import { updateLocaleSlug } from '../redux/actions/LocaleAction'
-import { SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
-import { ContactSection } from '../sections'
+import { ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
+import { ContactSection, ServiceSection } from '../sections'
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -57,28 +57,45 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
     }, [dispatch]);
 
     const setting = new Settings();
+    const service = new Service();
+
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
         settingTranslate: SiteSettingTranslateDataType[],
+        service: ServiceDataType[],
+        serviceTranslate: ServiceTranslateDataType[],
     }>({
         setting: {} as SiteSettingDataType,
         settingTranslate: [],
+        service: [],
+        serviceTranslate: [],
     });
 
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting]: [
+            const [responseSetting, responseService]: [
                 {
                     main: SiteSettingDataType,
                     translate: SiteSettingTranslateDataType[],
                 },
-            ] = await Promise.all([setting.active(1)]);
+                {
+                    home: ServiceDataType[],
+                    translate: ServiceTranslateDataType[],
+                },
+            ] = await Promise.all([setting.active(1), service.all()]);
             if (responseSetting.main && responseSetting.translate) {
                 setDataState(prev => ({
                     ...prev,
                     setting: responseSetting.main,
                     settingTranslate: responseSetting.translate,
                 }));
+            }
+            if (responseService.home && responseService.translate) {
+                setDataState(prev => ({
+                    ...prev,
+                    service: responseService.home,
+                    serviceTranslate: responseService.translate,
+                }))
             }
         }
 
@@ -100,6 +117,15 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
                             dictionary={dictionary}
                         />
                     </Fragment>
+                )
+            }
+            {
+                dataState.service.length > 0 && (
+                    <ServiceSection
+                        activeLocale={activeLocale}
+                        dataState={dataState}
+                        dictionary={dictionary}
+                    />
                 )
             }
         </>

@@ -95,6 +95,13 @@ const ContactSection: React.FC<SectionProps> = ({ activeLocale, dictionary, data
                     </div>
                 </div>
             </div>
+            {
+                dataState.setting.address_url && dataState.setting.address_url !== '' && (
+                    <div className="map_container">
+                        <iframe src={dataState.setting.address_url} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                )
+            }
         </section>
     )
 }

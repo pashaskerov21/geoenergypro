@@ -11,6 +11,7 @@ import NewsCategoryInnerLayout from "./NewsCategoryInnerLayout";
 import NewsInnerLayout from "./NewsInnerLayout";
 import GalleryLayout from "./GalleryLayout";
 import ContactLayout from "./ContactLayout";
+import Page404Layout from "./Page404Layout";
 
 export {
     RootLayout,
@@ -26,4 +27,5 @@ export {
     NewsCategoryInnerLayout,
     ProjectInnerLayout,
     NewsInnerLayout,
+    Page404Layout,
 }

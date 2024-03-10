@@ -32,5 +32,9 @@
     "message": "Your Message",
     "send": "Send",
     "congratulations": "Congratulations!",
-    "message_success": "Your message has been sent successfully"
+    "message_success": "Your message has been sent successfully",
+    "search": "Search",
+    "page_not_found": "Page not Found",
+    "page_not_found_text_1": "Oops! The page you are looking for does not exist. It might have been moved or deleted.",
+    "page_not_found_text_2": "Try a search below..."
 }
