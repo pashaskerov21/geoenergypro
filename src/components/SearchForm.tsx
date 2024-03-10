@@ -1,7 +1,8 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { FaMagnifyingGlass } from 'react-icons/fa6'
 import { LocaleType } from '../types/general/type'
+import { useRouter } from 'next/navigation'
 
 type SearchProps = {
     activeLocale: LocaleType,
@@ -9,9 +10,17 @@ type SearchProps = {
 }
 
 const SearchForm: React.FC<SearchProps> = ({activeLocale,dictionary}) => {
+    const [searchValue, setSearchValue] = useState<string>('');
+    const router = useRouter();
+
+    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        router.push(`/${activeLocale}/search?query=${encodeURIComponent(searchValue)}`);
+        setSearchValue('');
+    }
     return (
-        <form action="#" className="search_form">
-            <input type="text" placeholder={`${dictionary['search']}...`} />
+        <form onSubmit={onSubmit} autoComplete="off" className="search_form">
+            <input type="text" placeholder={`${dictionary['search']}...`} value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
             <button type="submit">
                 <FaMagnifyingGlass />
             </button>
