@@ -1,5 +1,6 @@
 'use client'
 import { Service } from '@/src/class'
+import { ServiceCard } from '@/src/components'
 import { ServiceDataType, ServiceTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
 import Image from 'next/image'
@@ -36,49 +37,11 @@ const ServiceSection: React.FC<SectionProps> = ({
                         <div className="services_wrapper">
                             {
                                 dataState.service.map((data) => (
-                                    <div className="service_card" key={data.id}>
-                                        <div className="card_icon">
-                                            {data.icon && <Image src={baseURL + data.icon} width={60} height={60} alt='' />}
-                                        </div>
-                                        <Link href={`/${activeLocale}/services/${service.getTranslate({
-                                            id: data.id,
-                                            activeLocale,
-                                            key: "slug",
-                                            translateData: dataState.serviceTranslate,
-                                        })}`} className="card_title">
-                                            {service.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "title",
-                                                translateData: dataState.serviceTranslate,
-                                            })}
-                                        </Link>
-                                        <div className="design_line"></div>
-                                        <div className="card_text" dangerouslySetInnerHTML={{
-                                            __html: service.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "text",
-                                                translateData: dataState.serviceTranslate,
-                                            }).length > 160 ? service.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "text",
-                                                translateData: dataState.serviceTranslate,
-                                            }).slice(0, 160) : service.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "text",
-                                                translateData: dataState.serviceTranslate,
-                                            })
-                                        }} />
-                                        <Link href={`/${activeLocale}/services/${service.getTranslate({
-                                            id: data.id,
-                                            activeLocale,
-                                            key: "slug",
-                                            translateData: dataState.serviceTranslate,
-                                        })}`} className='arrow_btn'><FaArrowRight /></Link>
-                                    </div>
+                                    <ServiceCard
+                                        activeLocale={activeLocale}
+                                        data={data}
+                                        translateData={dataState.serviceTranslate}
+                                    />
                                 ))
                             }
                         </div>

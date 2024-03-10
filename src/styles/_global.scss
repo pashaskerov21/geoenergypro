@@ -231,6 +231,7 @@ section {
         padding: 30px;
         background-color: $bg-color-3;
         box-shadow: 0 0 10px $black-1;
+
         @media (min-width: 1200px) {
             font-size: 18px;
         }
@@ -269,7 +270,7 @@ section {
     }
 }
 
-.preloader{
+.preloader {
     position: fixed;
     top: 0;
     left: 0;
@@ -279,59 +280,70 @@ section {
     background-color: #fff;
     z-index: 9999;
     @include row-center;
-    .preloader_icons{
+
+    .preloader_icons {
         position: relative;
         width: 200px;
         height: 200px;
         @include row-center;
+
         // border: 1px solid red;
-        .icon{
+        .icon {
             font-size: 40px;
             color: $primary-color;
             position: absolute;
-            
-            &:nth-child(1){
+
+            &:nth-child(1) {
                 left: 40px;
                 animation: preloader_1 1s linear infinite;
             }
-            &:nth-child(2){
+
+            &:nth-child(2) {
                 top: 40px;
                 animation: preloader_2 1s linear infinite;
             }
-            &:nth-child(3){
+
+            &:nth-child(3) {
                 right: 40px;
                 animation: preloader_1 1s linear infinite;
             }
-            &:nth-child(4){
+
+            &:nth-child(4) {
                 bottom: 40px;
                 animation: preloader_2 1s linear infinite;
             }
         }
     }
 }
-@keyframes preloader_1{
-    0%{
+
+@keyframes preloader_1 {
+    0% {
         transform: rotate(0);
     }
-    100%{
+
+    100% {
         transform: rotate(360deg);
     }
 }
-@keyframes preloader_2{
-    0%{
+
+@keyframes preloader_2 {
+    0% {
         transform: rotate(0);
     }
-    100%{
+
+    100% {
         transform: rotate(-360deg);
     }
 }
-.page_navigation_buttons{
+
+.page_navigation_buttons {
     width: 100%;
     @include column-center;
     background-color: #fff;
     box-shadow: 0 0 10px $black-1;
     margin-top: 60px;
-    .navigation_button{
+
+    .navigation_button {
         width: 100%;
         padding: 30px;
         @include row-center;
@@ -342,20 +354,106 @@ section {
         font-family: $secondary-font;
         font-weight: 600;
         border-bottom: 1px solid $black-1;
-        &:last-child{
+
+        &:last-child {
             border: none;
         }
-        &:hover{
+
+        &:hover {
             background-color: $primary-color;
             color: #fff;
         }
-        @media (min-width: 576px){
+
+        @media (min-width: 576px) {
             border-bottom: none;
             border-right: 1px solid $black-1;
         }
     }
-    @media (min-width: 576px){
+
+    @media (min-width: 576px) {
         @include row-between;
         align-items: stretch;
+    }
+}
+
+.search_query {
+    background-color: $primary-color !important;
+    color: #fff !important;
+
+    &:hover {
+        color: #fff !important;
+    }
+}
+
+.search_message {
+    padding: 60px 0;
+    .container{
+        @include row-center;
+    }
+    .search_default{
+        width: 100%;
+        @include column-center;
+        gap: 20px;
+        max-width: 700px;
+    }
+    .loader_spin {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        border-top: 3px solid $primary-color;
+        border-right: 3px solid $primary-color;
+        animation: loader 0.5s linear infinite;
+    }
+
+    .title {
+        color: $text-color-1;
+        font-family: $primary-font;
+        @include row-center;
+        gap: 20px;
+        text-align: center;
+        flex-wrap: wrap;
+    }
+
+    .search_form {
+        width: 100%;
+        @include row-between;
+        margin-top: 40px;
+
+        input {
+            flex-grow: 1;
+            border: 1px solid $black-2;
+            height: 55px;
+            padding: 15px;
+            font-size: 16px;
+            font-family: $secondary-font;
+
+            @media (min-width: 576px) {
+                padding: 15px 30px;
+            }
+
+            &:focus {
+                border-color: $primary-color;
+            }
+        }
+
+        button {
+            width: 100%;
+            max-width: 70px;
+            height: 55px;
+            @include row-center;
+            background-color: $primary-color;
+            color: #fff;
+            font-size: 18px;
+
+            @media (min-width: 576px) {
+                max-width: 200px;
+            }
+        }
+    }
+}
+
+@keyframes loader {
+    100% {
+        transform: rotate(360deg);
     }
 }
