@@ -138,24 +138,30 @@ const SearchPageLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) =
     const projectCategory = new ProjectCategory();
     const newsCategory = new NewsCategory();
     useEffect(() => {
-        if (dataState.menu.length > 0) {
-            router.push(`/${activeLocale}/${dataState.menu[0].slug}`)
-        } else if (dataState.projectCategory.length > 0) {
-            const slug = projectCategory.getTranslate({
-                id: dataState.projectCategory[0].id,
-                activeLocale,
-                key: "slug",
-                translateData: dataState.projectCategoryTranslate,
-            });
-            router.push(`/${activeLocale}/projects/category/${slug}`)
-        } else if (dataState.newsCategory.length > 0) {
-            const slug = newsCategory.getTranslate({
-                id: dataState.newsCategory[0].id,
-                activeLocale,
-                key: "slug",
-                translateData: dataState.newsCategoryTranslate,
-            });
-            router.push(`/${activeLocale}/news/category/${slug}`)
+        if (
+            dataState.service.length === 0 &&
+            dataState.project.length === 0 &&
+            dataState.news.length === 0
+        ) {
+            if (dataState.menu.length > 0) {
+                router.push(`/${activeLocale}/${dataState.menu[0].slug}`)
+            } else if (dataState.projectCategory.length > 0) {
+                const slug = projectCategory.getTranslate({
+                    id: dataState.projectCategory[0].id,
+                    activeLocale,
+                    key: "slug",
+                    translateData: dataState.projectCategoryTranslate,
+                });
+                router.push(`/${activeLocale}/projects/category/${slug}`)
+            } else if (dataState.newsCategory.length > 0) {
+                const slug = newsCategory.getTranslate({
+                    id: dataState.newsCategory[0].id,
+                    activeLocale,
+                    key: "slug",
+                    translateData: dataState.newsCategoryTranslate,
+                });
+                router.push(`/${activeLocale}/news/category/${slug}`)
+            }
         }
     }, [dataState]);
 
@@ -164,7 +170,7 @@ const SearchPageLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) =
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
-        }, 10000)
+        }, 5000)
     }, [])
 
     return (
@@ -181,7 +187,7 @@ const SearchPageLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) =
                             <div className="search_default">
                                 <h1 className="title">{loading ? (
                                     <Fragment>
-                                        {dictionary['searching']} <div className="loader_spin"></div>
+                                        {dictionary['search']} <div className="loader_spin"></div>
                                     </Fragment>
                                 ) : dictionary['no_search_result']}</h1>
                                 {!loading && <SearchForm
