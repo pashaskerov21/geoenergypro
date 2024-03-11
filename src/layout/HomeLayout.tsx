@@ -1,12 +1,12 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType } from '../types/general/type'
-import { About, Banner, News, NewsCategory, Partner, Report, Service, Settings } from '@/src/class';
 import { AboutDataType, AboutTranslateDataType, BannerDataType, BannerTranslateDataType, NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsTranslateDataType, PartnerDataType, ReportDataType, ReportTranslateDataType, ServiceDataType, ServiceTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '@/src/types/data/type';
 import { AboutSection, BannerSection, NewsSection, ServiceSection } from '../sections';
 import { i18n } from '@/i18n-config';
 import { useDispatch } from 'react-redux';
 import { updateLocaleSlug } from '../redux/actions/LocaleAction';
+import { Page } from '../class';
 
 type LayoutProps = {
     activeLocale: LocaleType,
@@ -18,16 +18,8 @@ const HomeLayout: React.FC<LayoutProps> = ({
     dictionary,
 }) => {
     const dispatch = useDispatch();
-    const setting = new Settings();
-    const banner = new Banner();
-    const service = new Service();
-    const about = new About();
-    const report = new Report();
-    const news = new News();
-    const newsCategory = new NewsCategory();
-    const partner = new Partner();
 
-    const localeSlugs:LocaleStateType[] = i18n.locales.map((locale) => {
+    const localeSlugs: LocaleStateType[] = i18n.locales.map((locale) => {
         return {
             locale: locale,
             slug: ''
@@ -72,95 +64,44 @@ const HomeLayout: React.FC<LayoutProps> = ({
         partner: [],
     });
 
+    const page = new Page();
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting, responseBanner, responseService, responseAbout, responseReport, responseNews, responseNewsCategory, responsePartner]: [
-                {
-                    main: SiteSettingDataType,
-                    translate: SiteSettingTranslateDataType[],
-                },
-                {
-                    main: BannerDataType[],
-                    translate: BannerTranslateDataType[],
-                },
-                {
-                    home: ServiceDataType[],
-                    translate: ServiceTranslateDataType[],
-                },
-                {
-                    main: AboutDataType,
-                    translate: AboutTranslateDataType[],
-                },
-                {
-                    main: ReportDataType[],
-                    translate: ReportTranslateDataType[],
-                },
-                {
-                    latest: NewsDataType[],
-                    translate: NewsTranslateDataType[],
-                },
-                {
-                    main: NewsCategoryDataType[],
-                    translate: NewsCategoryTranslateDataType[],
-                },
-                PartnerDataType[]
-            ] = await Promise.all([setting.active(1), banner.all(), service.all(), about.active(1), report.all(), news.all(), newsCategory.all(), partner.all()]);
-            if (responseSetting.main && responseSetting.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    setting: responseSetting.main,
-                    settingTranslate: responseSetting.translate,
-                }));
-            }
-            if (responseBanner.main && responseBanner.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    banner: responseBanner.main,
-                    bannerTranslate: responseBanner.translate,
-                }))
-            }
-            if (responseService.home && responseService.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    service: responseService.home,
-                    serviceTranslate: responseService.translate,
-                }))
-            }
-            if (responseAbout.main && responseAbout.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    about: responseAbout.main,
-                    aboutTranslate: responseAbout.translate,
-                }))
-            }
-            if (responseReport.main && responseReport.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    report: responseReport.main,
-                    reportTranslate: responseReport.translate,
-                }))
-            }
-            if (responseNews.latest && responseNews.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    news: responseNews.latest,
-                    newsTranslate: responseNews.translate,
-                }))
-            }
-            if (responseNewsCategory.main && responseNewsCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    newsCategory: responseNewsCategory.main,
-                    newsCategoryTranslate: responseNewsCategory.translate,
-                }))
-            }
-            if (responsePartner) {
-                setDataState(prev => ({
-                    ...prev,
-                    partner: responsePartner,
-                }))
-            }
-
+            const response: {
+                setting: SiteSettingDataType,
+                settingTranslate: SiteSettingTranslateDataType[],
+                banner: BannerDataType[],
+                bannerTranslate: BannerTranslateDataType[],
+                service: ServiceDataType[],
+                serviceTranslate: ServiceTranslateDataType[],
+                about: AboutDataType,
+                aboutTranslate: AboutTranslateDataType[],
+                report: ReportDataType[],
+                reportTranslate: ReportTranslateDataType[],
+                news: NewsDataType[],
+                newsTranslate: NewsTranslateDataType[],
+                newsCategory: NewsCategoryDataType[],
+                newsCategoryTranslate: NewsCategoryTranslateDataType[],
+                partner: PartnerDataType[],
+            } = await page.home();
+            setDataState(prev => ({
+                ...prev,
+                setting: response.setting,
+                settingTranslate: response.settingTranslate,
+                banner: response.banner,
+                bannerTranslate: response.bannerTranslate,
+                service: response.service,
+                serviceTranslate: response.serviceTranslate,
+                about: response.about,
+                aboutTranslate: response.aboutTranslate,
+                report: response.report,
+                reportTranslate: response.reportTranslate,
+                news: response.news,
+                newsTranslate: response.newsTranslate,
+                newsCategory: response.newsCategory,
+                newsCategoryTranslate: response.newsCategoryTranslate,
+                partner: response.partner,
+            }))
         }
 
         fethcData();

@@ -41,6 +41,7 @@ const ServiceSection: React.FC<SectionProps> = ({
                                         activeLocale={activeLocale}
                                         data={data}
                                         translateData={dataState.serviceTranslate}
+                                        key={data.id}
                                     />
                                 ))
                             }

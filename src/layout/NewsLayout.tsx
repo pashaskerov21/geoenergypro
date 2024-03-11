@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, News, NewsCategory } from '../class'
+import { Menu, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -56,8 +56,7 @@ const NewsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const mainClass = new News();
-    const categoryClass = new NewsCategory();
+    
     const [dataState, setDataState] = useState<{
         activeCategory: NewsCategoryDataType,
         activeCategoryTranslate: NewsCategoryTranslateDataType,
@@ -78,34 +77,26 @@ const NewsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         latestNews: [],
     });
 
+    const page = new Page();
+
     useEffect(() => {
         const fetchData = async () => {
-            const [responseCategory, responseMain]: [
-                {
-                    main: NewsCategoryDataType[],
-                    translate: NewsCategoryTranslateDataType[],
-                },
-                {
-                    main: NewsDataType[],
-                    translate: NewsTranslateDataType[],
-                    latest: NewsDataType[],
-                },
-            ] = await Promise.all([categoryClass.all(), mainClass.all()]);
-            if (responseCategory.main && responseCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    category: responseCategory.main,
-                    categoryTranslate: responseCategory.translate,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    news: responseMain.main,
-                    newsTranslate: responseMain.translate,
-                    latestNews: responseMain.latest
-                }))
-            }
+            const response: {
+                category: NewsCategoryDataType[],
+                categoryTranslate: NewsCategoryTranslateDataType[],
+                news: NewsDataType[],
+                newsTranslate: NewsTranslateDataType[],
+                latestNews: NewsDataType[],
+            } = await page.news();
+            setDataState(prev => ({
+                ...prev,
+                category: response.category,
+                categoryTranslate: response.categoryTranslate,
+                allNews: response.news,
+                news: response.news,
+                newsTranslate: response.newsTranslate,
+                latestNews: response.latestNews,
+            }))
         }
         fetchData();
     }, [])

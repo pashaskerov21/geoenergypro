@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, Suspense, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Service } from '../class'
+import { Page, Service } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -70,34 +70,27 @@ const ServiceInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
         activeService: {} as ServiceDataType,
         activeServiceTranslate: {} as ServiceTranslateDataType
     });
-    console.log(dataState.activeService.id)
+
+    const page = new Page();
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseActive, responseAll]: [
-                {
-                    main: ServiceDataType,
-                    translate: ServiceTranslateDataType,
-                },
-                {
-                    main: ServiceDataType[],
-                    translate: ServiceTranslateDataType[],
-                },
-            ] = await Promise.all([mainClass.activeSlug({ lang: activeLocale, slug }), mainClass.all(),]);
-            if (responseActive.main && responseActive.translate) {
+            const response: {
+                service: ServiceDataType[],
+                serviceTranslate: ServiceTranslateDataType[],
+                activeService: ServiceDataType,
+                activeServiceTranslate: ServiceTranslateDataType
+            } | 'invalid_slug' = await page.service_inner({ lang: activeLocale, slug });
+            if (response !== 'invalid_slug') {
                 setDataState(prev => ({
                     ...prev,
-                    activeService: responseActive.main,
-                    activeServiceTranslate: responseActive.translate
+                    service: response.service,
+                    serviceTranslate: response.serviceTranslate,
+                    activeService: response.activeService,
+                    activeServiceTranslate: response.activeServiceTranslate
                 }))
             }
-            if (responseAll.main && responseAll.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    service: responseAll.main.filter((data) => data.id !== prev.activeService.id),
-                    serviceTranslate: responseAll.translate
-                }))
-            }
+
         }
         fetchData();
     }, [])

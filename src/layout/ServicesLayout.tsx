@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, Service } from '../class'
+import { Menu, Page, Service } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -65,22 +65,18 @@ const ServicesLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
         serviceTranslate: [],
     });
 
+    const page = new Page()
     useEffect(() => {
         const fetchData = async () => {
-            const [responseService]: [
-                {
-                    main: ServiceDataType[],
-                    translate: ServiceTranslateDataType[],
-                },
-            ] = await Promise.all([service.all()]);
-
-            if (responseService.main && responseService.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    service: responseService.main,
-                    serviceTranslate: responseService.translate,
-                }))
-            }
+            const response: {
+                service: ServiceDataType[],
+                serviceTranslate: ServiceTranslateDataType[],
+            } = await page.services();
+            setDataState(prev => ({
+                ...prev,
+                service: response.service,
+                serviceTranslate: response.serviceTranslate,
+            }))
         }
         fetchData();
     }, []);

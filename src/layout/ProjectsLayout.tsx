@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, Project, ProjectCategory } from '../class'
+import { Menu, Page, Project, ProjectCategory } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -75,33 +75,23 @@ const ProjectsLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
         projectTranslate: [],
     });
 
+    const page = new Page();
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseCategory, responseMain]: [
-                {
-                    main: ProjectCategoryDataType[],
-                    translate: ProjectCategoryTranslateDataType[],
-                },
-                {
-                    main: ProjectDataType[],
-                    translate: ProjectTranslateDataType[],
-                },
-            ] = await Promise.all([categoryClass.all(), mainClass.all()]);
-            if (responseCategory.main && responseCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    category: responseCategory.main,
-                    categoryTranslate: responseCategory.translate,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    project: responseMain.main,
-                    projectTranslate: responseMain.translate,
-                }))
-            }
+            const response: {
+                category: ProjectCategoryDataType[],
+                categoryTranslate: ProjectCategoryTranslateDataType[],
+                project: ProjectDataType[],
+                projectTranslate: ProjectTranslateDataType[],
+            } = await page.projects();
+            setDataState(prev => ({
+                ...prev,
+                category: response.category,
+                categoryTranslate: response.categoryTranslate,
+                project: response.project,
+                projectTranslate: response.projectTranslate,
+            }))
         }
         fetchData();
     }, [])

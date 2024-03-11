@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { About, Menu, Report, Service } from '../class'
+import { Menu, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -56,9 +56,6 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const about = new About();
-    const report = new Report();
-    const service = new Service();
     const [dataState, setDataState] = useState<{
         about: AboutDataType,
         aboutTranslate: AboutTranslateDataType[],
@@ -75,43 +72,26 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         serviceTranslate: [],
     });
 
+    const page = new Page();
     useEffect(() => {
         const fetchData = async () => {
-            const [responseAbout, responseReport, responseService]: [
-                {
-                    main: AboutDataType,
-                    translate: AboutTranslateDataType[],
-                },
-                {
-                    main: ReportDataType[],
-                    translate: ReportTranslateDataType[],
-                },
-                {
-                    home: ServiceDataType[],
-                    translate: ServiceTranslateDataType[],
-                },
-            ] = await Promise.all([about.active(1), report.all(), service.all()]);
-            if (responseAbout.main && responseAbout.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    about: responseAbout.main,
-                    aboutTranslate: responseAbout.translate,
-                }))
-            }
-            if (responseReport.main && responseReport.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    report: responseReport.main,
-                    reportTranslate: responseReport.translate,
-                }))
-            }
-            if (responseService.home && responseService.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    service: responseService.home,
-                    serviceTranslate: responseService.translate,
-                }))
-            }
+            const response: {
+                about: AboutDataType,
+                aboutTranslate: AboutTranslateDataType[],
+                report: ReportDataType[],
+                reportTranslate: ReportTranslateDataType[],
+                service: ServiceDataType[],
+                serviceTranslate: ServiceTranslateDataType[],
+            } = await page.about();
+            setDataState(prev => ({
+                ...prev,
+                about: response.about,
+                aboutTranslate: response.aboutTranslate,
+                report: response.report,
+                reportTranslate: response.reportTranslate,
+                service: response.service,
+                serviceTranslate: response.serviceTranslate,
+            }))
         }
         fetchData();
     }, []);

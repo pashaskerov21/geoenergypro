@@ -11,6 +11,7 @@ import News from "./News";
 import Gallery from "./Gallery";
 import Partner from "./Partner";
 import Message from "./Message";
+import Page from "./Page";
 
 export {
     Settings,
@@ -26,4 +27,5 @@ export {
     Gallery,
     Partner,
     Message,
+    Page,
 }

@@ -1,9 +1,6 @@
 'use client'
-import { News, NewsCategory } from '@/src/class'
 import { NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
-import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry'
 import NewsContainerRight from './NewsContainerRight'
@@ -25,9 +22,6 @@ type SectionProps = {
 }
 
 const NewsMainSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary }) => {
-    const baseURL = process.env.BASE_URL;
-    const news = new News();
-    const newsCategory = new NewsCategory();
     return (
         <section className="news_main_section">
             <div className="container">
@@ -43,6 +37,7 @@ const NewsMainSection: React.FC<SectionProps> = ({ activeLocale, dataState, dict
                                             data={data}
                                             dictionary={dictionary}
                                             translateData={dataState.newsTranslate}
+                                            key={data.id}
                                         />
                                     ))
                                 }

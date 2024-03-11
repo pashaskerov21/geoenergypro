@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, Service, Settings } from '../class'
+import { Menu, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -56,9 +56,6 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const setting = new Settings();
-    const service = new Service();
-
     const [dataState, setDataState] = useState<{
         setting: SiteSettingDataType,
         settingTranslate: SiteSettingTranslateDataType[],
@@ -71,32 +68,22 @@ const ContactLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         serviceTranslate: [],
     });
 
+    const page = new Page();
     useEffect(() => {
         const fethcData = async () => {
-            const [responseSetting, responseService]: [
-                {
-                    main: SiteSettingDataType,
-                    translate: SiteSettingTranslateDataType[],
-                },
-                {
-                    home: ServiceDataType[],
-                    translate: ServiceTranslateDataType[],
-                },
-            ] = await Promise.all([setting.active(1), service.all()]);
-            if (responseSetting.main && responseSetting.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    setting: responseSetting.main,
-                    settingTranslate: responseSetting.translate,
-                }));
-            }
-            if (responseService.home && responseService.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    service: responseService.home,
-                    serviceTranslate: responseService.translate,
-                }))
-            }
+            const response: {
+                setting: SiteSettingDataType,
+                settingTranslate: SiteSettingTranslateDataType[],
+                service: ServiceDataType[],
+                serviceTranslate: ServiceTranslateDataType[],
+            } = await page.contact();
+            setDataState(prev => ({
+                ...prev,
+                setting: response.setting,
+                settingTranslate: response.settingTranslate,
+                service: response.service,
+                serviceTranslate: response.serviceTranslate,
+            }))
         }
 
         fethcData();

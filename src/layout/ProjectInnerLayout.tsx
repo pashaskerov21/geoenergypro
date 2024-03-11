@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Project } from '../class'
+import { Page, Project } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -74,33 +74,25 @@ const ProjectInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, s
         projectTranslate: [],
     });
 
+    const page = new Page();
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseActive, responseMain]: [
-                {
-                    main: ProjectDataType,
-                    translate: ProjectTranslateDataType,
-                    gallery: ProjectGalleryDataType[],
-                },
-                {
-                    main: ProjectDataType[],
-                    translate: ProjectTranslateDataType[],
-                },
-            ] = await Promise.all([mainClass.activeSlug({ lang: activeLocale, slug }), mainClass.all()]);
-            if (responseActive.main && responseMain.translate) {
+            const response: {
+                activeProject: ProjectDataType,
+                activeProjectTranslate: ProjectTranslateDataType,
+                activeProjectGallery: ProjectGalleryDataType[],
+                project: ProjectDataType[],
+                projectTranslate: ProjectTranslateDataType[],
+            } | 'invalid_slug' = await page.project_inner({ lang: activeLocale, slug });
+            if (response !== 'invalid_slug') {
                 setDataState(prev => ({
                     ...prev,
-                    activeProject: responseActive.main,
-                    activeProjectTranslate: responseActive.translate,
-                    activeProjectGallery: responseActive.gallery,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    project: responseMain.main,
-                    projectTranslate: responseMain.translate,
+                    activeProject: response.activeProject,
+                    activeProjectTranslate: response.activeProjectTranslate,
+                    activeProjectGallery: response.activeProjectGallery,
+                    project: response.project,
+                    projectTranslate: response.projectTranslate,
                 }))
             }
         }

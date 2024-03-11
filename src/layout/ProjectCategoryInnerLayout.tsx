@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Project, ProjectCategory } from '../class'
+import { Page, Project, ProjectCategory } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -78,57 +78,32 @@ const ProjectCategoryInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dicti
         projectTranslate: [],
     });
 
+    const page = new Page();
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseActiveCategory, responseCategory, responseMain]: [
-                {
-                    main: ProjectCategoryDataType,
-                    translate: ProjectCategoryTranslateDataType,
-                },
-                {
-                    main: ProjectCategoryDataType[],
-                    translate: ProjectCategoryTranslateDataType[],
-                },
-                {
-                    main: ProjectDataType[],
-                    translate: ProjectTranslateDataType[],
-                },
-            ] = await Promise.all([categoryClass.activeSlug({ lang: activeLocale, slug }), categoryClass.all(), mainClass.all()]);
-
-            if (responseActiveCategory.main && responseActiveCategory.translate) {
+            const response: {
+                activeCategory: ProjectCategoryDataType,
+                activeCategoryTranslate: ProjectCategoryTranslateDataType,
+                category: ProjectCategoryDataType[],
+                categoryTranslate: ProjectCategoryTranslateDataType[],
+                project: ProjectDataType[],
+                projectTranslate: ProjectTranslateDataType[],
+            } | 'invalid_slug' = await page.project_category_inner({ lang: activeLocale, slug });
+            if (response !== 'invalid_slug') {
                 setDataState(prev => ({
                     ...prev,
-                    activeCategory: responseActiveCategory.main,
-                    activeCategoryTranslate: responseActiveCategory.translate,
-                }))
-            }
-            if (responseCategory.main && responseCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    category: responseCategory.main,
-                    categoryTranslate: responseCategory.translate,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    project: responseMain.main,
-                    projectTranslate: responseMain.translate,
+                    activeCategory: response.activeCategory,
+                    activeCategoryTranslate: response.activeCategoryTranslate,
+                    category: response.category,
+                    categoryTranslate: response.categoryTranslate,
+                    project: response.project,
+                    projectTranslate: response.projectTranslate,
                 }))
             }
         }
         fetchData();
     }, []);
-
-    useEffect(() => {
-        if(dataState.activeCategory.id){
-            setDataState(prev => ({
-                ...prev,
-                project: prev.project.filter((data) => data.cat_id === dataState.activeCategory.id),
-            }))
-        }
-    },[dataState.activeCategory])
     return (
         <>
             {dataState.activeCategory.id && dataState.project.length > 0 && (

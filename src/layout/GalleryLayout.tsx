@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Gallery, Menu } from '../class'
+import { Menu, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -56,7 +56,7 @@ const GalleryLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const mainClass = new Gallery();
+    const page = new Page();
     const [dataState, setDataState] = useState<{
         gallery: GalleryDataType[]
     }>({
@@ -65,13 +65,13 @@ const GalleryLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseGallery]: [GalleryDataType[]] = await Promise.all([mainClass.all()]);
-            if (responseGallery) {
-                setDataState(prev => ({
-                    ...prev,
-                    gallery: responseGallery,
-                }))
-            }
+            const response: {
+                gallery: GalleryDataType[]
+            } = await page.gallery();
+            setDataState(prev => ({
+                ...prev,
+                gallery: response.gallery,
+            }))
         };
         fetchData();
     }, [])

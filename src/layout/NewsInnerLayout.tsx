@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { News, NewsCategory } from '../class'
+import { News, NewsCategory, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -60,6 +60,8 @@ const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch, layoutParams.localeSlugs]);
 
+    const page = new Page();
+
     const [dataState, setDataState] = useState<{
         category: NewsCategoryDataType[],
         categoryTranslate: NewsCategoryTranslateDataType[],
@@ -88,47 +90,31 @@ const NewsInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary, slug
 
     useEffect(() => {
         const fetchData = async () => {
-            const [responseCategory, responseActive, responseMain]: [
-                {
-                    main: NewsCategoryDataType[],
-                    translate: NewsCategoryTranslateDataType[],
-                },
-                {
-                    main: NewsDataType,
-                    translate: NewsTranslateDataType,
-                    gallery: NewsGalleryDataType[],
-                },
-                {
-                    main: NewsDataType[],
-                    translate: NewsTranslateDataType[],
-                    latest: NewsDataType[],
-                },
-            ] = await Promise.all([categoryClass.all(), mainClass.activeSlug({ lang: activeLocale, slug }), mainClass.all()]);
+            const response: {
+                category: NewsCategoryDataType[],
+                categoryTranslate: NewsCategoryTranslateDataType[],
+                activeNews: NewsDataType,
+                activeNewsTranslate: NewsTranslateDataType,
+                newsGallery: NewsGalleryDataType[],
+                news: NewsDataType[],
+                newsTranslate: NewsTranslateDataType[],
+                latestNews: NewsDataType[],
+            } | 'invalid_slug' = await page.news_inner({ lang: activeLocale, slug });
+            if (response !== 'invalid_slug') {
+                setDataState(prev => ({
+                    ...prev,
+                    category: response.category,
+                    categoryTranslate: response.categoryTranslate,
+                    allNews: response.news,
+                    activeNews: response.activeNews,
+                    activeNewsTranslate: response.activeNewsTranslate,
+                    news: response.news,
+                    newsTranslate: response.newsTranslate,
+                    latestNews: response.latestNews,
+                    newsGallery: response.newsGallery,
+                }))
+            }
 
-            if (responseCategory.main && responseCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    category: responseCategory.main,
-                    categoryTranslate: responseCategory.translate,
-                }))
-            }
-            if (responseActive.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    activeNews: responseActive.main,
-                    activeNewsTranslate: responseActive.translate,
-                    newsGallery: responseActive.gallery,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    allNews: responseMain.main,
-                    news: responseMain.main,
-                    newsTranslate: responseMain.translate,
-                    latestNews: responseMain.latest
-                }))
-            }
         }
         fetchData();
     }, []);

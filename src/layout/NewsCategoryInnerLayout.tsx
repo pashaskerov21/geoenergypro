@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { News, NewsCategory } from '../class'
+import { News, NewsCategory, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -80,58 +80,37 @@ const NewsCategoryInnerLayout: React.FC<LayoutProps> = ({ activeLocale, dictiona
         latestNews: [],
     });
 
+    const page = new Page();
+
     useEffect(() => {
         const fetchData = async () => {
-            const [responseActiveCategory, responseCategory, responseMain]: [
-                {
-                    main: NewsCategoryDataType,
-                    translate: NewsCategoryTranslateDataType,
-                },
-                {
-                    main: NewsCategoryDataType[],
-                    translate: NewsCategoryTranslateDataType[],
-                },
-                {
-                    main: NewsDataType[],
-                    translate: NewsTranslateDataType[],
-                    latest: NewsDataType[],
-                },
-            ] = await Promise.all([categoryClass.activeSlug({ lang: activeLocale, slug }), categoryClass.all(), mainClass.all()]);
-            if (responseActiveCategory.main && responseActiveCategory.translate) {
+            const response: {
+                activeCategory: NewsCategoryDataType,
+                activeCategoryTranslate: NewsCategoryTranslateDataType,
+                category: NewsCategoryDataType[],
+                categoryTranslate: NewsCategoryTranslateDataType[],
+                allNews: NewsDataType[],
+                news: NewsDataType[],
+                latestNews: NewsDataType[],
+                newsTranslate: NewsTranslateDataType[],
+            } | 'invalid_slug' = await page.news_category_inner({ lang: activeLocale, slug });
+            if (response !== 'invalid_slug') {
                 setDataState(prev => ({
                     ...prev,
-                    activeCategory: responseActiveCategory.main,
-                    activeCategoryTranslate: responseActiveCategory.translate,
-                }))
-            }
-            if (responseCategory.main && responseCategory.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    category: responseCategory.main,
-                    categoryTranslate: responseCategory.translate,
-                }))
-            }
-            if (responseMain.main && responseMain.translate) {
-                setDataState(prev => ({
-                    ...prev,
-                    allNews: responseMain.main,
-                    news: responseMain.main,
-                    newsTranslate: responseMain.translate,
-                    latestNews: responseMain.latest
+                    activeCategory: response.activeCategory,
+                    activeCategoryTranslate: response.activeCategoryTranslate,
+                    category: response.category,
+                    categoryTranslate: response.categoryTranslate,
+                    allNews: response.allNews,
+                    news: response.news,
+                    newsTranslate: response.newsTranslate,
+                    latestNews: response.latestNews,
                 }))
             }
         }
         fetchData();
     }, []);
 
-    useEffect(() => {
-        if(dataState.activeCategory.id){
-            setDataState(prev => ({
-                ...prev,
-                news: prev.news.filter((data) => data.cat_id === dataState.activeCategory.id),
-            }))
-        }
-    },[dataState.activeCategory]);
 
     return (
         <>
