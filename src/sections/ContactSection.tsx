@@ -29,65 +29,81 @@ const ContactSection: React.FC<SectionProps> = ({ activeLocale, dictionary, data
                             <div className="text">{dictionary['contact_text']}</div>
                         </div>
                         <div className="contact_parameters">
-                            <div className="contact_item">
-                                <div className="item_icon">
-                                    <FaEnvelope />
-                                </div>
-                                <div className="item_content">
-                                    <div className="item_value">
-                                        {dataState.setting.mail}
+                            {
+                                dataState.setting.mail && (
+                                    <div className="contact_item">
+                                        <div className="item_icon">
+                                            <FaEnvelope />
+                                        </div>
+                                        <div className="item_content">
+                                            <div className="item_value">
+                                                {dataState.setting.mail}
+                                            </div>
+                                            <div className="item_text">
+                                                {setting.getTranslate({
+                                                    id: 1,
+                                                    activeLocale,
+                                                    key: "mail_text",
+                                                    translateData: dataState.settingTranslate,
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="item_text">
-                                        {setting.getTranslate({
-                                            id: 1,
-                                            activeLocale,
-                                            key: "mail_text",
-                                            translateData: dataState.settingTranslate,
-                                        })}
+                                )
+                            }
+                            {
+                                dataState.setting.phone && (
+                                    <div className="contact_item">
+                                        <div className="item_icon">
+                                            <FaPhone />
+                                        </div>
+                                        <div className="item_content">
+                                            <div className="item_value">
+                                                {dataState.setting.phone}
+                                            </div>
+                                            <div className="item_text">
+                                                {setting.getTranslate({
+                                                    id: 1,
+                                                    activeLocale,
+                                                    key: "phone_text",
+                                                    translateData: dataState.settingTranslate,
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div className="contact_item">
-                                <div className="item_icon">
-                                    <FaPhone />
-                                </div>
-                                <div className="item_content">
-                                    <div className="item_value">
-                                        {dataState.setting.phone}
+                                )
+                            }
+                            {
+                                setting.getTranslate({
+                                    id: 1,
+                                    activeLocale,
+                                    key: "address_text",
+                                    translateData: dataState.settingTranslate,
+                                }) && (
+                                    <div className="contact_item">
+                                        <div className="item_icon">
+                                            <FaLocationDot />
+                                        </div>
+                                        <div className="item_content">
+                                            <div className="item_value">
+                                                {setting.getTranslate({
+                                                    id: 1,
+                                                    activeLocale,
+                                                    key: "title",
+                                                    translateData: dataState.settingTranslate,
+                                                })}
+                                            </div>
+                                            <div className="item_text">
+                                                {setting.getTranslate({
+                                                    id: 1,
+                                                    activeLocale,
+                                                    key: "address_text",
+                                                    translateData: dataState.settingTranslate,
+                                                })}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="item_text">
-                                        {setting.getTranslate({
-                                            id: 1,
-                                            activeLocale,
-                                            key: "phone_text",
-                                            translateData: dataState.settingTranslate,
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="contact_item">
-                                <div className="item_icon">
-                                    <FaLocationDot />
-                                </div>
-                                <div className="item_content">
-                                    <div className="item_value">
-                                        {setting.getTranslate({
-                                            id: 1,
-                                            activeLocale,
-                                            key: "title",
-                                            translateData: dataState.settingTranslate,
-                                        })}
-                                    </div>
-                                    <div className="item_text">
-                                        {setting.getTranslate({
-                                            id: 1,
-                                            activeLocale,
-                                            key: "address_text",
-                                            translateData: dataState.settingTranslate,
-                                        })}
-                                    </div>
-                                </div>
-                            </div>
+                                )}
                         </div>
                     </div>
                     <div className="content_col">

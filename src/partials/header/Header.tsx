@@ -66,27 +66,43 @@ const Header: React.FC<HeaderProps> = ({
                 <div className="container">
                     <div className="inner">
                         <div className="inner_left">
-                            <div className="contact_link">
-                                <i><FaLocationDot /></i>
-                                <span>
-                                    {setting.getTranslate({
-                                        id: 1,
-                                        activeLocale,
-                                        key: "address_text",
-                                        translateData: dataState.settingTranslate,
-                                    })}
-                                </span>
-                            </div>
+                            {
+                                setting.getTranslate({
+                                    id: 1,
+                                    activeLocale,
+                                    key: "address_text",
+                                    translateData: dataState.settingTranslate,
+                                }) && (
+                                    <div className="contact_link">
+                                        <i><FaLocationDot /></i>
+                                        <span>
+                                            {setting.getTranslate({
+                                                id: 1,
+                                                activeLocale,
+                                                key: "address_text",
+                                                translateData: dataState.settingTranslate,
+                                            })}
+                                        </span>
+                                    </div>
+                                )}
                         </div>
                         <div className="inner_right">
-                            <div className="contact_link">
-                                <i><FaPhone /></i>
-                                <span>{dataState.setting.phone}</span>
-                            </div>
-                            <div className="contact_link">
-                                <i><FaEnvelope /></i>
-                                <span>{dataState.setting.mail}</span>
-                            </div>
+                            {
+                                dataState.setting.phone && (
+                                    <div className="contact_link">
+                                        <i><FaPhone /></i>
+                                        <span>{dataState.setting.phone}</span>
+                                    </div>
+                                )
+                            }
+                            {
+                                dataState.setting.mail && (
+                                    <div className="contact_link">
+                                        <i><FaEnvelope /></i>
+                                        <span>{dataState.setting.mail}</span>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
@@ -108,7 +124,7 @@ const Header: React.FC<HeaderProps> = ({
                                     <div className="icon_line"></div>
                                     <div className="icon_line"></div>
                                 </div>
-                                <div className="menu_button_label">Menu</div>
+                                <div className="menu_button_label">{dictionary['menu']}</div>
                             </button>
                         </div>
                     </div>
@@ -126,7 +142,7 @@ const Header: React.FC<HeaderProps> = ({
                             <div className="nav_links">
                                 {
                                     dataState.menu.map((data) => (
-                                        <div className={`link_item ${data.id === 3 || data.id === 4 ? 'has_child' : 'no_child'}`} key={data.id}>
+                                        <div className={`link_item ${(data.id === 3 && dataState.service.length) || (data.id === 4 && dataState.projectCategory.length > 0) ? 'has_child' : 'no_child'}`} key={data.id}>
                                             <div className="main_row">
                                                 <Link href={`/${activeLocale}/${data.slug}`}>
                                                     {menu.getTranslate({
@@ -139,7 +155,7 @@ const Header: React.FC<HeaderProps> = ({
                                                 <button type="button"><i><FaCaretDown /></i></button>
                                             </div>
                                             {
-                                                data.id === 3 && (
+                                                data.id === 3 && dataState.service.length > 0 && (
                                                     <div className="link_menu">
                                                         <div className="link_menu_inner">
                                                             {
@@ -170,7 +186,7 @@ const Header: React.FC<HeaderProps> = ({
                                                 )
                                             }
                                             {
-                                                data.id === 4 && (
+                                                data.id === 4 && dataState.projectCategory.length > 0 && (
                                                     <div className="link_menu">
                                                         <div className="link_menu_inner">
                                                             {

@@ -62,6 +62,7 @@ const ProjectSection: React.FC<SectionProps> = ({ activeLocale, dictionary, data
                                     data={data}
                                     dictionary={dictionary}
                                     translateData={dataState.projectTranslate}
+                                    key={data.id}
                                 />
                             ))
                         }

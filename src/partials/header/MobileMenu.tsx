@@ -57,7 +57,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                     <div className="menu_links">
                         {
                             dataState.menu.map((data) => (
-                                <div className={`link_item ${data.id === 3 || data.id === 4 ? 'has_child' : 'no_child'}`} key={data.id}>
+                                <div className={`link_item ${(data.id === 3 && dataState.service.length) || (data.id === 4 && dataState.projectCategory.length > 0) ? 'has_child' : 'no_child'}`} key={data.id}>
                                     <div className="main_row">
                                         <Link href={`/${activeLocale}/${data.slug}`}>
                                             {menu.getTranslate({
@@ -70,7 +70,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                                         <button type="button" onClick={() => changeActiveLink(data.id)}><i><FaCaretDown /></i></button>
                                     </div>
                                     {
-                                        data.id === 3 && (
+                                        data.id === 3 && dataState.service.length > 0 && (
                                             <div className={`link_menu ${activeLink === 3 ? '' : 'd-none'}`}>
                                                 <div className="link_menu_inner">
                                                     {
@@ -99,7 +99,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ activeLocale, dataState, locale
                                         )
                                     }
                                     {
-                                        data.id === 4 && (
+                                        data.id === 4 && dataState.projectCategory.length > 0 && (
                                             <div className={`link_menu ${activeLink === 4 ? '' : 'd-none'}`}>
                                                 <div className="link_menu_inner">
                                                     {

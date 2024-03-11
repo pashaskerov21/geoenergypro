@@ -167,6 +167,7 @@ header {
             align-self: stretch;
             align-items: stretch;
             gap: 5px;
+            min-height: 125px;
 
             @media (min-width: 1400px) {
                 gap: 15px;

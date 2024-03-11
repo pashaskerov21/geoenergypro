@@ -100,72 +100,82 @@ const Footer: React.FC<FooterProps> = ({
                             <SearchForm activeLocale={activeLocale} dictionary={dictionary} />
                         </div>
                         <div className="inner_right">
-                            <div className="footer_center_col">
-                                <div className="col_title">{dictionary['latest_news']}</div>
-                                <div className="col_links">
-                                    {
-                                        dataState.news.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/news/${news.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "slug",
-                                                translateData: dataState.newsTranslate,
-                                            })}`}>
-                                                {news.getTranslate({
+                            {dataState.news.length > 0 && (
+                                <div className="footer_center_col">
+                                    <div className="col_title">{dictionary['latest_news']}</div>
+                                    <div className="col_links">
+                                        {
+                                            dataState.news.map((data) => (
+                                                <Link key={data.id} href={`/${activeLocale}/news/${news.getTranslate({
                                                     id: data.id,
                                                     activeLocale,
-                                                    key: "title",
+                                                    key: "slug",
                                                     translateData: dataState.newsTranslate,
-                                                })}
-                                            </Link>
-                                        ))
-                                    }
+                                                })}`}>
+                                                    {news.getTranslate({
+                                                        id: data.id,
+                                                        activeLocale,
+                                                        key: "title",
+                                                        translateData: dataState.newsTranslate,
+                                                    })}
+                                                </Link>
+                                            ))
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="footer_center_col">
-                                <div className="col_title">{dictionary['services']}</div>
-                                <div className="col_links">
-                                    {
-                                        dataState.service.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/services/${service.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "slug",
-                                                translateData: dataState.serviceTranslate,
-                                            })}`}>
-                                                {service.getTranslate({
-                                                    id: data.id,
-                                                    activeLocale,
-                                                    key: "title",
-                                                    translateData: dataState.serviceTranslate,
-                                                })}
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                            </div>
-                            <div className="footer_center_col">
-                                <div className="col_title">{dictionary['projects']}</div>
-                                <div className="col_links">
-                                    {
-                                        dataState.project.map((data) => (
-                                            <Link key={data.id} href={`/${activeLocale}/projects/${project.getTranslate({
-                                                id: data.id,
-                                                activeLocale,
-                                                key: "slug",
-                                                translateData: dataState.projectTranslate,
-                                            })}`}>
-                                                {project.getTranslate({
-                                                    id: data.id,
-                                                    activeLocale,
-                                                    key: "title",
-                                                    translateData: dataState.projectTranslate,
-                                                })}
-                                            </Link>
-                                        ))
-                                    }
-                                </div>
-                            </div>
+                            )}
+                            {
+                                dataState.service.length > 0 && (
+                                    <div className="footer_center_col">
+                                        <div className="col_title">{dictionary['services']}</div>
+                                        <div className="col_links">
+                                            {
+                                                dataState.service.map((data) => (
+                                                    <Link key={data.id} href={`/${activeLocale}/services/${service.getTranslate({
+                                                        id: data.id,
+                                                        activeLocale,
+                                                        key: "slug",
+                                                        translateData: dataState.serviceTranslate,
+                                                    })}`}>
+                                                        {service.getTranslate({
+                                                            id: data.id,
+                                                            activeLocale,
+                                                            key: "title",
+                                                            translateData: dataState.serviceTranslate,
+                                                        })}
+                                                    </Link>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            }
+                            {
+                                dataState.project.length > 0 && (
+                                    <div className="footer_center_col">
+                                        <div className="col_title">{dictionary['projects']}</div>
+                                        <div className="col_links">
+                                            {
+                                                dataState.project.map((data) => (
+                                                    <Link key={data.id} href={`/${activeLocale}/projects/${project.getTranslate({
+                                                        id: data.id,
+                                                        activeLocale,
+                                                        key: "slug",
+                                                        translateData: dataState.projectTranslate,
+                                                    })}`}>
+                                                        {project.getTranslate({
+                                                            id: data.id,
+                                                            activeLocale,
+                                                            key: "title",
+                                                            translateData: dataState.projectTranslate,
+                                                        })}
+                                                    </Link>
+                                                ))
+                                            }
+                                        </div>
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

@@ -54,7 +54,7 @@ const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dic
                                             {
                                                 dataState.newsGallery.map((data) => (
                                                     data.image && (
-                                                        <Link key={data.id} href={baseURL + data.image} className="gallery_image" data-fancybox=''>
+                                                        <Link key={data.id} href={baseURL + data.image} className="gallery_image" data-fancybox='news_gallery'>
                                                             <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} />
                                                         </Link>
                                                     )
