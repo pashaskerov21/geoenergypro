@@ -15,7 +15,7 @@ import Header from '../partials/header/Header';
 import Footer from '../partials/footer/Footer';
 import { Preloader } from '../components';
 import { Page } from '../class';
-
+import { HiOutlineArrowNarrowUp } from "react-icons/hi";
 
 
 type LayoutProps = {
@@ -56,7 +56,22 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
     });
 
     const page = new Page();
-    const [loading, setLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const [showScrollBtn, setShowScrollBtn] = useState<boolean>(false);
+    useEffect(() => {
+        window.addEventListener('scroll', function () {
+            if (this.scrollY > 300) {
+                setShowScrollBtn(true);
+            } else {
+                setShowScrollBtn(false)
+            }
+        });
+
+        return () => {
+            window.removeEventListener('scroll', () => { });
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -102,6 +117,7 @@ const RootLayout: React.FC<LayoutProps> = ({ activeLocale, children, dictionary 
     return (
         <Provider store={store}>
             {loading && <Preloader />}
+            {showScrollBtn && <button type='button' className='scroll_button' onClick={() => window.scrollTo(0, 0)}><HiOutlineArrowNarrowUp/></button>}
             {
                 dataState.menu.length > 0 && <Header
                     activeLocale={activeLocale}
