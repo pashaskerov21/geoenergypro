@@ -135,6 +135,7 @@ const SearchPageLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) =
     }, [dispatch, layoutParams.localeSlugs]);
 
 
+
     const projectCategory = new ProjectCategory();
     const newsCategory = new NewsCategory();
     useEffect(() => {
@@ -164,6 +165,22 @@ const SearchPageLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) =
             }
         }
     }, [dataState]);
+
+
+
+    const keywords = ['Geo', 'Geo Pro', 'Geo Energy', 'Energy Pro', 'Geo Energy Pro', 'GEP', 'Гео', 'Гео Про', 'Гео Энергия', 'Энергия Про', 'Гео Энергия Про', 'ГЭП'];
+    useEffect(() => {
+        let matchedKeyword;
+        keywords.forEach((keyword) => {
+            if (queryParam && queryParam.trim().toLowerCase().includes(keyword.trim().toLowerCase())) {
+                matchedKeyword = keyword;
+                return;
+            }
+        });
+        if (matchedKeyword) {
+            router.push(`/${activeLocale}/about`);
+        }
+    }, [queryParam, keywords]);
 
 
     const [loading, setLoading] = useState<boolean>(true);
