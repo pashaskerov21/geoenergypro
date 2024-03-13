@@ -17,6 +17,7 @@ class Page {
         news_category_inner: `${this.baseURL}/api/site/pages/news_category_inner`,
         gallery: `${this.baseURL}/api/site/pages/gallery`,
         contact: `${this.baseURL}/api/site/pages/contact`,
+        sitemap: `${this.baseURL}/api/site/sitemap`,
     }
     private errors = {
         root: `root data fetch failed`,
@@ -32,6 +33,7 @@ class Page {
         news_category_inner: `news_category_inner data fetch failed`,
         gallery: `gallery data fetch failed`,
         contact: `contact data fetch failed`,
+        sitemap: `sitemap data fetch failed`,
     }
     private axiosConfig: AxiosRequestConfig = {
         headers: {
@@ -201,6 +203,18 @@ class Page {
             return response.data;
         } catch (error: any) {
             return this.handleError(error, this.errors.contact);
+        }
+    }
+    public sitemap = async () => {
+        try {
+            const response = await axios.get(this.api.sitemap, this.axiosConfig)
+            if (response.status !== 200) {
+                throw new Error(this.errors.sitemap);
+            }
+
+            return response.data;
+        } catch (error: any) {
+            return this.handleError(error, this.errors.sitemap);
         }
     }
 }
