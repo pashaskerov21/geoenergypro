@@ -9,14 +9,16 @@ type SearchProps = {
     dictionary: { [key: string]: string },
 }
 
-const SearchForm: React.FC<SearchProps> = ({activeLocale,dictionary}) => {
+const SearchForm: React.FC<SearchProps> = ({ activeLocale, dictionary }) => {
     const [searchValue, setSearchValue] = useState<string>('');
     const router = useRouter();
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        router.push(`/${activeLocale}/search?query=${encodeURIComponent(searchValue)}`);
-        setSearchValue('');
+        if (searchValue && searchValue !== null && searchValue !== '') {
+            router.push(`/${activeLocale}/search?query=${encodeURIComponent(searchValue)}`);
+            setSearchValue('');
+        }
     }
     return (
         <form onSubmit={onSubmit} autoComplete="off" className="search_form">
