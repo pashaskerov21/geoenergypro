@@ -268,8 +268,11 @@
                     }
 
                     .item_text {
-                        color: $text-color-2;
+                        color: $text-color-2 !important;
                         opacity: 0.7;
+                        * {
+                            color: $text-color-2 !important;
+                        }
                     }
 
                     .item__bottom {
@@ -421,9 +424,12 @@
 
             .news_text {
                 width: 100%;
-                color: $text-color-2;
+                color: $text-color-2 !important;
                 font-size: 19px;
                 opacity: 0.8;
+                *{
+                    color: $text-color-2 !important;
+                }
             }
 
             .detail_button {

@@ -111,6 +111,7 @@ const AboutLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => {
                             activeLocale={activeLocale}
                             dataState={dataState}
                             dictionary={dictionary}
+                            sliceStatus={false}
                         />
                     </Fragment>
                 )

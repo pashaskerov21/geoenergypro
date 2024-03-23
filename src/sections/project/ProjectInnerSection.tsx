@@ -84,7 +84,7 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                         <div className="project_content">
                             <div className="project_text"
                                 dangerouslySetInnerHTML={{ __html: dataState.activeProjectTranslate.text ?? '' }}
-                            />
+                            ></div>
                             {
                                 dataState.activeProjectGallery.length > 0 && (
                                     <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 992: 2, }}>

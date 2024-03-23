@@ -108,7 +108,7 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                             translateData: translateData
                         })
                     }}
-                />
+                ></div>
                 <div className="project_parameters">
                     <div className="param_col">
                         <div className="param_icon">

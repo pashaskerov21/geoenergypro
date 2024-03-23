@@ -17,7 +17,7 @@ const ServiceInnerSection: React.FC<SectionProps> = ({ dataState }) => {
             <div className="container">
                 <div className="article_row">
                     <div className="article_col">
-                        <div className="article_text" dangerouslySetInnerHTML={{ __html: dataState.activeServiceTranslate.text ?? '' }} />
+                        <div className="article_text" dangerouslySetInnerHTML={{ __html: dataState.activeServiceTranslate.text ?? '' }} ></div>
                     </div>
                     <div className="article_col">
                         <div className="article_image">

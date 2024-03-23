@@ -174,7 +174,7 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                                                 key: "text",
                                                 translateData: dataState.newsTranslate,
                                             })
-                                        }} />
+                                        }} ></div>
                                         <div className="item__bottom">
                                             <div className="item_date">
                                                 {news.getTranslate({

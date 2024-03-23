@@ -88,10 +88,13 @@
             }
 
             .project_text {
-                color: $text-color-2;
+                color: $text-color-2 !important;
                 font-family: $secondary-font;
                 font-size: 17px;
                 line-height: 2.2rem;
+                *{
+                    color: $text-color-2 !important;
+                }
 
                 @media (min-width: 768px) {
                     font-size: 19px;

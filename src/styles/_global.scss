@@ -226,11 +226,14 @@ section {
         width: 100%;
         font-family: $secondary-font;
         font-weight: 400;
-        color: $text-color-1;
+        color: $text-color-1 !important;
         max-width: 600px;
         padding: 30px;
         background-color: $bg-color-3;
         box-shadow: 0 0 10px $black-1;
+        *{
+            color: $text-color-1 !important;
+        }
 
         @media (min-width: 1200px) {
             font-size: 18px;

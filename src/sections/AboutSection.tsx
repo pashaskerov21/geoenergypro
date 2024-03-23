@@ -13,10 +13,11 @@ type SectionProps = {
         aboutTranslate: AboutTranslateDataType[],
         report: ReportDataType[],
         reportTranslate: ReportTranslateDataType[]
-    }
+    },
+    sliceStatus: boolean,
 }
 
-const AboutSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary }) => {
+const AboutSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary, sliceStatus }) => {
     const baseURL = process.env.BASE_URL;
     const about = new About();
     const report = new Report();
@@ -45,24 +46,38 @@ const AboutSection: React.FC<SectionProps> = ({ activeLocale, dataState, diction
                                 </div>
                                 <div className="design_line"></div>
                             </div>
-                            <div className="about_text" dangerouslySetInnerHTML={{
-                                __html: about.getTranslate({
-                                    id: 1,
-                                    activeLocale,
-                                    key: "text",
-                                    translateData: dataState.aboutTranslate,
-                                }).length > 500 ? about.getTranslate({
-                                    id: 1,
-                                    activeLocale,
-                                    key: "text",
-                                    translateData: dataState.aboutTranslate,
-                                }).slice(0, 500) + '...' : about.getTranslate({
-                                    id: 1,
-                                    activeLocale,
-                                    key: "text",
-                                    translateData: dataState.aboutTranslate,
-                                })
-                            }} />
+                            {
+                                sliceStatus ? (
+                                    <div className="about_text" dangerouslySetInnerHTML={{
+                                        __html: about.getTranslate({
+                                            id: 1,
+                                            activeLocale,
+                                            key: "text",
+                                            translateData: dataState.aboutTranslate,
+                                        }).length > 500 ? about.getTranslate({
+                                            id: 1,
+                                            activeLocale,
+                                            key: "text",
+                                            translateData: dataState.aboutTranslate,
+                                        }).slice(0, 500) + '...' : about.getTranslate({
+                                            id: 1,
+                                            activeLocale,
+                                            key: "text",
+                                            translateData: dataState.aboutTranslate,
+                                        })
+                                    }} ></div>
+                                ) : (
+                                    <div className="about_text" dangerouslySetInnerHTML={{
+                                        __html: about.getTranslate({
+                                            id: 1,
+                                            activeLocale,
+                                            key: "text",
+                                            translateData: dataState.aboutTranslate,
+                                        })
+                                    }} ></div>
+                                )
+                            }
+
                         </div>
                         <div className="about_report">
                             {dataState.report.map((data) => (

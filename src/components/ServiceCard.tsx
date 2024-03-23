@@ -80,7 +80,7 @@ const ServiceCard: React.FC<CardProps> = ({ activeLocale, data, translateData, s
                     key: "text",
                     translateData: translateData,
                 })
-            }} />
+            }}></div>
             <Link href={`/${activeLocale}/services/${service.getTranslate({
                 id: data.id,
                 activeLocale,

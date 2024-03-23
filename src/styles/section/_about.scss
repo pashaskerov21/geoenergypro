@@ -79,7 +79,10 @@
                 font-size: 18px;
                 font-family: $secondary-font;
                 line-height: 1.6em;
-                color: $text-color-2;
+                color: $text-color-2 !important;
+                *{
+                    color: $text-color-2 !important;
+                }
             }
         }
 

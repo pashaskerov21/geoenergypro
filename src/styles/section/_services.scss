@@ -58,10 +58,13 @@
             }
 
             .card_text {
-                color: $text-color-2;
+                color: $text-color-2 !important;
                 font-size: 15px;
                 font-family: $secondary-font;
                 line-height: 1.9em;
+                *{
+                    color: $text-color-2 !important;
+                }
             }
 
             .arrow_btn {

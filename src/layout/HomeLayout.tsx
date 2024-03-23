@@ -132,6 +132,7 @@ const HomeLayout: React.FC<LayoutProps> = ({
                         activeLocale={activeLocale}
                         dataState={dataState}
                         dictionary={dictionary}
+                        sliceStatus={true}
                     />
                 )
             }
