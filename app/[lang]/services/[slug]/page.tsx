@@ -29,8 +29,8 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
         let meta_title = '';
         let meta_keywords = '';
         if (menuMetaParams && settingMetaParams && response.main && response.translate) {
-            meta_title = response.translate.title !== null ? response.translate.title : menuMetaParams.title === '' ? settingMetaParams.title : menuMetaParams.title;;
-            meta_keywords = menuMetaParams.keywords === '' ? `${settingMetaParams.keywords} , ${response.translate.title}` : `${settingMetaParams.keywords} , ${menuMetaParams.keywords} , ${response.translate.title}`;
+            meta_title = `${settingMetaParams.title && 'GeoEnergyPro'} | ${menuMetaParams.title && ''} | ${response.translate.title && ''}`;
+            meta_keywords = `${settingMetaParams.keywords && ''} , ${menuMetaParams.keywords && ''} , ${response.translate.title && ''}`;
         } else {
             meta_title = dictionary['site_name'];
             meta_keywords = dictionary['site_name'];

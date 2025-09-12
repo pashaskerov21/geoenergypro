@@ -44,7 +44,7 @@ const ServiceCard: React.FC<CardProps> = ({ activeLocale, data, translateData, s
     return (
         <div className="service_card" key={data.id}>
             <div className="card_icon">
-                {data.icon && <Image src={baseURL + data.icon} width={60} height={60} alt='' />}
+                {data.icon && <Image src={baseURL + data.icon} width={60} height={60} alt={`GeoEnergyPro - ${service.getTranslate({id: data.id,activeLocale,key: 'title', translateData: translateData})} - icon`} />}
             </div>
             <Link href={`/${activeLocale}/services/${service.getTranslate({
                 id: data.id,
