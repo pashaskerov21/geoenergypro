@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { LocaleStateType, LocaleType, PageTitleDataType } from '../types/general/type'
-import { Menu, Page, Service } from '../class'
+import { Menu, Page } from '../class'
 import { i18n } from '@/i18n-config'
 import { PageHeading } from '../components'
 import { useDispatch } from 'react-redux'
@@ -56,7 +56,6 @@ const ServicesLayout: React.FC<LayoutProps> = ({ activeLocale, dictionary }) => 
         dispatch(updateLocaleSlug(layoutParams.localeSlugs))
     }, [dispatch]);
 
-    const service = new Service();
     const [dataState, setDataState] = useState<{
         service: ServiceDataType[],
         serviceTranslate: ServiceTranslateDataType[],

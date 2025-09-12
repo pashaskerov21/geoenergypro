@@ -44,14 +44,14 @@ const BannerSection: React.FC<SectionProps> = ({ activeLocale, dictionary, dataS
                                         <div className="gradient_overlay"></div>
                                         <div className="container">
                                             <div className="banner_slider_content">
-                                                <div className="content_title">
+                                                <h1 className="content_title">
                                                     {banner.getTranslate(({
                                                         id: data.id,
                                                         activeLocale,
                                                         key: "title",
                                                         translateData: dataState.bannerTranslate,
                                                     }))}
-                                                </div>
+                                                </h1>
                                                 <div className="design_line"></div>
                                                 <div className="content_text">
                                                     {banner.getTranslate(({

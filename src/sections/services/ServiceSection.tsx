@@ -1,12 +1,8 @@
 'use client'
-import { Service } from '@/src/class'
 import { ServiceCard } from '@/src/components'
 import { ServiceDataType, ServiceTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
-import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
-import { FaArrowRight } from 'react-icons/fa6'
 
 type SectionProps = {
     activeLocale: LocaleType,
@@ -22,8 +18,7 @@ const ServiceSection: React.FC<SectionProps> = ({
     dataState,
     dictionary,
 }) => {
-    const baseURL = process.env.BASE_URL;
-    const service = new Service();
+
     return (
         <section className="services_section">
             <div className="container cards_container">
@@ -34,18 +29,19 @@ const ServiceSection: React.FC<SectionProps> = ({
                 </div>
                 {
                     dataState.service.length > 0 && (
-                        <div className="services_wrapper">
+                        <ul className="services_wrapper">
                             {
                                 dataState.service.map((data) => (
-                                    <ServiceCard
-                                        activeLocale={activeLocale}
-                                        data={data}
-                                        translateData={dataState.serviceTranslate}
-                                        key={data.id}
-                                    />
+                                    <li key={data.id}>
+                                        <ServiceCard
+                                            activeLocale={activeLocale}
+                                            data={data}
+                                            translateData={dataState.serviceTranslate}
+                                        />
+                                    </li>
                                 ))
                             }
-                        </div>
+                        </ul>
                     )
                 }
             </div>
@@ -53,9 +49,9 @@ const ServiceSection: React.FC<SectionProps> = ({
                 <div className="bg_layer"></div>
                 <div className="container">
                     <div className="section_heading color_white">
-                        <div className="section_heading_title">
+                        <h3 className="section_heading_title">
                             {dictionary['services_section_title_2']}
-                        </div>
+                        </h3>
                         <div className="design_line"></div>
                         <div className="section_heading_text">
                             {dictionary['services_section_text']}

@@ -55,6 +55,9 @@ ul {
     padding: 0;
     padding-left: 30px;
 }
+ul, li{
+    list-style: none;
+}
 
 img {
     user-select: none;
