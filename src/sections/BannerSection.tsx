@@ -1,5 +1,5 @@
 'use client'
-import React, { Fragment, useEffect, useState } from 'react'
+import React from 'react'
 import { LocaleType } from '@/src/types/general/type'
 import { BannerDataType, BannerTranslateDataType, SiteSettingDataType, SiteSettingTranslateDataType } from '../types/data/type'
 import { Banner, Settings } from '../class';
@@ -20,7 +20,7 @@ type SectionProps = {
     }
 }
 
-const BannerSection: React.FC<SectionProps> = ({ activeLocale, dictionary, dataState }) => {
+const BannerSection: React.FC<SectionProps> = ({ activeLocale, dataState }) => {
     const baseURL = process.env.BASE_URL;
     const setting = new Settings();
     const banner = new Banner();

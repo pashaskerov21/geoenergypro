@@ -18,8 +18,8 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
         let meta_description = '';
         let meta_keywords = '';
         if (menuMetaParams && settingMetaParams) {
-            meta_title = menuMetaParams.title === '' ? settingMetaParams.title : menuMetaParams.title;
-            meta_description = menuMetaParams.description === '' ? settingMetaParams.description : `${settingMetaParams.description} ${menuMetaParams.description}`;
+            meta_title = `${settingMetaParams.title} | ${menuMetaParams.title}`;
+            meta_description = `${settingMetaParams.description} ${menuMetaParams.description}`;
             meta_keywords = menuMetaParams.keywords === '' ? settingMetaParams.keywords : `${settingMetaParams.keywords} , ${menuMetaParams.keywords}`;
         } else {
             meta_title = dictionary['site_name'];

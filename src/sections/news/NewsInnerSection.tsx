@@ -1,5 +1,4 @@
 'use client'
-import { News, NewsCategory } from '@/src/class'
 import { NewsCategoryDataType, NewsCategoryTranslateDataType, NewsDataType, NewsGalleryDataType, NewsTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
 import Image from 'next/image'
@@ -35,8 +34,6 @@ type SectionProps = {
 
 const NewsInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary, navigationState }) => {
     const baseURL = process.env.BASE_URL;
-    const news = new News();
-    const newsCategory = new NewsCategory();
     return (
         <section className="news_main_section">
             <div className="container">
