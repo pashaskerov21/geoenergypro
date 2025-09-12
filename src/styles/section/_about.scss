@@ -109,7 +109,14 @@
             align-items: stretch;
 
         }
-
+        li{
+            width: 100%;
+            &:last-child{
+                .report_item{
+                    background-color: $primary-color !important;
+                }
+            }
+        }
         .report_item {
             @include column-center;
             gap: 10px;

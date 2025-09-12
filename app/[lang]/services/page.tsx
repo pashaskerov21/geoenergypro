@@ -4,7 +4,6 @@ import { Menu, Settings } from '@/src/class';
 import { LocaleType } from '@/src/types/general/type'
 import { Metadata } from 'next';
 import { ServicesLayout } from '@/src/layout';
-import { revalidatePath } from 'next/cache';
 
 const baseURL = process.env.BASE_URL;
 const menu = new Menu();
@@ -18,9 +17,9 @@ export async function generateMetadata({ params: { lang } }: { params: { lang: L
         let meta_description = '';
         let meta_keywords = '';
         if (menuMetaParams && settingMetaParams) {
-            meta_title = menuMetaParams.title === '' ? settingMetaParams.title : menuMetaParams.title;
-            meta_description = menuMetaParams.description === '' ? settingMetaParams.description : `${settingMetaParams.description} ${menuMetaParams.description}`;
-            meta_keywords = menuMetaParams.keywords === '' ? settingMetaParams.keywords : `${settingMetaParams.keywords} , ${menuMetaParams.keywords}`;
+            meta_title = `${settingMetaParams.title} | ${menuMetaParams.title}`;
+            meta_description = `${settingMetaParams.description} ${menuMetaParams.description}`;
+            meta_keywords = `${settingMetaParams.keywords} , ${menuMetaParams.keywords}`;
         } else {
             meta_title = dictionary['site_name'];
             meta_description = dictionary['site_name'];

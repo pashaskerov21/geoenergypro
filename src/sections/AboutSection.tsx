@@ -36,14 +36,14 @@ const AboutSection: React.FC<SectionProps> = ({ activeLocale, dataState, diction
                                         translateData: dataState.aboutTranslate,
                                     })}
                                 </div>
-                                <div className="section_heading_title">
+                                <h2 className="section_heading_title">
                                     {about.getTranslate({
                                         id: 1,
                                         activeLocale,
                                         key: "title",
                                         translateData: dataState.aboutTranslate,
                                     })}
-                                </div>
+                                </h2>
                                 <div className="design_line"></div>
                             </div>
                             {
@@ -79,19 +79,21 @@ const AboutSection: React.FC<SectionProps> = ({ activeLocale, dataState, diction
                             }
 
                         </div>
-                        <div className="about_report">
+                        <ul className="about_report">
                             {dataState.report.map((data) => (
-                                <div className="report_item" key={data.id}>
-                                    <Counter value={data.value} />
-                                    <div className="item_label">{report.getTranslate({
-                                        id: data.id,
-                                        activeLocale,
-                                        key: "title",
-                                        translateData: dataState.reportTranslate
-                                    })}</div>
-                                </div>
+                                <li key={data.id}>
+                                    <div className="report_item">
+                                        <Counter value={data.value} />
+                                        <div className="item_label">{report.getTranslate({
+                                            id: data.id,
+                                            activeLocale,
+                                            key: "title",
+                                            translateData: dataState.reportTranslate
+                                        })}</div>
+                                    </div>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     </div>
                 </div>
             </div>
