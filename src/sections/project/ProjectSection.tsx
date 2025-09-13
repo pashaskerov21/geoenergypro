@@ -1,5 +1,5 @@
 'use client'
-import { Project, ProjectCategory } from '@/src/class'
+import { ProjectCategory } from '@/src/class'
 import { ProjectCard } from '@/src/components'
 import { ProjectCategoryDataType, ProjectCategoryTranslateDataType, ProjectDataType, ProjectTranslateDataType } from '@/src/types/data/type'
 import { LocaleType } from '@/src/types/general/type'
@@ -22,34 +22,36 @@ type SectionProps = {
 }
 
 const ProjectSection: React.FC<SectionProps> = ({ activeLocale, dictionary, dataState }) => {
-    const baseURL = process.env.BASE_URL;
-    const project = new Project();
     const projectCategory = new ProjectCategory();
     return (
         <section className="projects_section">
             <div className="container">
                 {
                     dataState.category.length > 0 && (
-                        <div className="categories_wrapper">
-                            <Link href={`/${activeLocale}/projects`} className={`category_link ${dataState.activeCategory.id === undefined ? 'active' : ''}`}>{dictionary['all']}</Link>
+                        <ul className="categories_wrapper">
+                            <li>
+                                <Link href={`/${activeLocale}/projects`} className={`category_link ${dataState.activeCategory.id === undefined ? 'active' : ''}`}>{dictionary['all']}</Link>
+                            </li>
                             {dataState.category.map((data) => (
-                                <Link key={data.id} href={`/${activeLocale}/projects/category/${projectCategory.getTranslate({
-                                    id: data.id,
-                                    activeLocale,
-                                    key: "slug",
-                                    translateData: dataState.categoryTranslate
-                                })}`} className={`category_link ${dataState.activeCategory.id === data.id ? 'active' : ''}`}>
-                                    {
-                                        projectCategory.getTranslate({
-                                            id: data.id,
-                                            activeLocale,
-                                            key: "title",
-                                            translateData: dataState.categoryTranslate
-                                        })
-                                    }
-                                </Link>
+                                <li key={data.id}>
+                                    <Link href={`/${activeLocale}/projects/category/${projectCategory.getTranslate({
+                                        id: data.id,
+                                        activeLocale,
+                                        key: "slug",
+                                        translateData: dataState.categoryTranslate
+                                    })}`} className={`category_link ${dataState.activeCategory.id === data.id ? 'active' : ''}`}>
+                                        {
+                                            projectCategory.getTranslate({
+                                                id: data.id,
+                                                activeLocale,
+                                                key: "title",
+                                                translateData: dataState.categoryTranslate
+                                            })
+                                        }
+                                    </Link>
+                                </li>
                             ))}
-                        </div>
+                        </ul>
                     )
                 }
                 <ResponsiveMasonry columnsCountBreakPoints={{ 350: 1, 992: 2 }}>

@@ -26,15 +26,15 @@ type SectionProps = {
     }
 }
 
-const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary, navigationState }) => {
+const ProjectInnerSection: React.FC<SectionProps> = ({ dataState, dictionary, navigationState }) => {
     const baseURL = process.env.BASE_URL;
     return (
         <section className="project_inner_section">
             <div className="container">
                 <div className="project_row">
                     <div className="project_col left_col">
-                        <div className="project_parameters">
-                            <div className="param_col">
+                        <ul className="project_parameters">
+                            <li className="param_col">
                                 <div className="param_icon">
                                     <FaAddressBook />
                                 </div>
@@ -44,8 +44,8 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                         {dataState.activeProjectTranslate.client}
                                     </div>
                                 </div>
-                            </div>
-                            <div className="param_col">
+                            </li>
+                            <li className="param_col">
                                 <div className="param_icon">
                                     <FaClock />
                                 </div>
@@ -55,8 +55,8 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                         {dataState.activeProjectTranslate.delivery_date}
                                     </div>
                                 </div>
-                            </div>
-                            <div className="param_col">
+                            </li>
+                            <li className="param_col">
                                 <div className="param_icon">
                                     <FaFolderOpen />
                                 </div>
@@ -66,8 +66,8 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                         {dataState.activeProjectTranslate.project_type}
                                     </div>
                                 </div>
-                            </div>
-                            <div className="param_col">
+                            </li>
+                            <li className="param_col">
                                 <div className="param_icon">
                                     <FaLocationDot />
                                 </div>
@@ -77,8 +77,8 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                         {dataState.activeProjectTranslate.location}
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                     </div>
                     <div className="project_col right_col">
                         <div className="project_content">
@@ -93,7 +93,7 @@ const ProjectInnerSection: React.FC<SectionProps> = ({ activeLocale, dataState, 
                                                 dataState.activeProjectGallery.map((data) => (
                                                     data.image && (
                                                         <Link key={data.id} href={baseURL + data.image} className="gallery_image" data-fancybox='project_gallery'>
-                                                            <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} />
+                                                            <Image src={baseURL + data.image} width={1000} height={1000} alt={`${dataState.activeProjectTranslate.title} - Gallery Image ${data.id}`} priority={true} />
                                                         </Link>
                                                     )
                                                 ))

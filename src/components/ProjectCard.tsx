@@ -49,8 +49,12 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
             <div className="project_image">
                 {
                     data.image ?
-                        <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} /> :
-                        <Image src='/bg/image-2.jpg' width={1000} height={1000} alt='' priority={true} />
+                        <Image src={baseURL + data.image} width={1000} height={1000} priority={true} alt={project.getTranslate(({
+                            id: data.id, activeLocale, key: "title", translateData: translateData
+                        }))} /> :
+                        <Image src='/bg/image-2.jpg' width={1000} height={1000} priority={true} alt={project.getTranslate(({
+                            id: data.id, activeLocale, key: "title", translateData: translateData
+                        }))} />
                 }
                 {
                     data.cat_id !== 0 && (
@@ -101,16 +105,16 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                             activeLocale,
                             key: "text",
                             translateData: translateData
-                        }).slice(0, 250) + '...' : project.getTranslate({
+                        }).slice(0, 250).replace(/<[^>]+>/g, '') + '...' : project.getTranslate({
                             id: data.id,
                             activeLocale,
                             key: "text",
                             translateData: translateData
-                        })
+                        }).replace(/<[^>]+>/g, '')
                     }}
                 ></div>
-                <div className="project_parameters">
-                    <div className="param_col">
+                <ul className="project_parameters">
+                    <li className="param_col">
                         <div className="param_icon">
                             <FaAddressBook />
                         </div>
@@ -125,8 +129,8 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                                 })}
                             </div>
                         </div>
-                    </div>
-                    <div className="param_col">
+                    </li>
+                    <li className="param_col">
                         <div className="param_icon">
                             <FaClock />
                         </div>
@@ -141,8 +145,8 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                                 })}
                             </div>
                         </div>
-                    </div>
-                    <div className="param_col">
+                    </li>
+                    <li className="param_col">
                         <div className="param_icon">
                             <FaFolderOpen />
                         </div>
@@ -157,8 +161,8 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                                 })}
                             </div>
                         </div>
-                    </div>
-                    <div className="param_col">
+                    </li>
+                    <li className="param_col">
                         <div className="param_icon">
                             <FaLocationDot />
                         </div>
@@ -173,8 +177,8 @@ const ProjectCard: React.FC<CardProps> = ({ activeLocale, data, translateData, c
                                 })}
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
                 <Link className='detail_button' href={`/${activeLocale}/projects/${project.getTranslate({
                     id: data.id,
                     activeLocale,
