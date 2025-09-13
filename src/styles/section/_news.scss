@@ -75,6 +75,7 @@
             .container_col {
                 width: 100%;
                 @include column-start;
+                justify-content: space-between;
                 gap: 40px;
 
                 &::-webkit-scrollbar {

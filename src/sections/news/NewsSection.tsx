@@ -21,7 +21,7 @@ type SectionProps = {
 const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictionary }) => {
     const baseURL = process.env.BASE_URL;
     const news = new News();
-    const [activeNews, setActiveNews] = useState<NewsDataType>(dataState.news[0]);
+    const [activeNews, setActiveNews] = useState<NewsDataType>(dataState.news.find(data => data.order === 1) ?? dataState.news[0]);
     return (
         <section className="news_section" style={{ backgroundImage: "url('/bg/image-3.jpg')" }}>
             <div className="container">
@@ -56,7 +56,7 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                             data.image && (
                                 <SwiperSlide key={data.id}>
                                     <Link href={`/${activeLocale}/${data.url}`} className='partner_logo'>
-                                        <Image src={baseURL + data.image} width={500} height={500} alt='' />
+                                        <Image src={baseURL + data.image} width={500} height={500} alt={`Geo Energy Pro - Partner ${data.id}`} />
                                     </Link>
                                 </SwiperSlide>
                             )
@@ -76,8 +76,12 @@ const NewsSection: React.FC<SectionProps> = ({ activeLocale, dataState, dictiona
                             <div className="news_banners">
                                 <div className="banner_item">
                                     {activeNews.image ?
-                                        <Image className='news_image' src={baseURL + activeNews.image} width={1000} height={1000} alt='' priority={true} /> :
-                                        <Image className='news_image' src='/bg/image-2.jpg' width={1000} height={1000} alt='' priority={true} />
+                                        <Image className='news_image' src={baseURL + activeNews.image} width={1000} height={1000} priority={true} alt={`${news.getTranslate({
+                                            id: activeNews.id, activeLocale, key: "title", translateData: dataState.newsTranslate
+                                        })}`} /> :
+                                        <Image className='news_image' src='/bg/image-2.jpg' width={1000} height={1000} priority={true} alt={`${news.getTranslate({
+                                            id: activeNews.id, activeLocale, key: "title", translateData: dataState.newsTranslate
+                                        })}`} />
                                     }
                                     <div className="item_content">
                                         {activeNews.cat_id !== 0 && (

@@ -65,8 +65,14 @@ const NewsContainerRight: React.FC<NewsContainerRightProps> = ({ activeLocale, d
                                         translateData: dataState.newsTranslate
                                     })}`}>
                                         {data.image ?
-                                            <Image src={baseURL + data.image} width={1000} height={1000} alt='' /> :
-                                            <Image src='/bg/image-2.jpg' width={1000} height={1000} alt='' />}
+                                            <Image src={baseURL + data.image} width={1000} height={1000} alt={`${news.getTranslate({
+                                                id: data.id, activeLocale, key: "title", translateData: dataState.newsTranslate
+                                            })
+                                                }`} /> :
+                                            <Image src='/bg/image-2.jpg' width={1000} height={1000} alt={`${news.getTranslate({
+                                                id: data.id, activeLocale, key: "title", translateData: dataState.newsTranslate
+                                            })
+                                                }`} />}
                                     </Link>
                                     <div className="item_content">
                                         <h4 className="content_title">

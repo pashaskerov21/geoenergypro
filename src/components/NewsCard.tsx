@@ -48,7 +48,12 @@ const NewsCard: React.FC<CardProps> = ({ activeLocale, categoryTranslateData, da
             {
                 data.image && (
                     <div className="news_image">
-                        <Image src={baseURL + data.image} width={1000} height={1000} alt='' priority={true} />
+                        <Image src={baseURL + data.image} width={1000} height={1000} priority={true} alt={news.getTranslate({
+                                id: data.id,
+                                activeLocale,
+                                key: "title",
+                                translateData: translateData
+                            })} />
                         {
                             data.cat_id !== 0 && (
                                 <Link className='news_badge' href={`/${activeLocale}/news/category/${newsCategory.getTranslate({
