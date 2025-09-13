@@ -237,7 +237,9 @@
                 @media (min-width: 1200px) {
                     max-width: 340px;
                 }
-
+                li{
+                    width: 100%;
+                }
                 .list_item {
                     width: 100%;
                     @include column-start;
@@ -478,6 +480,9 @@
             width: 100%;
             @include column-center;
             gap: 3px;
+            li{
+                width: 100%;
+            }
         }
 
         .list_item {

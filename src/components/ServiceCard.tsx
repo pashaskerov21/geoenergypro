@@ -69,12 +69,12 @@ const ServiceCard: React.FC<CardProps> = ({ activeLocale, data, translateData, s
                     activeLocale,
                     key: "text",
                     translateData: translateData,
-                }).length > 160 ? service.getTranslate({
+                }).length > 160 ? `${service.getTranslate({
                     id: data.id,
                     activeLocale,
                     key: "text",
                     translateData: translateData,
-                }).slice(0, 160) : service.getTranslate({
+                }).slice(0, 160)} ...` : service.getTranslate({
                     id: data.id,
                     activeLocale,
                     key: "text",

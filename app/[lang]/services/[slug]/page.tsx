@@ -28,9 +28,12 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
 
         let meta_title = '';
         let meta_keywords = '';
+        let meta_description = '';
         if (menuMetaParams && settingMetaParams && response.main && response.translate) {
             meta_title = `${settingMetaParams.title} | ${menuMetaParams.title} | ${response.translate.title}`;
-            meta_keywords = `${settingMetaParams.keywords} , ${menuMetaParams.keywords} , ${response.translate.title}`;
+            meta_keywords = `${settingMetaParams.keywords}, ${menuMetaParams.keywords}, ${response.translate.title}`;
+
+            meta_description = response.translate.text ? response.translate.text.replace(/<[^>]+>/g, '') : '';
         } else {
             meta_title = dictionary['site_name'];
             meta_keywords = dictionary['site_name'];
@@ -38,9 +41,11 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
         return {
             metadataBase: new URL(`${baseURL}`),
             title: meta_title,
+            description: meta_description,
             keywords: meta_keywords,
             openGraph: {
                 title: meta_title,
+                description: meta_description,
                 siteName: meta_title,
                 locale: lang === 'en' ? 'en_GB' : 'ru_RU',
                 alternateLocale: lang === 'en' ? 'ru_RU' : 'en_GB',

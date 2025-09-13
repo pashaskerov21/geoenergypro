@@ -30,7 +30,7 @@ export async function generateMetadata({ params: { lang, slug } }: { params: { l
         let meta_keywords = '';
         if (menuMetaParams && settingMetaParams && response.main && response.translate) {
             meta_title = `${settingMetaParams.title} | ${menuMetaParams.title} | ${response.translate.title }`;
-            meta_keywords = menuMetaParams.keywords === '' ? `${settingMetaParams.keywords} , ${response.translate.title}` : `${settingMetaParams.keywords} , ${menuMetaParams.keywords} , ${response.translate.title}`;
+            meta_keywords = `${settingMetaParams.keywords},${menuMetaParams.keywords},${response.translate.title}`;
         } else {
             meta_title = dictionary['site_name'];
             meta_keywords = dictionary['site_name'];

@@ -11,7 +11,7 @@ type SectionProps = {
 }
 
 const ServiceInnerSection: React.FC<SectionProps> = ({ dataState }) => {
-    const baseURL = process.env.BASE_URL;
+    const baseURL = process.env.BASE_URL;  
     return (
         <section className="service_detail_section">
             <div className="container">
